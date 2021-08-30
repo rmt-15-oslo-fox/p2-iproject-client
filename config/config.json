@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "apinrega19",
+    "database": "Career Portal",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
