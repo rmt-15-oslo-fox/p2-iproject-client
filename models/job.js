@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Job extends Model {
   
     static associate(models) {
-      Job.hasMany(models.Company, { foreignKey: 'CompanyId' })
-      Job.hasMany(models.User, { foreignKey: 'AuthorId' })
+      Job.belongsTo(models.Company, { foreignKey: 'CompanyId' })
+      Job.belongsTo(models.User, { foreignKey: 'AuthorId' })
     }
   };
     Job.init({
@@ -39,24 +39,24 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'Img Url cant be empty' },
-                notNull: { msg: 'Img Url cant be empty' }
+                notEmpty: { msg: 'Company Id cant be empty' },
+                notNull: { msg: 'Company Id cant be empty' }
             }
         },
         AuthorId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'Img Url cant be empty' },
-                notNull: { msg: 'Img Url cant be empty' }
+                notEmpty: { msg: 'Author Id cant be empty' },
+                notNull: { msg: 'Author Id cant be empty' }
             }
         },
         jobType: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'Img Url cant be empty' },
-                notNull: { msg: 'Img Url cant be empty' }
+                notEmpty: { msg: 'Job Type cant be empty' },
+                notNull: { msg: 'Job Type cant be empty' }
             }
         }
   }, {
