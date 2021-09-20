@@ -89,7 +89,25 @@
 
 <script>
 export default {
-    name: 'CreateTrip'
+    name: 'CreateTrip',
+    methods: {
+      getWeather: function(){
+        this.$store.dispatch('getWeather', {
+          lat: 33.44,
+          lon: -94.04
+        })
+        .then(response => {
+          console.log(response.data);
+          // 
+        })
+        .catch(err => {
+          console.log(err.response);
+        })
+      }
+    },
+    created: function(){
+      // this.getWeather()
+    }
 }
 </script>
 

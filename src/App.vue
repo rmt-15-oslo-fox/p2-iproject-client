@@ -15,8 +15,12 @@ export default {
   components: {
     NavbarComponent,
     Footer
+  },
+  created: function(){
+    if (localStorage.getItem('access_token')){
+      this.$store.commit('SET_ISLOGIN', true)
+    }
   }
-  
 }
 </script>
 

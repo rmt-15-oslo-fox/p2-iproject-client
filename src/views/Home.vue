@@ -25,12 +25,10 @@
                 <p class="mt-4 text-lg text-gray-300">
                   Persiapkan pendakian anda bersama kami
                 </p>
-                <router-link :to="{name: 'AddTrip'}">
-                <button class="mt-4 text-green-400 bg-transparent border border-solid border-green-400 hover:bg-emerald-500 hover:text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
+                <button @click.prevent="addTrip" class="mt-4 text-green-400 bg-transparent border border-solid border-green-400 hover:bg-emerald-500 hover:text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                       >
                   Get Started
                 </button>
-                </router-link>
               </div>
             </div>
           </div>
@@ -112,16 +110,39 @@
                 </div>
               </div>
             </div>
+            <AddToCalendar
+              :buttonText="'Add to calendar'"
+              :details="'Details of event'"
+              :endTime="new Date('11/29/2021 5:00 pm')"
+              :location="'mumbai'"
+              :startTime="new Date('11/25/2021 6:00 pm')"
+              :title="'Excellencia'"
+            />
           </div>
         </div>
       </section>
     </main>
 </template>
 <script>
-
+import { AddToCalendar } from 'vue-add-events-to-google-calendar';
 export default {
   name: "home",
   components: {
+    AddToCalendar
+  },
+  computed: {
+    isLogin: function(){
+      return this.$store.state.isLogin
+    }
+  },
+  methods: {
+    addTrip: function(){
+      if(!this.isLogin){
+        this.$toasted.show('You must login first').goAway(2000)
+      } else {
+        this.$router.push({name: 'AddTrip'})
+      }
+    }
   }
 }
 </script>

@@ -47,13 +47,23 @@
               </router-link>
           </li>
           <li class="flex items-center">
-            <button
-              class="bg-white text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-              type="button"
-              style="transition: all 0.15s ease 0s;"
-            >
-              <i class="fab fa-google"></i> Login
-            </button>
+            <g-signin-button
+            v-if="!isLogin"
+            :params="googleSignInParams"
+            @success="onSignInSuccess"
+          >
+          <i class="fab fa-google"></i>
+            <b class="ml-3">Sign in</b>
+          </g-signin-button>
+          <button
+            v-else
+            @click.prevent="logout"
+            class="bg-blue-300 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+            type="button"
+            style="transition: all 0.15s ease 0s;"
+        >
+            Logout
+        </button>
           </li>
         </ul>
       </div>
@@ -64,13 +74,59 @@
 export default {
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      googleSignInParams: {
+        client_id:
+          "947558502250-r1daidmh7omd98rr5hdvab82gl8rdtcq.apps.googleusercontent.com",
+      },
+    }
+  },
+  computed: {
+    isLogin: function(){
+      return this.$store.state.isLogin
     }
   },
   methods: {
     toggleNavbar: function(){
       this.showMenu = !this.showMenu;
-    }
+    },
+    onSignInSuccess(googleUser) {
+      const idToken = googleUser.getAuthResponse().id_token;
+      this.$store.dispatch('googleLogin', idToken)
+        .then((response) => {
+          localStorage.setItem("access_token", response.data.access_token);
+          this.$store.commit("SET_ISLOGIN", true);
+          this.$router.push({ name: "MyTrip" });
+          this.$toasted.show("Login successfully").goAway(2000);
+        })
+        .catch((err) => {
+          this.$toasted.show(err).goAway(2000);
+        });
+    },
+    logout: function(){
+          if(window.gapi.auth2.getAuthInstance()){
+              window.gapi.auth2.getAuthInstance().disconnect()
+          }
+          localStorage.removeItem('access_token')
+          this.$store.commit('SET_ISLOGIN', false)
+          this.$toasted.show('Logout Successfully').goAway(2000)
+          this.$router.push({name: 'Home'})
+      }
   }
 }
 </script>
+
+<style>
+.g-signin-button {
+  margin-top: -5px;
+  display: inline-block;
+  padding: 2px 2px;
+  border-radius: 5px;
+  background-color: #3c82f7;
+  color: #fff;
+  box-shadow: 0 3px 0 #0f69ff;
+  text-align: center;
+  height: 20px;
+  cursor: pointer;
+}
+</style>
