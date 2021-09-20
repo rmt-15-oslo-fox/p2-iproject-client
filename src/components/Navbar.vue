@@ -28,18 +28,23 @@
       >
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
           <li class="flex items-center">
-            <a
+              <router-link :to="{name: 'AllTrip'}">
+                  
+            <div
               class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-              href="#pablo"
-              ><span class="inline-block ml-2">Trip Open</span></a
-            >
+              ><span class="inline-block ml-2">Trip Open</span>
+              </div>
+              </router-link>
           </li>
           <li class="flex items-center">
-            <a
+
+              <router-link :to="{name: 'MyTrip'}">
+            <div
               class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
               href="#pablo"
-              ><span class="inline-block ml-2">Your Journey</span></a
+              ><span class="inline-block ml-2">Your Journey</span></div
             >
+              </router-link>
           </li>
           <li class="flex items-center">
             <button
