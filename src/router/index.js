@@ -17,6 +17,13 @@ const routes = [
     path: '/addtrip',
     name: 'AddTrip',
     component: AddTrip,
+    beforeEnter: (to, from, next) => {
+      if(to.name == 'AddTrip' && !localStorage.getItem('access_token')){
+        next({name: 'Home'})
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/mytrip',
