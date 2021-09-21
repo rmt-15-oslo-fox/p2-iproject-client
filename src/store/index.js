@@ -82,6 +82,13 @@ export default new Vuex.Store({
         }
       })
     },
+    deleteTrip: function(context, id){
+      return mountainAPI.delete(`/deleteTrip/${id}`, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
     getWeather: function(context, payload){
       const { lat, lon } = payload
       return weatherAPI.get('', {

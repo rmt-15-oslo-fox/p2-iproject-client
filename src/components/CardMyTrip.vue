@@ -86,6 +86,7 @@
               style="transition: all 0.15s ease 0s"
             />
             <button
+              @click.prevent="deleteTrip"
               class="
                 bg-red-500
                 text-white
@@ -254,6 +255,17 @@ export default {
       } else {
         this.openDetail = true
       }
+    },
+    deleteTrip: function(){
+      this.$store.dispatch('deleteTrip', this.trip.id)
+      .then(response => {
+        this.$toasted.show(response.data.message)
+        this.$store.dispatch('getMyTrip')
+        this.openDetail = false
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   }
 };
