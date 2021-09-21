@@ -259,7 +259,7 @@ export default {
     deleteTrip: function(){
       this.$store.dispatch('deleteTrip', this.trip.id)
       .then(response => {
-        this.$toasted.show(response.data.message)
+        this.$toasted.show(response.data.message).goAway(2000)
         this.$store.dispatch('getMyTrip')
         this.openDetail = false
       })
