@@ -23,7 +23,7 @@
         type="button"
         style="transition: all 0.15s ease 0s"
       >
-        1. Semeru 26 januari 2022
+        {{index+1}}. Gn. {{trip.Mountain.name}} {{trip.Track.name}} {{schedule}}
       </button>
     </div>
     <div
@@ -144,6 +144,12 @@
 <script>
 export default {
   name: "CardMytrip",
+  props: ['trip', 'index'],
+  computed: {
+    schedule: function(){
+      return new Date(this.trip.schedule).toUTCString().toString().slice(5,17)
+    }
+  }
 };
 </script>
 
