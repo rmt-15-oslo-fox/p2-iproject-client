@@ -110,26 +110,14 @@
                 </div>
               </div>
             </div>
-            <AddToCalendar
-              :buttonText="'Add to calendar'"
-              :details="'Details of event'"
-              :endTime="new Date('11/29/2021 5:00 pm')"
-              :location="'mumbai'"
-              :startTime="new Date('11/25/2021 6:00 pm')"
-              :title="'Excellencia'"
-            />
           </div>
         </div>
       </section>
     </main>
 </template>
 <script>
-import { AddToCalendar } from 'vue-add-events-to-google-calendar';
 export default {
   name: "home",
-  components: {
-    AddToCalendar
-  },
   computed: {
     isLogin: function(){
       return this.$store.state.isLogin

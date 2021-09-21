@@ -1,6 +1,6 @@
 <template>
   <div>
-      <section class="py-20 mt-relative block 28 p lg:pt-0 bg-gray-900">
+      <section class="py-20 mt-relative block 28 p min-h-screen lg:pt-0 bg-gray-900">
         <div class="container mx-auto px-4">
           <div class="flex justify-center pt-20">
             <div class="w-full px-4">
