@@ -14,35 +14,34 @@
       "
     >
       <div class="px-4 py-5 flex-auto">
-        <div
-          class="
-            text-white
-            p-3
-            text-center
-            inline-flex
-            items-center
-            justify-center
-            w-12
-            h-12
-            mb-5
-            shadow-lg
-            rounded-full
-            bg-red-400
-          "
-        >
-          <i class="fas fa-award"></i>
-        </div>
-        <h6 class="text-xl font-semibold">Gunung Semeru</h6>
+        <img
+          class="rounded-t-2xl"
+          style="width: 350px; height: 200px"
+          :src="trip.Mountain.imageUrl"
+        />
+        <h6 class="text-xl font-semibold">{{trip.Mountain.name}}</h6>
+        <p>Tanggal: {{schedule}}</p>
+        <p>Jalur Pendakian: {{trip.Track.name}}</p>
         <p class="mt-2 mb-4 text-gray-600">
-          Divide details about your product or agency work into parts. A
-          paragraph describing a feature will be enough.
+          Jumlah anggota : {{trip.Users.length}} orang
         </p>
         <button
+            v-if="!isJoined"
+            @click.prevent="joinTrip"
             class="bg-blue-300 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
             type="button"
             style="transition: all 0.15s ease 0s;"
         >
             Join
+        </button>
+        <button
+            v-else
+            disabled
+            class="bg-red-300 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+            type="button"
+            style="transition: all 0.15s ease 0s;"
+        >
+            Joined
         </button>
       </div>
     </div>
@@ -51,7 +50,32 @@
 
 <script>
 export default {
-  name: "Card"
+  name: "Card",
+  props: ['trip'],
+  computed: {
+    schedule: function(){
+      return new Date(this.trip.schedule).toUTCString().toString().slice(5,17)
+    },
+    isJoined: function(){
+      if(this.trip.Users.map(el => el.id).includes(+localStorage.getItem('userId'))){
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  methods: {
+    joinTrip: function(){
+      this.$store.dispatch('joinTrip', {TripId:this.trip.id})
+      .then(() => {
+        this.$toasted.show('Successfully Join Trip').goAway(2000)
+        this.$router.push({name: 'MyTrip'})
+      })
+      .catch(err => {
+        console.log(err.response.data.message);
+      })
+    }
+  }
 };
 </script>
 
