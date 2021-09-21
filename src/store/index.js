@@ -11,7 +11,8 @@ export default new Vuex.Store({
     mountains: [],
     mytrips: [],
     alltrip: [],
-    getDate: null
+    getDate: null,
+    message: []
   },
   mutations: {
     SET_ISLOGIN: function (state, status) {

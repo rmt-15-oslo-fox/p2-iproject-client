@@ -58,11 +58,11 @@
             </button>
             <AddToCalendar
               :buttonText="'Save to calendar'"
-              :details="`Naik Gunung ${ trip.Mountain.name }`"
+              :details="`Naik Gunung ${trip.Mountain.name}`"
               :endTime="new Date(`${schedule}`)"
               :location="`${trip.Mountain.lokasi}`"
               :startTime="new Date(`${oneWeekBefore}`)"
-              :title="`Naik Gunung ${ trip.Mountain.name }`"
+              :title="`Naik Gunung ${trip.Mountain.name}`"
               class="
                 bg-blue-500
                 text-white
@@ -86,7 +86,7 @@
               style="transition: all 0.15s ease 0s"
             />
             <button
-              @click.prevent="deleteTrip"
+              @click.prevent="deleteHandler"
               class="
                 bg-red-500
                 text-white
@@ -209,9 +209,12 @@
                   h-96
                 "
               >
-                <div class="px-4 py-5 flex-auto">
+                <div class="px-4 py-5">
                   <h6 class="text-xl font-semibold">Chat</h6>
                   <hr />
+                  <!-- chat Area -->
+                  <chat-room></chat-room>
+                  <chat-input></chat-input>
                 </div>
               </div>
             </div>
@@ -223,51 +226,75 @@
 </template>
 
 <script>
-import { AddToCalendar } from 'vue-add-events-to-google-calendar';
+import { AddToCalendar } from "vue-add-events-to-google-calendar";
+import ChatRoom from '../components/ChatRoom.vue'
+import ChatInput from '../components/ChatInput.vue'
 export default {
   name: "CardMytrip",
   components: {
-    AddToCalendar
+    AddToCalendar,
+    ChatRoom,
+    ChatInput
   },
-  data: function(){
+  data: function () {
     return {
-      openDetail: false
-    }
+      openDetail: false,
+    };
   },
   props: ["trip", "index"],
   computed: {
     schedule: function () {
       return new Date(this.trip.schedule).toUTCString().toString().slice(5, 17);
     },
-    oneWeekBefore: function(){
+    oneWeekBefore: function () {
       let date = new Date(this.trip.schedule);
       date.setDate(date.getDate() - 7);
-      return date
+      return date;
     },
     members: function () {
       return this.trip.Users.map((el) => el.name);
     },
   },
   methods: {
-    showDetail: function(){
-      if(this.openDetail){
-        this.openDetail = false
+    showDetail: function () {
+      if (this.openDetail) {
+        this.openDetail = false;
       } else {
-        this.openDetail = true
+        this.openDetail = true;
       }
     },
-    deleteTrip: function(){
-      this.$store.dispatch('deleteTrip', this.trip.id)
-      .then(response => {
-        this.$toasted.show(response.data.message).goAway(2000)
-        this.$store.dispatch('getMyTrip')
-        this.openDetail = false
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    }
-  }
+    deleteHandler: function(){
+      this.$toasted.show('Are u sure to delete this?',{
+        action: [
+          {
+            text: "Cancel",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            },
+          },
+          {
+            text: "Yes",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+              this.deleteTrip()
+            }
+          },
+        ],
+      });
+    },
+    deleteTrip: function () {
+      this.$store
+        .dispatch("deleteTrip", this.trip.id)
+        .then((response) => {
+          this.$store.dispatch("getMyTrip");
+          this.openDetail = false;
+          this.$toasted.show(response.data.message).goAway(2000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 

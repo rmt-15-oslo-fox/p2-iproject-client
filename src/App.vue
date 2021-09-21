@@ -17,7 +17,7 @@ export default {
     Footer
   },
   created: function(){
-    // this.$store.dispatch('getWeather', 'jakarta')
+    this.$store.dispatch('getWeather', 'jakarta')
     
     if (localStorage.getItem('access_token')){
       this.$store.commit('SET_ISLOGIN', true)
