@@ -148,6 +148,9 @@ export default {
   computed: {
     schedule: function(){
       return new Date(this.trip.schedule).toUTCString().toString().slice(5,17)
+    },
+    member: function(){
+      return this.trip.Users.map(el => el.name)
     }
   }
 };

@@ -12,10 +12,7 @@
                   
                   <div class="flex flex-wrap">
                         <!-- Card -->
-                        <card></card>
-                        <card></card>
-                        <card></card>
-                        <card></card>
+                        <card v-for="trip in allTrip" :key="trip.id" :trip="trip"></card>
 
                     </div>
                 </div>
@@ -33,6 +30,14 @@ export default {
     name: 'ListTrip',
     components: {
         Card
+    },
+    computed: {
+      allTrip: function(){
+        return this.$store.state.alltrip
+      }
+    },
+    created(){
+      this.$store.dispatch('getAllTrip')
     }
 }
 </script>

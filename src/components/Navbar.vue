@@ -38,7 +38,7 @@
           </li>
           <li class="flex items-center">
 
-              <router-link :to="{name: 'MyTrip'}">
+              <router-link v-if="isLogin" :to="{name: 'MyTrip'}">
             <div
               class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
               href="#pablo"
@@ -95,8 +95,8 @@ export default {
       this.$store.dispatch('googleLogin', idToken)
         .then((response) => {
           localStorage.setItem("access_token", response.data.access_token);
+          localStorage.setItem("userId", response.data.id);
           this.$store.commit("SET_ISLOGIN", true);
-          this.$router.push({ name: "MyTrip" });
           this.$toasted.show("Login successfully").goAway(2000);
         })
         .catch((err) => {

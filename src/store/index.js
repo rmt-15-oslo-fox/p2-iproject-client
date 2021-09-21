@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     mountains: [],
-    mytrips: []
+    mytrips: [],
+    alltrip: []
   },
   mutations: {
     SET_ISLOGIN: function (state, status) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     SET_MYTRIP: function(state, payload){
       state.mytrips = payload
+    },
+    SET_ALLTRIP: function(state, payload){
+      state.alltrip = payload
     }
   },
   actions: {
@@ -60,6 +64,22 @@ export default new Vuex.Store({
       })
       .catch(err => {
         console.log(err);
+      })
+    },
+    getAllTrip: function({commit}){
+      mountainAPI.get('/alltrip')
+      .then(response => {
+        commit('SET_ALLTRIP', response.data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
+    joinTrip: function(context, payload){
+      return mountainAPI.post('/jointrip', payload, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
       })
     },
     getWeather: function(context, payload){
