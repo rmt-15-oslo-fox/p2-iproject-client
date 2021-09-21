@@ -14,12 +14,22 @@
           Sign in to <span class="font-bold">FavCourse</span>
         </p>
       </div>
-      <form class="mb-10 form-control">
+      <form class="mb-10 form-control" @submit.prevent="loginHandler">
         <div class="mb-5">
-          <input type="email" class="input" placeholder="Email" />
+          <input
+            type="email"
+            class="input"
+            placeholder="Email"
+            v-model="payload.email"
+          />
         </div>
         <div class="mb-5">
-          <input type="password" class="input" placeholder="Password" />
+          <input
+            type="password"
+            class="input"
+            placeholder="Password"
+            v-model="payload.password"
+          />
         </div>
         <button type="submit" class="btn-primary w-full">
           <span class="text-white text-md text-xl">Sign in</span>
@@ -38,8 +48,33 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "LoginPage",
+  data() {
+    return {
+      payload: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  computed: {
+    ...mapState(["isLoggedIn"]),
+  },
+  methods: {
+    ...mapActions(["loginUser"]),
+    async loginHandler() {
+      await this.loginUser({ ...this.payload });
+
+      if (this.isLoggedIn) {
+        this.$router.push({ name: "Home" });
+      } else {
+        this.payload.email = "";
+        this.payload.password = "";
+      }
+    },
+  },
 };
 </script>
 

@@ -11,7 +11,7 @@ Vue.use(Toast, {
   transition: "Vue-Toastification__bounce",
   maxToasts: 5,
   newestOnTop: true,
-  timeout: 4000,
+  timeout: 3000,
 });
 new Vue({
   router,

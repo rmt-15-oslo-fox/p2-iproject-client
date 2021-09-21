@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .nav-item {
-  @apply py-2 px-8 bg-purple-light text-white rounded-full shadow;
+  @apply py-2 px-8 bg-purple-light text-white rounded-full shadow hover:bg-purple-mid;
 }
 
 .input {

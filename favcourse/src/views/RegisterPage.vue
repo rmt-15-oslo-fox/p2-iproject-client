@@ -14,15 +14,30 @@
           Sign up to <span class="font-bold">FavCourse</span>
         </p>
       </div>
-      <form class="mb-10 form-control">
+      <form class="mb-10 form-control" @submit.prevent="registerHandler">
         <div class="mb-5">
-          <input type="email" class="input" placeholder="Name" />
+          <input
+            type="text"
+            class="input"
+            placeholder="Name"
+            v-model="payload.name"
+          />
         </div>
         <div class="mb-5">
-          <input type="email" class="input" placeholder="Email" />
+          <input
+            type="email"
+            class="input"
+            placeholder="Email"
+            v-model="payload.email"
+          />
         </div>
         <div class="mb-5">
-          <input type="password" class="input" placeholder="Password" />
+          <input
+            type="password"
+            class="input"
+            placeholder="Password"
+            v-model="payload.password"
+          />
         </div>
         <button type="submit" class="btn-primary w-full">
           <span class="text-white text-md text-xl">Sign Up</span>
@@ -41,8 +56,32 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "RegisterPage",
+  data() {
+    return {
+      payload: {
+        name: "",
+        email: "",
+        password: "",
+      },
+    };
+  },
+  computed: {
+    ...mapState(["isError"]),
+  },
+  methods: {
+    ...mapActions(["registerUser"]),
+    async registerHandler() {
+      await this.registerUser({ ...this.payload });
+      if (!this.isError) {
+        this.payload.name = "";
+        this.payload.password = "";
+        this.payload.email = "";
+      }
+    },
+  },
 };
 </script>
 
