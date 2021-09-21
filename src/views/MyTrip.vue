@@ -11,9 +11,7 @@
                   <h4 class="text-2xl font-semibold">My Trip</h4>
                   
                   <!-- ListMytrip -->
-                  <card-my-trip></card-my-trip>
-                  <card-my-trip></card-my-trip>
-                  <card-my-trip></card-my-trip>
+                  <card-my-trip v-for="(trip, i) in myTrip" :key="i" :trip="trip" :index='i'></card-my-trip>
                   
                 </div>
               </div>
@@ -30,6 +28,14 @@ export default {
     name: 'MyTrip',
     components: {
         CardMyTrip
+    },
+    computed: {
+      myTrip: function(){
+        return this.$store.state.mytrips
+      }
+    },
+    created(){
+      this.$store.dispatch('getMyTrip')
     }
 }
 </script>
