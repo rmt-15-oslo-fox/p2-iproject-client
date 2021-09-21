@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import weatherAPI from '../apis/openWeatherAPI'
+// import weatherAPI from '../apis/openWeatherAPI'
 import mountainAPI from '../apis/mountainAPI'
-import geoCodingAPI from '../apis/geoCodingAPI'
+// import geoCodingAPI from '../apis/geoCodingAPI'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -95,40 +95,13 @@ export default new Vuex.Store({
         }
       })
     },
-    getWeather: function({dispatch}, payload){
-      dispatch('getLocation', payload)
-      .then(response => {
-        const { lat, lng } = response.data.results[0].geometry.location
-        return weatherAPI.get('', {
-          params: {
-            lat,
-            lon: lng
-          }
-        })
-      })
-      .then(response => {
-        const weather = response.data.daily.map(el => {
-          let a = new Date(el.dt * 1000);
-          let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-          let year = a.getFullYear();
-          let month = months[a.getMonth()];
-          let date = a.getDate();
-          let time = date + ' ' + month + ' ' + year 
-          return {
-            day: time,
-            cuaca: el.weather[0].description
-          }
-        })
-        console.log(weather);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    },
-    getLocation: function(context, location){
-      return geoCodingAPI.get('',{
-        params: {
-          address: location
+    getWeather: function(context, location){
+      return mountainAPI.get('/weather', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        params:{
+          location
         }
       })
     }

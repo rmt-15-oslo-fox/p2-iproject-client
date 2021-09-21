@@ -4,13 +4,13 @@
       <button
         class="
           w-full
-          py-5
+          py-2
           text-left
           bg-white
           text-gray-800
           active:bg-gray-100
-          text-xs
-          font-bold
+          text-sm
+          font-semibold
           uppercase
           px-4
           py-2
@@ -19,19 +19,21 @@
           hover:shadow-md
           outline-none
           focus:outline-none
+          normal-case
         "
         type="button"
         style="transition: all 0.15s ease 0s"
       >
-        {{ index + 1 }}. Gn. {{ trip.Mountain.name }} {{ trip.Track.name }}
+        {{ index + 1 }}. Gn. {{ trip.Mountain.name }} -- {{ trip.Track.name }} --
         {{ schedule }}
       </button>
     </div>
     <div v-if="openDetail" class="detail">
-      <div class="mt-1">
-        <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+      <div >
+        <ul class="flex flex-col lg:flex-row list-none lg:ml-auto mt-1">
           <li class="flex items-center">
             <button
+              @click="showForecast"
               class="
                 bg-yellow-500
                 text-white
@@ -115,6 +117,7 @@
         </ul>
       </div>
       <div
+        v-if="!showForeCast"
         class="
           w-full
           mt-1
@@ -221,6 +224,8 @@
           </div>
         </div>
       </div>
+      <!-- forecast -->
+      <weather v-else @closeForeCast="closeForeCast" :data="weather" :lokasi="location" ></weather>
     </div>
   </div>
 </template>
@@ -229,20 +234,28 @@
 import { AddToCalendar } from "vue-add-events-to-google-calendar";
 import ChatRoom from '../components/ChatRoom.vue'
 import ChatInput from '../components/ChatInput.vue'
+import Weather from '../components/Weather.vue'
+
 export default {
   name: "CardMytrip",
   components: {
     AddToCalendar,
     ChatRoom,
-    ChatInput
+    ChatInput,
+    Weather
   },
   data: function () {
     return {
       openDetail: false,
+      showForeCast: false,
+      weather: []
     };
   },
   props: ["trip", "index"],
   computed: {
+    location: function(){
+      return this.trip.Mountain.lokasi
+    },
     schedule: function () {
       return new Date(this.trip.schedule).toUTCString().toString().slice(5, 17);
     },
@@ -258,7 +271,8 @@ export default {
   methods: {
     showDetail: function () {
       if (this.openDetail) {
-        this.openDetail = false;
+        this.openDetail = false
+        this.showForeCast = false
       } else {
         this.openDetail = true;
       }
@@ -291,9 +305,23 @@ export default {
           this.$toasted.show(response.data.message).goAway(2000);
         })
         .catch((err) => {
-          console.log(err);
+          this.$toasted.show(err.response.data.message).goAway(2000);
         });
     },
+    showForecast: function(){
+      const location = this.trip.Mountain.lokasi
+      this.$store.dispatch('getWeather', location)
+        .then(response => {
+          this.weather = response.data
+          this.showForeCast = true
+        })
+        .catch(err => {
+          this.$toasted.show(err.response.data.message).goAway(2000);
+        })
+    },
+    closeForeCast: function(){
+      this.showForeCast = false
+    }
   },
 };
 </script>
