@@ -12,7 +12,7 @@ export default new Vuex.Store({
     mytrips: [],
     alltrip: [],
     getDate: null,
-    message: []
+    chats: []
   },
   mutations: {
     SET_ISLOGIN: function (state, status) {
@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     SET_ALLTRIP: function(state, payload){
       state.alltrip = payload
+    },
+    PUSH_MESSAGE: function(state, payload){
+      state.chats.push(payload)
     }
   },
   actions: {

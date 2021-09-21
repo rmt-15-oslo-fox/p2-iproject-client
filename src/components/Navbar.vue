@@ -96,6 +96,7 @@ export default {
         .then((response) => {
           localStorage.setItem("access_token", response.data.access_token);
           localStorage.setItem("userId", response.data.id);
+          localStorage.setItem("name", response.data.name);
           this.$store.commit("SET_ISLOGIN", true);
           this.$toasted.show("Login successfully").goAway(2000);
         })

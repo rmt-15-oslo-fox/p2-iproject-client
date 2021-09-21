@@ -213,8 +213,8 @@
                   <h6 class="text-xl font-semibold">Chat</h6>
                   <hr />
                   <!-- chat Area -->
-                  <chat-room></chat-room>
-                  <chat-input></chat-input>
+                  <chat-room :idRoom="trip.id"></chat-room>
+                  <chat-input :idRoom="trip.id"></chat-input>
                 </div>
               </div>
             </div>

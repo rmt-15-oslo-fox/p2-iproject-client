@@ -4,20 +4,18 @@ import router from './router'
 import store from './store'
 import GSignInButton from 'vue-google-signin-button'
 import toasted from 'vue-toasted'
+import VueSocketIO from 'vue-socket.io'
+import VueChatScroll from 'vue-chat-scroll';
 
 Vue.config.productionTip = false
 Vue.use(GSignInButton)
 Vue.use(toasted)
-// Vue.directive('scroll', {
-//   inserted: function (el, binding) {
-//     let f = function (evt) {
-//       if (binding.value(evt, el)) {
-//         window.removeEventListener('scroll', f)
-//       }
-//     }
-//     window.addEventListener('scroll', f)
-//   }
-// })
+Vue.use(VueChatScroll);
+
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:3000'
+}))
 
 new Vue({
   router,

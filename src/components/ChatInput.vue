@@ -19,12 +19,14 @@
           py-3
         "
       >
-      <div class="-mt-2">
-        <i class="far fa-smile-beam"></i>
-      </div>
+        <div class="-mt-2">
+          <i class="far fa-smile-beam"></i>
+        </div>
       </span>
-      
+
       <input
+        @keyup.enter="sendMessage"
+        v-model="message"
         type="text"
         placeholder="type message"
         class="
@@ -47,24 +49,48 @@
       />
     </div>
     <span
-        class="
-          leading-snug
-          font-normal
-          text-center text-blueGray-300
-          text-base
-          text-right
-        "
-      >
-      <div class="-mt-6 mr-2">
+      class="
+        leading-snug
+        font-normal
+        text-center text-blueGray-300 text-base text-right
+      "
+    >
+      <div class="-mt-6 mr-2" @click="sendMessage">
         <i class="fas fa-paper-plane"></i>
       </div>
-      </span>
+    </span>
   </div>
 </template>
 
 <script>
 export default {
   name: "ChatInput",
+  data: function () {
+    return {
+      message: "",
+    };
+  },
+  props: ['idRoom'],
+  sockets: {
+    broadcast: function (payload) {
+        this.$store.commit('PUSH_MESSAGE', payload)
+    },
+  },
+  methods: {
+    sendMessage: function () {
+        if(this.message == ''){
+            return
+        }
+        const payload = {
+            idRoom: this.idRoom,
+            userId: localStorage.getItem('userId'),
+            name: localStorage.getItem('name'),
+            message: this.message
+        }
+        this.$socket.emit("sendMessage", payload);
+        this.message = ''
+    },
+  },
 };
 </script>
 
