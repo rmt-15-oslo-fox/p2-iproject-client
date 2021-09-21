@@ -3,3 +3,24 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.nav-item {
+  @apply py-2 px-8 bg-purple-light text-white rounded-full shadow hover:bg-purple-mid;
+}
+
+.input {
+  @apply border-2 border-purple-light
+  py-3
+  px-3
+  rounded
+  w-full
+  focus:border-purple-dark outline-none;
+}
+
+.btn-primary {
+  @apply py-3
+  px-14
+  rounded-xl
+  bg-purple-light
+  hover:bg-purple-dark;
+}
