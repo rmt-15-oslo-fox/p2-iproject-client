@@ -13,6 +13,7 @@
       <movie-card></movie-card>
       <movie-card></movie-card>
       <movie-card></movie-card>
+      <movie-card></movie-card>
     </div>
  </div>
 </template>
