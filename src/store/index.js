@@ -128,6 +128,24 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       })
+    },
+
+    decrementEquipment: function(context, payload){
+      return mountainAPI.delete('/equipmentuser', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        params: payload
+      })
+    },
+
+    deleteEquipment: function(context, EquipmentId){
+      return mountainAPI.delete('/equipment', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        params: {EquipmentId}
+      })
     }
   }
 })

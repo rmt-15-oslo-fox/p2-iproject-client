@@ -140,7 +140,7 @@
         "
       >
         <div class="flex flex-row h-96">
-          <div class="w-1/4">
+          <div class="w-1/3">
             <div class="pr-5">
               <div
                 class="
@@ -164,6 +164,12 @@
                     >
                       <i class="fas fa-plus-circle"></i>
                     </button>
+                    <button
+                      class="mt-1 text-sm ml-1"
+                      @click="showDetailAlat"
+                    >
+                    <i class="fas fa-info-circle"></i>
+                    </button>
                   </div>
                   <hr />
                   <div class="mt-2 mb-2 text-gray-600">
@@ -177,8 +183,8 @@
                         </div>
 
                         <!-- item equipment -->
-                        <div v-else class="mt-3 normal-case flex flex-col">
-                          <div v-for="item in listEquipment" :key="item">
+                        <div v-else class="mt-3 normal-case w-56 flex flex-col h-64" :class="{'scroll': peralatanDetail}" v-chat-scroll>
+                          <div v-for="(item, i) in listEquipment" :key="i">
                             <div class="mb-2 flex flex-row">
                               <input
                                 :disabled="item.jumlah <= +item.hasFill"
@@ -187,18 +193,45 @@
                                 @change="updateEquipment(item.id)"
                               />
                               <div class="flex flex-col">
-                                <div
-                                  class="ml-1"
-                                  ref="btnRef"
-                                  v-on:mouseenter="toggleTooltip()"
-                                  v-on:mouseleave="toggleTooltip()"
-                                >
-                                  {{ item.name }} ({{ +item.hasFill }} of
-                                  {{ item.jumlah }})
+                                <div class="flex flex-row justify-between w-48">
+                                  <div class="ml-1">
+                                    <b class="text-red-800">{{ item.name }}</b>
+                                    ({{ +item.hasFill }} of {{ item.jumlah }})
+                                  </div>
+                                  <div class="mr-1" @click="deleteEquipment(item.id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                  </div>
+                                </div>
+                                <!-- detail -->
+                                <div v-if="peralatanDetail">
+                                  <div v-for="(user, i) in item.userPJ" :key="i">
+                                    <ul class="ml-1 mt-1">
+                                      <div class="flex flex-row justify-between w-36">
+                                        <div>
+                                          <li class="text-gray-500">
+                                            [{{ user.jumlah }}] {{ user.name }}
+                                          </li>
+                                        </div>
+                                        <div class="-mr-10" v-if="user.name == userlogin">
+                                          <button @click="updateEquipment(item.id)" :disabled="item.jumlah <= +item.hasFill">
+                                            <i
+                                              class="fas fa-plus-circle mr-1"
+                                            ></i>
+                                          </button>
+                                          <button @click="decrementEquipment(item.id)">
+                                            <i class="fas fa-minus-circle"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </ul>
+                                  </div>
                                 </div>
 
                                 <!-- tooltip -->
-                                <div
+                                <!-- ref="btnRef"
+                                  v-on:mouseenter="toggleTooltip()"
+                                  v-on:mouseleave="toggleTooltip()" -->
+                                <!-- <div
                                   ref="tooltipRef"
                                   v-bind:class="{
                                     hidden: !tooltipShow,
@@ -224,9 +257,7 @@
                                   <div>
                                     tes
                                   </div>
-                                </div>
-
-
+                                </div> -->
                               </div>
                             </div>
                           </div>
@@ -635,7 +666,7 @@
                   <hr class="mb-5" />
                   <ul
                     v-for="(member, i) in members"
-                    :key="member"
+                    :key="i"
                     class="mb-3 mt-3"
                   >
                     <li class="normal-case">{{ i + 1 }}. {{ member }}</li>
@@ -698,6 +729,7 @@ export default {
   },
   data: function () {
     return {
+      peralatanDetail: false,
       tooltipShow: false,
       openDetail: false,
       showForeCast: false,
@@ -725,6 +757,9 @@ export default {
   },
   props: ["trip", "index"],
   computed: {
+    userlogin: function(){
+        return localStorage.getItem('name')
+    },
     equipmentList: function () {
       let list = {};
       if (this.tenda_4) {
@@ -790,12 +825,13 @@ export default {
   },
   watch: {
     listEquipment: function () {
-      this.listEquipment.forEach((item) => {
+      this.listEquipment.forEach((item, i) => {
         let totalChecked = 0;
         item.EquipmentUsers.forEach((el) => {
           totalChecked += +el.jumlah;
         });
         item.hasFill = totalChecked;
+        item.userPJ = this.getUserEquipment[i].users;
       });
     },
   },
@@ -855,9 +891,22 @@ export default {
       };
       this.$store
         .dispatch("postUserEquipment", payload)
-        .then((response) => {
+        .then(() => {
           this.getEquipmentList();
-          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    },
+    decrementEquipment: function (idEquipment) {
+      const payload = {
+        UserId: localStorage.getItem("userId"),
+        EquipmentId: idEquipment,
+      };
+      this.$store
+        .dispatch("decrementEquipment", payload)
+        .then(() => {
+          this.getEquipmentList();
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -870,6 +919,13 @@ export default {
       } else {
         this.getEquipmentList();
         this.openDetail = true;
+      }
+    },
+    showDetailAlat: function () {
+      if (this.peralatanDetail) {
+        this.peralatanDetail = false;
+      } else {
+        this.peralatanDetail = true;
       }
     },
     deleteHandler: function () {
@@ -942,6 +998,32 @@ export default {
           console.log(err.response.data);
         });
     },
+    deleteEquipment: function(EquipmentId){
+      this.$toasted.show("Are u sure to delete this?", {
+        action: [
+          {
+            text: "Cancel",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            },
+          },
+          {
+            text: "Yes",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+              this.$store.dispatch('deleteEquipment', EquipmentId)
+              .then(() => {
+                this.$toasted.show('Deleted success').goAway(2000)
+                this.getEquipmentList()
+              })
+              .catch(err => {
+                console.log(err);
+              })
+            },
+          },
+        ],
+      });
+    }
   },
   created() {
     // this.getEquipmentList();
@@ -950,4 +1032,7 @@ export default {
 </script>
 
 <style>
+.scroll {
+  overflow-y: scroll;
+}
 </style>

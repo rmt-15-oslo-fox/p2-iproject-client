@@ -25,5 +25,7 @@ export default {
 </script>
 
 <style>
-
+#app {
+  font-family: 'Sora', sans-serif;
+}
 </style>

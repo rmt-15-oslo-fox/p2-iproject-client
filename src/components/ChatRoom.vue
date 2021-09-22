@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-scroll="onScroll" v-chat-scroll class="mt-5 h-60 scroll">
+  <div id="app" v-chat-scroll class="mt-5 h-60 scroll">
     <message-card v-for="(chat, i) in chats" :key="i" :chat="chat"></message-card>
     
   </div>
