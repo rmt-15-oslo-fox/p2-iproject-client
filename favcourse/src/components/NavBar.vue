@@ -49,6 +49,7 @@
                 items-center
                 justify-center
                 cursor-pointer
+                bg-purple-light
               "
             >
               <p
@@ -58,10 +59,10 @@
                 {{ user.name[0] }}
               </p>
               <img
-                :src="user.avatar_url"
                 class="rounded-full w-full h-full object-cover"
                 alt="profile"
                 v-if="user.avatar_url !== null"
+                :src="user.avatar_url"
               />
             </a>
             <i class="far fa-angle-down ml-2"></i>
@@ -81,12 +82,18 @@
                 -left-12
               "
             >
-              <li class="nav-drop">My Course</li>
-              <li class="nav-drop">My Cart</li>
-              <li class="nav-drop">Messages</li>
+              <li class="nav-drop">My Learning</li>
+              <li class="nav-drop">
+                <router-link :to="{ name: 'MyCart' }">My Cart</router-link>
+              </li>
               <li class="nav-drop">
                 <router-link :to="{ name: 'MyProfile' }"
                   >My Profile</router-link
+                >
+              </li>
+              <li class="nav-drop">
+                <router-link :to="{ name: 'Instructor' }"
+                  >My Courses</router-link
                 >
               </li>
               <li class="nav-drop mb-0">
@@ -111,6 +118,13 @@ export default {
   },
   computed: {
     ...mapState(["isLoggedIn", "user"]),
+  },
+  watch: {
+    $route(to) {
+      if (to.name !== "Home" && to.name !== "CourseDetail") {
+        this.showMenuDrop();
+      }
+    },
   },
   methods: {
     ...mapActions(["fetchUserProfile"]),

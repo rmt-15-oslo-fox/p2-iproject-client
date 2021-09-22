@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'CourseDetail', params: { id: courseData.id } }"
+    :to="{ name: 'CourseDetail', params: { id: item.id } }"
     class="
       flex flex-col
       w-1/5
@@ -16,34 +16,29 @@
   >
     <div class="mb-3">
       <img
-        :src="courseData.thumbnail_url"
-        :alt="courseData.title"
+        :src="item.thumbnail_url"
+        :alt="item.title"
         class="w-full h-full rounded-sm shadow object-contain"
       />
     </div>
     <div class="mb-3">
       <div class="font-semibold tracking-wider text-xl mb-1">
-        {{ courseData.title }}
-      </div>
-      <div class="mb-1">
-        <span class="text-xs">{{ courseData.Instructor.name }}</span>
+        {{ item.title }}
       </div>
       <div class="flex text-sm mb-2">
-        <span class="mr-1">{{ `${courseData.rating}.0` }}</span>
+        <span class="mr-1">{{ `${item.rating}.0` }}</span>
         <div>
           <span
             class="fa fa-star text-gray"
             v-for="i in 5"
             :key="i"
             :class="{
-              'text-gold': i <= courseData.rating,
+              'text-gold': i <= item.rating,
             }"
           ></span>
         </div>
       </div>
-      <div class="font-semibold text-xl text-purple-dark mb-3">
-        {{ price }}
-      </div>
+      <div class="font-semibold text-xl text-purple-dark mb-3">{{ price }}</div>
       <div
         class="
           text-sm
@@ -56,21 +51,21 @@
           font-semibold
         "
       >
-        {{ courseData.course_level }}
+        {{ item.course_level }}
       </div>
     </div>
   </router-link>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
-  name: "CourseCard",
-  props: ["course-data"],
+  name: "CartItem",
+  props: ["item"],
   computed: {
-    ...mapGetters(["getPrice"]),
     price() {
-      return this.getPrice(this.courseData.price);
+      return `Rp ${this.item.price
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
   },
 };

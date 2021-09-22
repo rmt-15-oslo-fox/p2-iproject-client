@@ -5,6 +5,8 @@ import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import MyProfile from "../views/MyProfile.vue";
 import CourseDetail from "../views/CourseDetail.vue";
+import MyCart from "../views/MyCart.vue";
+import MyCourses from "../views/MyCourses.vue";
 
 Vue.use(VueRouter);
 
@@ -33,6 +35,16 @@ const routes = [
     path: "/courses/:id",
     name: "CourseDetail",
     component: CourseDetail,
+  },
+  {
+    path: "/cart",
+    name: "MyCart",
+    component: MyCart,
+  },
+  {
+    path: "/instructor",
+    name: "Instructor",
+    component: MyCourses,
   },
 ];
 

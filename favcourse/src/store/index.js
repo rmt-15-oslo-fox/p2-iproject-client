@@ -16,6 +16,8 @@ export default new Vuex.Store({
     },
     courses: [],
     course: {},
+    carts: [],
+    checkoutToken: "",
   },
   mutations: {
     CHANGE_LOGIN(state, loginCondition) {
@@ -32,6 +34,14 @@ export default new Vuex.Store({
     },
     SET_COURSE(state, courseData) {
       state.course = courseData;
+    },
+
+    SET_CARTS(state, carts) {
+      state.carts = carts;
+    },
+
+    SET_TOKEN(state, token) {
+      state.checkoutToken = token;
     },
   },
   actions: {
@@ -137,10 +147,89 @@ export default new Vuex.Store({
         Vue.$toast.error(data.message);
       }
     },
+
+    async addCourseToCart(context, courseId) {
+      try {
+        const { data } = await server({
+          url: "/carts",
+          method: "POST",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+          data: {
+            CourseId: courseId,
+          },
+        });
+        Vue.$toast.success(data.message);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.errors[0]);
+      }
+    },
+
+    async fetchCarts({ commit }) {
+      try {
+        const { data } = await server({
+          url: "/carts",
+          method: "GET",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        commit("SET_CARTS", data.carts);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.message);
+      }
+    },
+
+    async fetchCheckout({ commit }, coursesIds) {
+      try {
+        const { data } = await server({
+          url: "/checkout",
+          method: "POST",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+          data: {
+            coursesIds: coursesIds,
+          },
+        });
+        commit("SET_TOKEN", data.token);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.errors[0]);
+      }
+    },
+
+    async fetchClearCart({ commit }) {
+      try {
+        await server({
+          method: "DELETE",
+          url: "/carts",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+        commit("SET_CARTS", []);
+        Vue.$toast.success("Success checkout");
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.message);
+      }
+    },
   },
   getters: {
-    price(state) {
-      return `Rp ${state.course.price
+    totalPrice(state) {
+      let totalPrice = 0;
+      state.carts.forEach((e) => {
+        totalPrice += e.Course.price;
+      });
+      return totalPrice;
+    },
+    getPrice: () => (priceCourse) => {
+      return `Rp ${priceCourse
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },

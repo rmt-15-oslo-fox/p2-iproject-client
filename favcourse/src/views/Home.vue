@@ -16,7 +16,7 @@ export default {
   components: { CourseCard },
   name: "Home",
   methods: {
-    ...mapActions(["fetchCourses"]),
+    ...mapActions(["fetchCourses", "fetchClearCart"]),
   },
   computed: {
     ...mapState(["courses"]),

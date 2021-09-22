@@ -76,7 +76,10 @@
       <div class="mb-3">
         <h2 class="text-4xl font-semibold text-purple-mid">{{ price }}</h2>
       </div>
-      <div class="pb-4 border-b-2 border-gray">
+      <div
+        class="pb-4 border-b-2 border-gray"
+        v-if="user.id !== course.instructor_id"
+      >
         <button
           class="btn-primary w-full mb-3 text-white"
           @click.prevent="addToCartHandler"
@@ -106,14 +109,19 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "CourseDetail",
   computed: {
-    ...mapState(["course"]),
-    ...mapGetters(["price"]),
+    ...mapState(["course", "user"]),
+    ...mapGetters(["getPrice"]),
+    price() {
+      return this.getPrice(this.course.price);
+    },
   },
   methods: {
-    ...mapActions(["fetchCourseById"]),
-    addToCartHandler() {
+    ...mapActions(["fetchCourseById", "addCourseToCart"]),
+    async addToCartHandler() {
       if (!localStorage.getItem("access_token")) {
         this.$router.push({ name: "Login" });
+      } else {
+        await this.addCourseToCart(this.course.id);
       }
     },
   },

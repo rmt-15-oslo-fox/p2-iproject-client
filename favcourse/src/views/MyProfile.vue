@@ -13,12 +13,14 @@
             }"
           >
             <img
-              :src="preview ? preview : user.avatar_url"
+              :src="preview !== null ? preview : user.avatar_url"
               :alt="`profile ${user.name}`"
-              v-if="user.avatar_url !== null"
+              v-if="user.avatar_url !== null || preview !== null"
               class="w-full h-full object-cover"
             />
-            <span v-if="user.avatar_url === null">Empty</span>
+            <span v-if="user.avatar_url === null && preview === null"
+              >Empty</span
+            >
           </div>
           <div class="ml-8">
             <label
