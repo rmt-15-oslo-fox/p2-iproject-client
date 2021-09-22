@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loggedIn: false,
-    movies: []
+    movies: [],
+    params: {page: 1},
   },
   mutations: {
     SET_LOGIN (state, payload) {
@@ -15,7 +16,10 @@ export default new Vuex.Store({
     },
     SET_MOVIES (state, payload) {
       state.movies = payload
-    }
+    },
+    SET_PARAMS (state, payload) {
+      state.params = payload
+    },
   },
   actions: {
     login (context, payload) {
@@ -27,8 +31,8 @@ export default new Vuex.Store({
     fetchPopular () {
       return movieAPI.get('/movies/popular')
     },
-    searchMovie(context, payload) {
-      return movieAPI.get('/movies', {params: payload})
+    searchMovie({state}) {
+      return movieAPI.get('/movies', {params: state.params})
     }
   },
   modules: {},

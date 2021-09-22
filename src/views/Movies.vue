@@ -6,17 +6,20 @@
       <button @click.prevent="search" class="w-1/12 border-2 border-black"><i class="fas fa-search"></i></button>
     </div>
     <movie-list :movies="movies" class="mt-3"></movie-list>
+    <pagination v-show="!notPopular"></pagination>
   </div>
 </template>
 
 <script>
 import movieList from "../components/movielist.vue"
 import Nav from "../components/navbar.vue"
+import Pagination from '../components/pagination.vue'
 export default {
   name: 'movies',
   data() {
     return {
-      query: ''
+      query: '',
+      notPopular: true
     }
   },
   methods: {
@@ -28,8 +31,12 @@ export default {
         .catch(err => console.log(err.response.data))
     },
     search() {
-      this.$store.dispatch("searchMovie", {title: this.query})
+      const newParam = this.params
+      newParam.title = this.query
+      this.$store.commit("SET_PARAMS", newParam)
+      this.$store.dispatch("searchMovie")
         .then(res => {
+          this.notPopular = false
           this.$store.commit("SET_MOVIES", res.data)
         })
         .catch(err => console.log(err.response.data))
@@ -37,11 +44,15 @@ export default {
   },
   components: {
     movieList,
-    Nav
+    Nav,
+    Pagination
   },
   computed: {
     movies() {
       return this.$store.state.movies
+    },
+    params() {
+      return this.$store.state.params
     }
   },
   created() {

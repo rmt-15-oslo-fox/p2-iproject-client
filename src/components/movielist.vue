@@ -13,10 +13,7 @@ export default {
   components: {
     movieCard
   },
-  props: ["movies"],
-  created() {
-    console.log(this.movies)
-  }
+  props: ["movies"]
 }
 </script>
 

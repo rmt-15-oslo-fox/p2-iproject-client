@@ -1,7 +1,7 @@
 <template>
   <div class="border border-white bg-green-900 rounded-md w-1/6 mx-2 my-5 cursor-pointer hover:opacity-80">
     <div>
-      <img :src="imgUrl" class="rounded-tl-md rounded-tr-md h-80">
+      <img :src="imgUrl" class="rounded-tl-md rounded-tr-md h-80 w-full">
     </div>
     <div class="my-1">
       <p class="text-yellow-400"><i class="fas fa-star"></i> {{rating}} / 10</p>
