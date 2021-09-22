@@ -19,17 +19,23 @@
         <div class="container-login row">
           <div class="login-page row">
             <div class="page-login col-7">
-              <img src="" width="103%" height="100%" />
+              <img src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg" width="103%" height="100%" />
             </div>
             <div class="login col">
               <br />
-              <form>
+              <form @submit.prevent="addDataLogin">
                 <h2>Login</h2>
                 <br />
                 <label>Username</label><br />
-                <input type="text" /><br /><br />
+                <input 
+                type="text"
+                v-model="username" 
+                /><br /><br />
                 <label>Password</label><br />
-                <input type="password" /><br /><br />
+                <input 
+                type="password"
+                v-model="password" 
+                /><br /><br />
                 <p>
                   Do not have account ?
                   <router-link to="/Register">
@@ -50,6 +56,31 @@
 <script>
 export default {
   name: "Login",
+  data(){
+    return {
+      username : '',
+      password : ''
+    }
+  },
+  methods : {
+    addDataLogin(){
+      const payload = {
+        username : this.username,
+        password : this.password
+      }
+      this.$store.commit('addDataLogin',payload)
+      this.$store.dispatch('login')
+      .then(resp => {
+        localStorage.setItem('access_token',resp.data.access_token)
+        this.$store.commit('changeIsLogin',true)
+        this.$router.push('/')
+      })
+      .catch(() => {
+        // console.log(err)
+        this.$router.push('/')
+      })
+    }
+  }
 };
 </script>
 

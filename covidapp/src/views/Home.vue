@@ -16,7 +16,7 @@
     <div id="Home-Page">
       <div class="red row mt-3 mb-2 first-layout">
         <div class="pink col-9">
-          <img src="" width="100%" height="100%" alt="" srcset="" />
+          <img src="https://kkpyogyakarta.com/joimg/artikel/mengenal-lebih-dalam-covid19-169-covid19.png" width="100%" height="100%" alt="" srcset="" />
         </div>
         <div class="grey">
           <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
@@ -35,13 +35,13 @@
         <div class="blue col">
           <div class="row green">
             <div class="orange col-4">
-              <h2>1023</h2>
+              <h2>{{dataCovidIndo.positif}}</h2>
             </div>
             <div class="orange col-4">
-              <h2>2034</h2>
+              <h2>{{dataCovidIndo.sembuh}}</h2>
             </div>
             <div class="orange col-4">
-              <h2>874303445</h2>
+              <h2>{{dataCovidIndo.dirawat}}</h2>
             </div>
             <div class="text2">
               <p>
@@ -101,6 +101,20 @@
 <script>
 export default {
   name: "Home",
+  data(){
+    return{
+      dataCovidIndo : {}
+    }
+  },
+  created(){
+    this.$store.dispatch('getDataCovidIndo')
+    .then(resp => {
+      this.dataCovidIndo = resp.data[0]
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 };
 </script>
 

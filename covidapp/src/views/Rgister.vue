@@ -19,19 +19,31 @@
           <div class="container-login row">
             <div class="login-page row">
               <div class="page-login col-7">
-                <img src="" width="103%" height="100%" />
+                <img src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg" width="103%" height="100%" />
               </div>
               <div class="login col">
                 <br />
-                <form>
+                <form @submit.prevent="addDataUser">
                   <h2>Register</h2>
                   <br />
                   <label>Username</label><br />
-                  <input type="text" placeholder="izon" /><br /><br />
+                  <input 
+                  type="text" 
+                  placeholder="izon"
+                  v-model="username"
+                  /><br /><br />
                   <label>Password</label><br />
-                  <input type="password" placeholder="****" /><br /><br />
+                  <input 
+                  type="password" 
+                  placeholder="****"
+                  v-model="password"
+                  /><br /><br />
                   <label>Your city</label><br />
-                  <input type="text" placeholder="Palu" /><br /><br />
+                  <input 
+                  type="text" 
+                  placeholder="Palu" 
+                  v-model="city"
+                  /><br /><br />
                   <br />
                   <br />
                   <button class="button-login">Submit</button>
@@ -47,6 +59,31 @@
 <script>
 export default {
   name: "Register",
+  data(){
+    return{
+      username : '',
+      password : '',
+      city : ''
+    }
+  },
+  methods : {
+    addDataUser(){
+      const payload = {
+        username : this.username,
+        password : this.password,
+        city : this.city
+      }
+      this.$store.commit('addDataLogin',payload)
+      this.$store.dispatch('register')
+      .then(resp => {
+        console.log(resp.data)
+        this.$router.push('/Login')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  }
 };
 </script>
 

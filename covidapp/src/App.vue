@@ -13,20 +13,34 @@
       <title>Page 1</title>
     </head>
     <body>
-      <div class="nav-bar mt-2">
-      <nav class="nav-bar-text">
-        <ul>
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/Search">Search</router-link></li>
-          <li><router-link to="/Map">Map</router-link></li>
-          <li><a href="">Logout </a></li>
-        </ul>
-      </nav>
-    </div>
-    <router-view />
+      <div class="nav-container">
+        <div class="nav-bar mt-2">
+          <nav class="nav-bar-text">
+            <ul>
+              <li><router-link to="/">Home</router-link></li>
+              <li v-if="isLogin"><router-link to="/Search">Search</router-link></li>
+              <li v-if="isLogin"><router-link to="/Map">Map</router-link></li>
+              <li><a href="">Logout </a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <router-view />
     </body>
   </div>
 </template>
+
+<script>
+export default {
+  name : 'App',
+  computed : {
+    isLogin(){
+      return this.$store.state.isLogin
+    }
+  }
+}
+</script>
+
 <style scoped>
 body {
   background-color: rgba(172, 75, 75, 0.678);
@@ -37,17 +51,15 @@ body {
 .nav-bar {
   height: 50px;
   text-align: center;
-  position: fixed;
-  z-index: 99;
   border: 2px solid rgb(100, 100, 100);
   border-radius: 200px;
   width: 800px;
-  margin-left: 25%;
+  margin: 0 auto;
   font-size: 20px;
   background-color: rgba(55, 96, 102, 0.555);
 }
 
-a{
+a {
   text-decoration: none;
   color: black;
 }
@@ -60,5 +72,10 @@ a{
   list-style-type: none;
   display: inline;
   padding: 50px;
+}
+.nav-container{
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
 </style>

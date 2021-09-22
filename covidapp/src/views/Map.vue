@@ -12,49 +12,77 @@
       />
       <title>Page 1</title>
     </head>
-      <!-- Main Feature -->
-      <div id="Main-feature">
-        <div class="container">
-          <!-- Maps -->
-          <div class="container-login row">
-            <div class="search-page row">
-              <div
-                class="page-login col-7"
-                style="background-color: gray"
-              ></div>
-              <div class="login col">
-                <br /><br /><br /><br /><br />
-                <h2>HOSPITAL IN YOUR CITY</h2>
-                <br /><br /><br /><br />
-                <form>
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </form>
-              </div>
+    <!-- Main Feature -->
+    <div id="Main-feature">
+      <div class="container">
+        <!-- Maps -->
+        <div class="container-login row">
+          <div class="search-page row">
+            <div class="page-login col-7" style="background-color: gray">
+              <l-map style="height: 100%" :zoom="zoom" :center="center">
+                <l-marker :lat-lng="center"></l-marker>
+                <l-tile-layer
+                  :url="url"
+                  :attribution="attribution"
+                ></l-tile-layer>
+                <l-marker :lat-lng="markerLatLng"></l-marker>
+              </l-map>
+            </div>
+            <div class="login col">
+              <br /><br /><br /><br /><br />
+              <h2>HOSPITAL IN YOUR CITY</h2>
+              <br /><br /><br /><br />
+              <form>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { Icon } from 'leaflet';
+import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+
+delete Icon.Default.prototype._getIconUrl;
+
+Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
 export default {
   name: "Login",
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+  },
+  data () {
+    return {
+      url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attribution:'© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      zoom: 17,
+      center: [-0.789287,119.869477],
+      bounds: null
+    };
+  }
 };
 </script>
 
 <style scoped>
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 .container-login {
   height: 100vh;
