@@ -104,6 +104,30 @@ export default new Vuex.Store({
           location
         }
       })
+    },
+
+    postEquipment: function(context, payload){
+      return mountainAPI.post('/equipment', payload, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+
+    getEquipmentById: function(context, id){
+      return mountainAPI.get(`/equipment/${id}`, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+
+    postUserEquipment: function(context, payload){
+      return mountainAPI.post('/equipmentuser', payload, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
     }
   }
 })
