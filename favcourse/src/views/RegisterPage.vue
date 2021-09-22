@@ -79,6 +79,7 @@ export default {
         this.payload.name = "";
         this.payload.password = "";
         this.payload.email = "";
+        this.$router.push({ name: "Login" });
       }
     },
   },

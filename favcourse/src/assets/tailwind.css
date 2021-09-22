@@ -8,6 +8,10 @@
   @apply py-2 px-8 bg-purple-light text-white rounded-full shadow hover:bg-purple-mid;
 }
 
+.nav-drop {
+  @apply tracking-wider mb-3 px-4 py-0.5 hover:bg-purple-light-2;
+}
+
 .input {
   @apply border-2 border-purple-light
   py-3
@@ -19,8 +23,18 @@
 
 .btn-primary {
   @apply py-3
-  px-14
+  px-5
   rounded-xl
   bg-purple-light
   hover:bg-purple-dark;
+}
+
+.btn-secondary {
+  @apply py-3
+  px-5
+  rounded-xl
+  border-2
+  border-purple-light-2
+  bg-white
+  hover:bg-gray;
 }

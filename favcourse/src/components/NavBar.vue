@@ -37,21 +37,63 @@
         </li>
         <li v-if="isLoggedIn">
           <div
-            class="
-              rounded-full
-              h-10
-              w-10
-              bg-purple-light
-              flex
-              items-center
-              justify-center
-            "
+            class="flex items-center cursor-pointer"
+            @click.prevent="showMenuDrop"
           >
-            <p class="text-white font-bold">H</p>
+            <a
+              class="
+                rounded-full
+                h-10
+                w-10
+                flex
+                items-center
+                justify-center
+                cursor-pointer
+              "
+            >
+              <p
+                class="text-white font-bold uppercase"
+                v-if="user.avatar_url === null"
+              >
+                {{ user.name[0] }}
+              </p>
+              <img
+                :src="user.avatar_url"
+                class="rounded-full w-full h-full object-cover"
+                alt="profile"
+                v-if="user.avatar_url !== null"
+              />
+            </a>
+            <i class="far fa-angle-down ml-2"></i>
           </div>
-          <ul>
-            <li>Sign Out</li>
-          </ul>
+          <div class="relative" v-if="menuDropActive">
+            <ul
+              class="
+                bg-white
+                shadow
+                border-2 border-purple-light
+                py-4
+                px-2
+                rounded-xl
+                min-w-max
+                absolute
+                top-1
+                -left-12
+              "
+            >
+              <li class="nav-drop">My Course</li>
+              <li class="nav-drop">My Cart</li>
+              <li class="nav-drop">Messages</li>
+              <li class="nav-drop">
+                <router-link :to="{ name: 'MyProfile' }"
+                  >My Profile</router-link
+                >
+              </li>
+              <li class="nav-drop mb-0">
+                <button @click.prevent="logoutHandler">Sign Out</button>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
     </nav>
@@ -59,11 +101,36 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "NavBar",
+  data() {
+    return {
+      menuDropActive: false,
+    };
+  },
   computed: {
-    ...mapState(["isLoggedIn"]),
+    ...mapState(["isLoggedIn", "user"]),
+  },
+  methods: {
+    ...mapActions(["fetchUserProfile"]),
+    ...mapMutations({
+      setLoginStatus: "CHANGE_LOGIN",
+    }),
+    logoutHandler() {
+      localStorage.clear();
+      this.setLoginStatus(false);
+      this.$router.push({ name: "Login" });
+      this.$toast.success("Logout successful");
+    },
+    showMenuDrop() {
+      this.menuDropActive = !this.menuDropActive;
+    },
+  },
+  async created() {
+    if (localStorage.getItem("access_token")) {
+      await this.fetchUserProfile();
+    }
   },
 };
 </script>
