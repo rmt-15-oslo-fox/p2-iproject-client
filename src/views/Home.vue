@@ -12,7 +12,7 @@ export default {
   name: "Home",
   components: {
     Nav,
-    movieList
+    movieList,
   },
 };
 </script>
