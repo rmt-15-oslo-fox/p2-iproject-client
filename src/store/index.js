@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products:[],
-    carts:[]
+    carts:[],
+    name:""
   },
   mutations: {
     PRODUCTFETCH(state, payload){
@@ -15,12 +16,15 @@ export default new Vuex.Store({
     },
     ADDCARTS(state, payload){
       state.carts.push(payload)
+    },
+    FILTERTITLE(state, payload){
+      state.name = payload
     }
   },
   actions: {
-    productFetch({commit}){
+    productFetch({commit,state}){
       axios({
-        url:'/users/products',
+        url:`/users/products?name=${state.name}`,
         method:'get'
       })
       .then((res)=>{
