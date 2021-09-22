@@ -12,7 +12,7 @@
     "
   >
     <h1 class="text-3xl font-bold text-black-primary mb-5 md:mb-0">
-      FavCourse
+      <router-link :to="{ name: 'Home' }">FavCourse</router-link>
     </h1>
     <nav>
       <ul class="flex">

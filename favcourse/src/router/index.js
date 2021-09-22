@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import MyProfile from "../views/MyProfile.vue";
+import CourseDetail from "../views/CourseDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     name: "MyProfile",
     component: MyProfile,
   },
+  {
+    path: "/courses/:id",
+    name: "CourseDetail",
+    component: CourseDetail,
+  },
 ];
 
 const router = new VueRouter({
@@ -45,7 +51,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.name !== "Home" && !token) {
+  } else if (to.name !== "Home" && !token && to.name !== "CourseDetail") {
     next({ name: "Login" });
   } else {
     next();

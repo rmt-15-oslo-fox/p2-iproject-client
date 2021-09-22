@@ -14,6 +14,8 @@ export default new Vuex.Store({
       email: "",
       avatar_url: "",
     },
+    courses: [],
+    course: {},
   },
   mutations: {
     CHANGE_LOGIN(state, loginCondition) {
@@ -24,6 +26,12 @@ export default new Vuex.Store({
     },
     SET_USER(state, payload) {
       state.user = payload;
+    },
+    SET_COURSES(state, payload) {
+      state.courses = payload;
+    },
+    SET_COURSE(state, courseData) {
+      state.course = courseData;
     },
   },
   actions: {
@@ -74,8 +82,7 @@ export default new Vuex.Store({
         commit("SET_USER", data.user);
       } catch (error) {
         const { data } = error.response;
-        console.log(data, "<<<<<<<");
-        Vue.$toast.error("error");
+        Vue.$toast.error(data.message);
       }
     },
 
@@ -103,6 +110,39 @@ export default new Vuex.Store({
         const { data } = error.response;
         Vue.$toast.error(data.errors[0]);
       }
+    },
+
+    async fetchCourses({ commit }) {
+      try {
+        const { data } = await server({
+          url: "/pub/courses",
+          method: "GET",
+        });
+        commit("SET_COURSES", data.courses);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.message);
+      }
+    },
+
+    async fetchCourseById({ commit }, courseId) {
+      try {
+        const { data } = await server({
+          url: `/pub/courses/${courseId}`,
+          method: "GET",
+        });
+        commit("SET_COURSE", data.course);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.message);
+      }
+    },
+  },
+  getters: {
+    price(state) {
+      return `Rp ${state.course.price
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
   },
   modules: {},
