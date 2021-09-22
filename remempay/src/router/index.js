@@ -5,6 +5,9 @@ import LoginPage from "../views/login.vue";
 import RegisterPage from "../views/register.vue";
 import ChargePage from "../views/addBalance.vue";
 import Reminder from "../views/reminderList.vue";
+import addReminder from "../views/addReminder.vue";
+import Pay from "../views/pay.vue";
+import PaymentStatus from "../views/paymentStatus.vue";
 
 Vue.use(VueRouter);
 
@@ -30,9 +33,24 @@ const routes = [
     component: ChargePage
   },
   {
+    path: "/addReminder",
+    name: "addReminder",
+    component: addReminder
+  },
+  {
+    path: "/pay",
+    name: "pay",
+    component: Pay
+  },
+  {
     path: "/reminder",
     name: "Reminder",
     component: Reminder
+  },
+  {
+    path: "/status",
+    name: "status",
+    component: PaymentStatus
   }
 ];
 

@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import Navbar from "../components/Navbar.vue";
 import axios from "axios";
 import Swal from "sweetalert2";
 export default {
@@ -47,6 +48,9 @@ export default {
     return {
       amount: 0
     };
+  },
+  components: {
+    Navbar
   },
   methods: {
     charge: function() {

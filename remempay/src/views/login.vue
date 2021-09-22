@@ -117,12 +117,11 @@ export default {
             text: error.response.data.message
           });
         });
-    },
-
-    created() {
-      if (localStorage.access_token) {
-        this.$router.push("/dashboard");
-      }
+    }
+  },
+  created() {
+    if (localStorage.access_token) {
+      this.$router.push("/dashboard");
     }
   }
 };

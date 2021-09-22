@@ -3,36 +3,20 @@
     <button v-on:click="changePage('dashboard')" type="button" class="rounded">
       <span>Home</span>
     </button>
-    <button
-      v-if="isLogin"
-      type="button"
-      class="rounded"
-      v-on:click="changePage('reminder')"
-    >
+    <button type="button" class="rounded" v-on:click="changePage('reminder')">
       <span>My Reminders</span>
     </button>
-    <button
-      v-if="isLogin"
-      type="button"
-      class="rounded"
-      v-on:click="changePage('status')"
-    >
+    <button type="button" class="rounded" v-on:click="changePage('status')">
       <span>Payment Status</span>
     </button>
     <button
-      v-if="isLogin"
       type="button"
       class="rounded"
-      v-on:click="changePage('add')"
+      v-on:click="changePage('addReminder')"
     >
       <span>Add Reminder</span>
     </button>
-    <button
-      v-if="isLogin"
-      type="button"
-      class="rounded"
-      v-on:click="changePage('charge')"
-    >
+    <button type="button" class="rounded" v-on:click="changePage('charge')">
       <span>Add Balance</span>
     </button>
     <button v-on:click="logout" type="button" class="rounded">

@@ -82,7 +82,7 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          commit("FETCH_REMINDER", res.data);
+          commit("FETCH_REMINDER", res.data.reminder);
         })
         .catch(err => {
           Swal.fire({
@@ -101,7 +101,7 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          commit("FETCH_Status", res.data);
+          commit("FETCH_STATUS", res.data.status);
         })
         .catch(err => {
           Swal.fire({

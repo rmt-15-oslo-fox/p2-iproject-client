@@ -97,6 +97,8 @@ export default {
       this.$router.push("/");
     }
     this.$store.dispatch("fetchInfo");
+    this.$store.dispatch("fetchReminder");
+    this.$store.dispatch("fetchStatus");
   }
 };
 </script>
