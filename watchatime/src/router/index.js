@@ -7,6 +7,7 @@ import Login from '../views/Auth/Login.vue';
 import Register from '../views/Auth/Register.vue';
 import MovieList from '../views/Movies/MovieList.vue';
 import TVList from '../views/Tvs/TVList.vue';
+import AnimeList from '../views/Animes/AnimeList.vue';
 
 const routes = [{
         path: '/',
@@ -44,6 +45,11 @@ const routes = [{
         component: TVList,
     },
     {
+        path: '/animes',
+        name: 'Animes',
+        component: AnimeList,
+    },
+    {
         path: '/movies/:id',
         name: 'MovieDetails',
         component: () =>
@@ -54,6 +60,12 @@ const routes = [{
         name: 'TVDetails',
         component: () =>
             import ('../views/Tvs/TVDetails.vue'),
+    },
+    {
+        path: '/animes/:id',
+        name: 'AnimesDetails',
+        component: () =>
+            import ('../views/Animes/AnimeDetails.vue'),
     },
     {
         path: '/about',
