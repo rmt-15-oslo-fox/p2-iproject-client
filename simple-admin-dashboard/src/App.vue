@@ -3,14 +3,20 @@
     <v-main>
       <router-view/>
     </v-main>
+    <footer>
+    <HFooter style="align-content: flex-end;"/>
+    </footer>
   </v-app>
 </template>
 
 <script>
+import HFooter from 'vue-hacktiv8-footer'
 
 export default {
   name: 'App',
-
+  components: {
+    HFooter
+  },
   data: () => ({
     //
   }),
