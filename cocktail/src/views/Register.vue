@@ -1,22 +1,23 @@
 <template>
-  <div>
-      <div class="d-flex justify-content-center align-items-center">
-          <div class="p-2">
+  <div class="d-flex justify-content-center align-items-center" style="padding:50px 175px; height: 100vh;">
+      <div class="d-flex justify-content-center align-items-center w-100 shadow-lg h-100">
+          <div class="p-5 w-50">
               <div class="py-2 d-flex flex-row justify-content-between">
                   <div class="p-2">
-                      kiri
+                      <img :src="'../assets/cocktailLogo.png'">
                   </div>
                   <div class="p-2 d-flex justify-content-between">
                       <div class="p-1">
                           Sign In
                       </div>
                       <div class="p-1">
-                          Sign Up
+                          <router-link to="/register">Sign Up</router-link>
                       </div>
                   </div>
               </div>
-              <div class="py-2">
-                  Tengah
+              <div class="py-2 text-left">
+                  <h2>Sign In</h2>
+                  <h5>Sign in to continue to our website</h5>
               </div>
               <div class="py-2">
                   <form @submit.prevent="handleRegister">
@@ -32,7 +33,7 @@
                   </form>
               </div>
           </div>
-          <div class="p-2">
+          <div class="p-2 right w-50">
               kanan
           </div>
       </div>
@@ -45,7 +46,7 @@ export default {
     data(){
         return {
             email : '',
-            password: ''
+            password: '',
         }
     },
     methods : {
@@ -60,6 +61,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.right {
+    background-image: linear-gradient(to bottom right, #0F2E0E, #1E6A1C) ;
+    height: 100%
+}
 </style>
