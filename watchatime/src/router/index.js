@@ -5,6 +5,7 @@ import landingpages from '../views/landing-pages.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Auth/Login.vue';
 import Register from '../views/Auth/Register.vue';
+import MovieList from '../views/Movies/MovieList.vue';
 
 const routes = [{
         path: '/',
@@ -30,6 +31,23 @@ const routes = [{
         path: '/register',
         name: 'Register',
         component: Register,
+    },
+    {
+        path: '/movies',
+        name: 'Movies',
+        component: MovieList,
+    },
+    {
+        path: '/movies/:id',
+        name: 'MovieDetails',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import (
+                /* webpackChunkName: "about" */
+                '../views/Movies/MovieDetails.vue'
+            ),
     },
     {
         path: '/about',

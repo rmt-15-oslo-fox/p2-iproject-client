@@ -20,6 +20,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^3.0.0",
     "vue-google-oauth2": "^1.5.8",
+    "vue-hacktiv8-footer": "^0.0.9",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
