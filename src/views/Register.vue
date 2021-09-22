@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen flex bg-login-bg bg-cover bg-no-repeat bg-center items-center">
+  <div class="h-screen w-full flex items-center">
     <div class="bg-gray-600 rounded-lg mx-auto w-4/12 h-1/2">
       <p class="text-4xl text-center text-white mt-5">Sign Up</p>
       <form @submit.prevent="register" class="mt-12 w-5/6 mx-auto">
