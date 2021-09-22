@@ -5,7 +5,9 @@ import movieAPI from "../apis/movieAPI"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    loggedIn: false
+  },
   mutations: {
     SET_LOGIN (state, payload) {
       state.loggedIn = payload
