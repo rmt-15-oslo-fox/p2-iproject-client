@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import NotFound from '../views/NotFound.vue';
+import landingpages from '../views/landing-pages.vue';
+import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Auth/Login.vue';
 import Register from '../views/Auth/Register.vue';
 
@@ -13,6 +15,16 @@ const routes = [{
         path: '/login',
         name: 'Login',
         component: Login,
+    },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: Dashboard,
+    },
+    {
+        path: '/landing',
+        name: 'Landing',
+        component: landingpages,
     },
     {
         path: '/register',

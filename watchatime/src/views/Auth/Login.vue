@@ -1,129 +1,187 @@
 <template lang="">
-  <div class="flex justify-center min-h-screen bg-gray-100">
+  <div class="min-h-screen bg-green-50 flex">
     <div
-      class="container sm:mt-40 mt-24 my-auto max-w-md border-2 border-gray-200 p-3 bg-white"
+      class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
     >
-      <!-- header -->
-      <div class="text-center my-6">
-        <h1 class="text-3xl font-semibold text-gray-700">Sign in</h1>
-        <p class="text-gray-500">Sign in to access your account</p>
-      </div>
-      <!-- sign-in -->
-      <div class="m-6">
-        <form class="mb-4">
-          <div class="mb-6">
-            <label
-              for="email"
-              class="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-              >Email Address</label
+      <div class="mx-auto w-full max-w-sm lg:w-96">
+        <div>
+          <img
+            class="h-24 mx-auto w-auto"
+            src="@/assets/LogoMain.png"
+            alt="Logo"
+          />
+          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+          <p class="mt-2 text-sm text-gray-600">
+            Or
+            {{ ' ' }}
+            <router-link
+              to="/register"
+              class="font-medium text-green-600 hover:text-green-500"
             >
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Your email address"
-              class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-            />
-          </div>
-          <div class="mb-6">
-            <div class="flex justify-between mb-2">
-              <label
-                for="password"
-                class="text-sm text-gray-600 dark:text-gray-400"
-                >Password</label
-              >
-              <a
-                href="#!"
-                class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
-                >Forgot password?</a
-              >
-            </div>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Your password"
-              class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-            />
-          </div>
-          <div class="mb-6">
-            <button
-              type="button"
-              class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none duration-100 ease-in-out"
-            >
-              Sign in
-            </button>
-          </div>
-          <p class="text-sm text-center text-gray-400">
-            Don&#x27;t have an account yet?
-            <a
-              href="#!"
-              class="font-semibold text-indigo-500 focus:text-indigo-600 focus:outline-none focus:underline"
-              >Sign up</a
-            >.
+              Register
+            </router-link>
           </p>
-        </form>
-        <!-- seperator -->
-        <div class="flex flex-row justify-center mb-8">
-          <span class="absolute bg-white px-4 text-gray-500"
-            >or sign-in with</span
-          >
-          <div class="w-full bg-gray-200 mt-3 h-px"></div>
         </div>
-        <!-- alternate sign-in -->
-        <div class="flex flex-row gap-2">
-          <button
-            class="bg-green-500 text-white w-full p-2 flex flex-row justify-center gap-2 items-center rounded-sm hover:bg-green-600 duration-100 ease-in-out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              aria-hidden="true"
-              role="img"
-              class="w-5"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <g fill="none">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M12 0C5.372 0 0 5.373 0 12s5.372 12 12 12c6.627 0 12-5.373 12-12S18.627 0 12 0zm.14 19.018c-3.868 0-7-3.14-7-7.018c0-3.878 3.132-7.018 7-7.018c1.89 0 3.47.697 4.682 1.829l-1.974 1.978v-.004c-.735-.702-1.667-1.062-2.708-1.062c-2.31 0-4.187 1.956-4.187 4.273c0 2.315 1.877 4.277 4.187 4.277c2.096 0 3.522-1.202 3.816-2.852H12.14v-2.737h6.585c.088.47.135.96.135 1.474c0 4.01-2.677 6.86-6.72 6.86z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-            Google
-          </button>
-          <button
-            class="bg-gray-700 text-white w-full p-2 flex flex-row justify-center gap-2 items-center rounded-sm hover:bg-gray-800 duration-100 ease-in-out"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              aria-hidden="true"
-              role="img"
-              class="w-5"
-              preserveAspectRatio="xMidYMid meet"
-              viewBox="0 0 24 24"
-            >
-              <g fill="none">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
-            Github
-          </button>
+
+        <div class="mt-8">
+          <div>
+            <div>
+              <p class="text-sm font-medium text-gray-700">
+                Sign in with
+              </p>
+
+              <div class="mt-1 grid grid-cols-3 gap-3">
+                <div>
+                  <a
+                    href="#"
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                  >
+                    <span class="sr-only">Sign in with Google</span>
+                    <img
+                      class="h-5 w-5"
+                      src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
+                    />
+                  </a>
+                </div>
+
+                <div>
+                  <a
+                    href="#"
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                  >
+                    <span class="sr-only">Sign in with Twitter</span>
+                    <svg
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
+                      />
+                    </svg>
+                  </a>
+                </div>
+
+                <div>
+                  <a
+                    href="#"
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-green-50"
+                  >
+                    <span class="sr-only">Sign in with GitHub</span>
+                    <svg
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 relative">
+              <div
+                class="absolute inset-0 flex items-center"
+                aria-hidden="true"
+              >
+                <div class="w-full border-t border-gray-300" />
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <form @submit.prevent="handleLogin" class="space-y-6">
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Email address
+                </label>
+                <div class="mt-1">
+                  <input
+                    v-model="loginData.email"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required=""
+                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label
+                  for="password"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div class="mt-1">
+                  <input
+                    v-model="loginData.password"
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required=""
+                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  />
+                </div>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                  Sign in
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="hidden lg:block relative w-0 flex-1">
+      <img
+        class="absolute inset-0 h-full w-full object-cover"
+        src="https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1473&q=80"
+        alt=""
+      />
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'Login',
+  data() {
+    return {
+      loginData: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    handleLogin() {
+      console.log(this.loginData);
+    },
+  },
+};
 </script>
 <style lang=""></style>
