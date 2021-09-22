@@ -1,5 +1,12 @@
 <template>
   <div class="bg-white">
+    <base-dialog
+      :show="!add"
+      :title="`Add Event for ` + tv.title"
+      @close="closeDialog"
+    >
+      <add-event :dataMovie="tv" :type="type"></add-event>
+    </base-dialog>
     <div class="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <!-- Product -->
       <div
@@ -66,10 +73,11 @@
 
           <div class="mt-10">
             <button
+              @click.prevent="openDialog(0, 1)"
               type="button"
               class="w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
             >
-              Schedule Watch for {{ tv.episode_run_time[0] }} min / episode
+              Schedule Watch From Season 1 Episode 1
             </button>
           </div>
 
@@ -131,6 +139,7 @@
                   class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-5 lg:col-span-3 lg:gap-x-8"
                 >
                   <button
+                    @click.prevent="openDialog(index, item)"
                     v-for="item in season.episode_count"
                     :key="item + season.id"
                     class="w-full bg-green-300 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
@@ -151,6 +160,7 @@ import { mapActions, mapState } from 'vuex';
 import { StarIcon } from '@heroicons/vue/solid';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/solid';
+import AddEvent from '../../components/events/AddEvent.vue';
 
 const tv = {
   backdrop_path: '/suopoADq0k8YZr4dQXcU6pToj6s.jpg',
@@ -370,6 +380,12 @@ const tv = {
 
 export default {
   name: 'TVDetails',
+  data() {
+    return {
+      add: true,
+      type: 'tv',
+    };
+  },
   computed: {
     ...mapState(['isLoggedIn']),
     id() {
@@ -391,6 +407,13 @@ export default {
   },
   methods: {
     ...mapActions(['actionFetchMovie', 'actionAddBookmark']),
+    openDialog(season, episode) {
+      this.type = `tv-${season}-${episode}`;
+      this.add = false;
+    },
+    closeDialog() {
+      this.add = true;
+    },
   },
   components: {
     StarIcon,
@@ -398,11 +421,11 @@ export default {
     DisclosureButton,
     DisclosurePanel,
     ChevronRightIcon,
+    AddEvent,
   },
   async created() {
     try {
       if (this.id) {
-        console.log(tv.seasons);
         await this.actionFetchMovie(this.id);
       } else {
         this.$router.push('/notfound');

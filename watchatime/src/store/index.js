@@ -70,9 +70,47 @@ export default createStore({
         async actionFetchMovies(context) {
             try {
                 const response = await db.get('/public/movies');
-                const movies = response.data.movies;
+                const movies = response.data.data;
                 context.commit('SET_MOVIES_DATA', response.data);
                 context.commit('SET_MOVIES', movies);
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+            }
+        },
+        async actionFetchTV(context, id) {
+            try {
+                const response = await db.get(`/tvs/${id}`);
+                const tv = response.data;
+                context.commit('SET_TV', tv);
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+            }
+        },
+        async actionFetchTvs(context) {
+            try {
+                const response = await db.get('/tvs');
+                const tvs = response.data.data;
+                context.commit('SET_TVS_DATA', response.data);
+                context.commit('SET_TVS', tvs);
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+            }
+        },
+        async actionFetchAnime(context, id) {
+            try {
+                const response = await db.get(`/animes/${id}`);
+                const anime = response.data;
+                context.commit('SET_ANIME', anime);
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+            }
+        },
+        async actionFetchAnimes(context) {
+            try {
+                const response = await db.get('/animes');
+                const tvs = response.data.documents;
+                context.commit('SET_ANIMES_DATA', response.data);
+                context.commit('SET_ANIMES', tvs);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
             }
@@ -86,7 +124,7 @@ export default createStore({
                 context.commit('SET_ERROR', err.response.data);
             }
         },
-        async actionFetchBookmarks(context) {
+        async actionFetchEvents(context) {
             try {
                 let token = localStorage.getItem('access_token');
                 if (!token) {
@@ -94,14 +132,14 @@ export default createStore({
                 }
                 const response = await db({
                     method: 'GET',
-                    url: '/public/bookmarks',
+                    url: '/events/',
                     headers: {
                         access_token: token,
                     },
                 });
-                const bookmarks = response.data;
+                const events = response.data;
 
-                context.commit('SET_BOOKMARKS', bookmarks);
+                context.commit('SET_EVENTS', events);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
             }
@@ -121,7 +159,7 @@ export default createStore({
             try {
                 const response = await db({
                     method: 'post',
-                    url: '/public/login',
+                    url: '/user/login',
                     data: payload,
                 });
                 localStorage.setItem('access_token', response.data.access_token);
@@ -134,7 +172,7 @@ export default createStore({
             try {
                 await db({
                     method: 'post',
-                    url: '/public/register',
+                    url: '/user/register',
                     data: payload,
                 });
             } catch (err) {
@@ -145,7 +183,7 @@ export default createStore({
             try {
                 const result = await db({
                     method: 'post',
-                    url: '/public/googleAuth',
+                    url: '/user/googleAuth',
                     data: { id_token: payload },
                 });
                 localStorage.setItem('access_token', result.data.access_token);
@@ -163,18 +201,20 @@ export default createStore({
                 context.commit('SET_ERROR', err.response.data);
             }
         },
-        async actionAddBookmark(context, id) {
+        async actionAddEvents(context, payload) {
             try {
+                const { start, end, summary, status } = payload;
                 let token = localStorage.getItem('access_token');
                 if (!token) {
                     throw new Error();
                 }
                 await db({
                     method: 'post',
-                    url: `/public/bookmark/${id}`,
+                    url: `/events/${payload.id}`,
                     headers: {
                         access_token: token,
                     },
+                    data: { start, end, summary, status },
                 });
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);

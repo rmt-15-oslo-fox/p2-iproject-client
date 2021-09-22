@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import NotFound from '../views/NotFound.vue';
-import landingpages from '../views/landing-pages.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Auth/Login.vue';
 import Register from '../views/Auth/Register.vue';
 import MovieList from '../views/Movies/MovieList.vue';
 import TVList from '../views/Tvs/TVList.vue';
 import AnimeList from '../views/Animes/AnimeList.vue';
+import EventList from '../views/Events/EventList.vue';
+import CompletedList from '../views/Events/CompletedList.vue';
 
 const routes = [{
         path: '/',
@@ -25,11 +26,6 @@ const routes = [{
         component: Dashboard,
     },
     {
-        path: '/landing',
-        name: 'Landing',
-        component: landingpages,
-    },
-    {
         path: '/register',
         name: 'Register',
         component: Register,
@@ -38,6 +34,16 @@ const routes = [{
         path: '/movies',
         name: 'Movies',
         component: MovieList,
+    },
+    {
+        path: '/events',
+        name: 'Events',
+        component: EventList,
+    },
+    {
+        path: '/completed',
+        name: 'Completed',
+        component: CompletedList,
     },
     {
         path: '/tvshows',
@@ -66,6 +72,12 @@ const routes = [{
         name: 'AnimesDetails',
         component: () =>
             import ('../views/Animes/AnimeDetails.vue'),
+    },
+    {
+        path: '/events/:id',
+        name: 'EventDetails',
+        component: () =>
+            import ('../views/Events/EventDetails.vue'),
     },
     {
         path: '/about',

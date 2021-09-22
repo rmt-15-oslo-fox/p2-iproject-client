@@ -5,6 +5,10 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/register">Register</router-link> |
       <router-link to="/login">Login</router-link> |
+      <router-link to="/movies">Movies</router-link> |
+      <router-link to="/animes">Animes</router-link> |
+      <router-link to="/tvshows">Tv Show</router-link> |
+      <router-link to="/events">Event</router-link> |
       <router-link to="/dashboard">Dashboard</router-link>
     </div>
     <router-view />

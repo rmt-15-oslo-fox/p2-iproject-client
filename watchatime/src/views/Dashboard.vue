@@ -27,13 +27,13 @@
                         class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left"
                       >
                         <p class="text-sm font-medium text-gray-600">
-                          Welcome back,
+                          Today Schedule
                         </p>
                         <p class="text-xl font-bold text-gray-900 sm:text-2xl">
-                          {{ user.name }}
+                          Schedule Name
                         </p>
                         <p class="text-sm font-medium text-gray-600">
-                          Registered User
+                          Schedule Time
                         </p>
                       </div>
                     </div>
@@ -42,7 +42,7 @@
                         href="#"
                         class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                       >
-                        View profile
+                        View Schedule
                       </a>
                     </div>
                   </div>
@@ -141,7 +141,7 @@
                     class="text-base font-medium text-gray-900"
                     id="trending-title"
                   >
-                    Trending
+                    On Theatre
                   </h2>
                   <div class="flow-root mt-6">
                     <ul class="-my-5 divide-y divide-gray-200">
@@ -193,7 +193,7 @@
                     class="text-base font-medium text-gray-900"
                     id="recent-hires-title"
                   >
-                    Recent Movie, TV, and Anime
+                    Latest Schedule
                   </h2>
                   <div class="flow-root mt-6">
                     <ul class="-my-5 divide-y divide-gray-200">
@@ -282,13 +282,13 @@ const user = {
   email: 'chelseahagon@example.com',
   role: 'Human Resources Manager',
   imageUrl:
-    'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    'https://images.unsplash.com/photo-1535802158478-342f4f24b2f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80',
 };
 
 const stats = [
-  { label: 'Vacation days left', value: 12 },
-  { label: 'Sick days left', value: 4 },
-  { label: 'Personal days left', value: 2 },
+  { label: 'Schedule Planned', value: 12 },
+  { label: 'Schedule Completed', value: 4 },
+  { label: 'Schedule On-Hold', value: 2 },
 ];
 const actions = [
   {
@@ -336,55 +336,45 @@ const actions = [
 ];
 const recentHires = [
   {
-    name: 'Leonard Krasner',
-    handle: 'leonardkrasner',
+    name: 'Schedule 1',
+    handle: 'date',
     imageUrl:
       'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
   {
-    name: 'Floyd Miles',
-    handle: 'floydmiles',
+    name: 'Schedule 2',
+    handle: 'date',
     imageUrl:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
   {
-    name: 'Emily Selman',
-    handle: 'emilyselman',
+    name: 'Schedule 3',
+    handle: 'date',
     imageUrl:
-      'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    href: '#',
-  },
-  {
-    name: 'Kristin Watson',
-    handle: 'kristinwatson',
-    imageUrl:
-      'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     href: '#',
   },
 ];
 const announcements = [
   {
     id: 1,
-    title: 'Office closed on July 2nd',
+    title: 'Movie 1',
     href: '#',
-    preview:
-      'Cum qui rem deleniti. Suscipit in dolor veritatis sequi aut. Vero ut earum quis deleniti. Ut a sunt eum cum ut repudiandae possimus. Nihil ex tempora neque cum consectetur dolores.',
+    preview: 'Movie summary',
   },
   {
     id: 2,
-    title: 'New password policy',
+    title: 'Movie 2',
     href: '#',
-    preview:
-      'Alias inventore ut autem optio voluptas et repellendus. Facere totam quaerat quam quo laudantium cumque eaque excepturi vel. Accusamus maxime ipsam reprehenderit rerum id repellendus rerum. Culpa cum vel natus. Est sit autem mollitia.',
+    preview: 'Movie summary',
   },
   {
     id: 3,
-    title: 'Office closed on July 2nd',
+    title: 'Movie 3',
     href: '#',
-    preview:
-      'Tenetur libero voluptatem rerum occaecati qui est molestiae exercitationem. Voluptate quisquam iure assumenda consequatur ex et recusandae. Alias consectetur voluptatibus. Accusamus a ab dicta et. Consequatur quis dignissimos voluptatem nisi.',
+    preview: 'Movie summary',
   },
 ];
 

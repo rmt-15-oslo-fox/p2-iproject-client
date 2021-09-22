@@ -1,5 +1,12 @@
 <template>
   <div class="bg-white">
+    <base-dialog
+      :show="!add"
+      :title="`Add Event for ` + movie.title"
+      @close="closeDialog"
+    >
+      <add-event :dataMovie="movie" :type="type"></add-event>
+    </base-dialog>
     <div class="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <!-- Product -->
       <div
@@ -61,18 +68,13 @@
 
           <p class="text-gray-500 mt-6">{{ movie.overview }}</p>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+          <div class="mt-10">
             <button
+              @click.prevent="openDialog"
               type="button"
               class="w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
             >
               Schedule Watch for {{ movie.runtime }} min
-            </button>
-            <button
-              type="button"
-              class="w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
-            >
-              See Full Details
             </button>
           </div>
 
@@ -102,7 +104,7 @@
             >
               <li>Status : {{ movie.status }}</li>
               <li>
-                On :{{ movie.release_date ? movie.release_date : 'Not Yet' }}
+                {{ movie.release_date ? movie.release_date : '' }}
               </li>
             </ul>
           </div>
@@ -118,6 +120,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { StarIcon } from '@heroicons/vue/solid';
+import AddEvent from '../../components/events/AddEvent.vue';
 
 const movie = {
   adult: false,
@@ -209,8 +212,14 @@ const movie = {
 
 export default {
   name: 'MovieDetail',
+  data() {
+    return {
+      add: true,
+      type: 'movie',
+    };
+  },
   computed: {
-    ...mapState(['movie', 'isLoggedIn', 'Qr', 'bookmarks']),
+    ...mapState(['movie', 'isLoggedIn']),
     id() {
       return this.$route.params.id;
     },
@@ -227,9 +236,16 @@ export default {
   },
   methods: {
     ...mapActions(['actionFetchMovie', 'actionAddBookmark']),
+    openDialog() {
+      this.add = false;
+    },
+    closeDialog() {
+      this.add = true;
+    },
   },
   components: {
     StarIcon,
+    AddEvent,
   },
   async created() {
     try {

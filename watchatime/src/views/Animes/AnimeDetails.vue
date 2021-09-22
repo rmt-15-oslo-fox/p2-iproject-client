@@ -1,5 +1,12 @@
 <template>
   <div class="bg-white">
+    <base-dialog
+      :show="!add"
+      :title="`Add Event for ` + anime.titles.en"
+      @close="closeDialog"
+    >
+      <add-event :dataMovie="anime" :type="type"></add-event>
+    </base-dialog>
     <div class="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       <!-- Product -->
       <div
@@ -14,7 +21,7 @@
           >
             <img
               :src="imgUrl"
-              :alt="anime.title"
+              :alt="anime.titles.en"
               class="object-center object-cover flex justify-center"
             />
           </div>
@@ -64,6 +71,7 @@
 
           <div class="mt-10">
             <button
+              @click.prevent="openDialog"
               type="button"
               class="w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500"
             >
@@ -110,6 +118,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { StarIcon } from '@heroicons/vue/solid';
+import AddEvent from '../../components/events/AddEvent.vue';
 
 const anime = {
   anilist_id: 21,
@@ -183,6 +192,12 @@ const anime = {
 
 export default {
   name: 'AnimeDetail',
+  data() {
+    return {
+      add: true,
+      type: 'anime',
+    };
+  },
   computed: {
     ...mapState(['isLoggedIn']),
     id() {
@@ -246,9 +261,16 @@ export default {
   },
   methods: {
     ...mapActions(['actionFetchMovie', 'actionAddBookmark']),
+    openDialog() {
+      this.add = false;
+    },
+    closeDialog() {
+      this.add = true;
+    },
   },
   components: {
     StarIcon,
+    AddEvent,
   },
   async created() {
     try {
