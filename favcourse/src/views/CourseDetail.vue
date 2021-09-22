@@ -44,9 +44,14 @@
           <div class="flex items-center">
             <div class="w-24 h-24">
               <img
+                v-if="course.Instructor.avatar_url"
                 :src="course.Instructor.avatar_url"
                 class="rounded-full w-full h-full object-cover"
               />
+              <i
+                class="fas fa-user-circle fa-6x"
+                v-if="course.Instructor.avatar_url === null"
+              ></i>
             </div>
             <div class="ml-5">
               <h4 class="text-3xl font-semibold text-purple-dark">
@@ -86,7 +91,7 @@
         >
           Add to Cart
         </button>
-        <button class="btn-secondary w-full">Buy Now</button>
+        <button class="btn-sec w-full">Buy Now</button>
       </div>
       <div class="mt-3">
         <ul>

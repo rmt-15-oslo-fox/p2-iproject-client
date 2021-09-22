@@ -18,6 +18,7 @@ export default new Vuex.Store({
     course: {},
     carts: [],
     checkoutToken: "",
+    categories: [],
   },
   mutations: {
     CHANGE_LOGIN(state, loginCondition) {
@@ -42,6 +43,10 @@ export default new Vuex.Store({
 
     SET_TOKEN(state, token) {
       state.checkoutToken = token;
+    },
+
+    SET_CATEGORIES(state, categories) {
+      state.categories = categories;
     },
   },
   actions: {
@@ -217,6 +222,42 @@ export default new Vuex.Store({
       } catch (error) {
         const { data } = error.response;
         Vue.$toast.error(data.message);
+      }
+    },
+
+    async fetchCreateCourse(context, payload) {
+      try {
+        const data = new FormData();
+        data.append("thumbnail_url", payload.thumbnail_url);
+        data.append("title", payload.title);
+        data.append("description", payload.description);
+        data.append("category", payload.category);
+        data.append("course_level", payload.course_level);
+        data.append("price", payload.price);
+        const response = await server({
+          method: "POST",
+          url: "/courses",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+          data: data,
+        });
+        Vue.$toast.success(response.data.message);
+      } catch (error) {
+        const { data } = error.response;
+        Vue.$toast.error(data.errors[0]);
+      }
+    },
+
+    async fetchCategories({ commit }) {
+      try {
+        const { data } = await server({
+          url: "/pub/categories",
+          method: "GET",
+        });
+        commit("SET_CATEGORIES", data.categories);
+      } catch (error) {
+        Vue.$toast.error("Failed get data categories");
       }
     },
   },

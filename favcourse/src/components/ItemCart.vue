@@ -14,7 +14,7 @@
       mr-5
     "
   >
-    <div class="mb-3">
+    <div class="mb-3" style="height: 130px">
       <img
         :src="item.thumbnail_url"
         :alt="item.title"
@@ -22,7 +22,7 @@
       />
     </div>
     <div class="mb-3">
-      <div class="font-semibold tracking-wider text-xl mb-1">
+      <div class="font-semibold tracking-wider text-xl mb-1 max-h-9 truncate">
         {{ item.title }}
       </div>
       <div class="flex text-sm mb-2">

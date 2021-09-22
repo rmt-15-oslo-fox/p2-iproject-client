@@ -6,8 +6,7 @@ import RegisterPage from "../views/RegisterPage.vue";
 import MyProfile from "../views/MyProfile.vue";
 import CourseDetail from "../views/CourseDetail.vue";
 import MyCart from "../views/MyCart.vue";
-import MyCourses from "../views/MyCourses.vue";
-
+import CreateCourse from "../views/CreateCourse.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -42,9 +41,9 @@ const routes = [
     component: MyCart,
   },
   {
-    path: "/instructor",
-    name: "Instructor",
-    component: MyCourses,
+    path: "/new-course",
+    name: "CreateCourse",
+    component: CreateCourse,
   },
 ];
 

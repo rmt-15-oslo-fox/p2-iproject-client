@@ -18,7 +18,7 @@
         <div class="mb-5">
           <input
             type="email"
-            class="input"
+            class="input input-primary w-full"
             placeholder="Email"
             v-model="payload.email"
           />
@@ -26,7 +26,7 @@
         <div class="mb-5">
           <input
             type="password"
-            class="input"
+            class="input input-primary w-full"
             placeholder="Password"
             v-model="payload.password"
           />

@@ -20,6 +20,7 @@ module.exports = {
       sans: ["Poppins", "sans-serif"],
     },
   },
+  plugins: [require("daisyui")],
   variants: {
     extend: {},
   },

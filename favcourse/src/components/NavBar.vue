@@ -82,18 +82,15 @@
                 -left-12
               "
             >
-              <li class="nav-drop">My Learning</li>
+              <li class="nav-drop">
+                <router-link :to="{ name: 'MyProfile' }">Profile</router-link>
+              </li>
               <li class="nav-drop">
                 <router-link :to="{ name: 'MyCart' }">My Cart</router-link>
               </li>
               <li class="nav-drop">
-                <router-link :to="{ name: 'MyProfile' }"
-                  >My Profile</router-link
-                >
-              </li>
-              <li class="nav-drop">
-                <router-link :to="{ name: 'Instructor' }"
-                  >My Courses</router-link
+                <router-link :to="{ name: 'CreateCourse' }"
+                  >Create Course</router-link
                 >
               </li>
               <li class="nav-drop mb-0">

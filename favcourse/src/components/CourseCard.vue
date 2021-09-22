@@ -14,7 +14,7 @@
       mr-5
     "
   >
-    <div class="mb-3">
+    <div class="mb-3" style="height: 130px">
       <img
         :src="courseData.thumbnail_url"
         :alt="courseData.title"
@@ -22,7 +22,7 @@
       />
     </div>
     <div class="mb-3">
-      <div class="font-semibold tracking-wider text-xl mb-1">
+      <div class="font-semibold tracking-wider text-xl mb-1 max-h-9 truncate">
         {{ courseData.title }}
       </div>
       <div class="mb-1">

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const server = axios.create({
-  baseURL: "https://young-sierra-94381.herokuapp.com",
+  baseURL: "http://localhost:3000",
 });
 
 export default server;
