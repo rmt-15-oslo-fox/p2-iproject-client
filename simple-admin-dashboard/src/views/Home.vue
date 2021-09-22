@@ -1,5 +1,5 @@
 <template>
-<div style="margin: 100px 50px 50px 200px;">
+<div style="margin: 50px 50px 50px 50px;">
   <v-data-table
     :headers="headers"
     :items="items"
@@ -23,7 +23,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="primary"
+              color="danger"
               dark
               class="mb-2"
               v-bind="attrs"
@@ -122,7 +122,7 @@
         small
         class="mr-2"
         @click="editItem(item)"
-      >
+      > 
         mdi-pencil
       </v-icon>
       <v-icon
@@ -132,19 +132,25 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
+  <div style="display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px">
+    <v-btn
+      @click.prevent="logout"
+      x-large
+      color="error"
+      dark
+    >
+      Logout
+    </v-btn>
+  </div>
 </div>
 </template>
 
 <script>
+import router from '../router'
   export default {
     name: "Home",
     data: () => ({
@@ -215,6 +221,7 @@
       },
 
       deleteItemConfirm () {
+        this.$store.dispatch("deleteItem", this.items[this.editedIndex])
         this.items.splice(this.editedIndex, 1)
         this.closeDelete()
       },
@@ -235,11 +242,18 @@
         })
       },
 
-      save () {
+      logout() {
+        localStorage.removeItem("access_token")
+        router.push({path: "/login"})
+      },
+
+      async save () {
         if (this.editedIndex > -1) {
+          this.$store.dispatch("updateItem", this.editedItem)
           Object.assign(this.items[this.editedIndex], this.editedItem)
         } else {
-          this.items.push(this.editedItem)
+          const result = await this.$store.dispatch("addItem", this.editedItem)
+          this.items.push(result.data)
         }
         this.close()
       },

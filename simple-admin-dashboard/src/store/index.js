@@ -78,6 +78,73 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err)
       }
+    },
+    async addItem(_, payload) {
+      try {
+        const result = await axios.post("/items", payload, {
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        Swal.fire(
+          'Success!',
+          'Item has been added!',
+          'success'
+        )
+        return result
+      } catch (err) {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please input all the fields properly!'
+        })
+      }
+    },
+    async updateItem(_, payload) {
+      try {
+        const result = await axios.put(`/items/${payload.id}`, payload, {
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        console.log(result)
+        Swal.fire(
+          'Success!',
+          'Item has been edited!',
+          'success'
+        )
+      } catch (err) {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "You're not authorized!"
+        })
+      }
+    },
+    async deleteItem(_, payload) {
+      try {
+        console.log(payload)
+        const result = await axios.delete(`/items/${payload.id}`, {
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        console.log(result)
+        Swal.fire(
+          'Success!',
+          result.data.message,
+          'success'
+        )
+      } catch (err) {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "You're not authorized!"
+        })
+      }
     }
   },
   modules: {
