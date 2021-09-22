@@ -6,6 +6,7 @@ import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Auth/Login.vue';
 import Register from '../views/Auth/Register.vue';
 import MovieList from '../views/Movies/MovieList.vue';
+import TVList from '../views/Tvs/TVList.vue';
 
 const routes = [{
         path: '/',
@@ -38,16 +39,21 @@ const routes = [{
         component: MovieList,
     },
     {
+        path: '/tvshows',
+        name: 'TVs',
+        component: TVList,
+    },
+    {
         path: '/movies/:id',
         name: 'MovieDetails',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () =>
-            import (
-                /* webpackChunkName: "about" */
-                '../views/Movies/MovieDetails.vue'
-            ),
+            import ('../views/Movies/MovieDetails.vue'),
+    },
+    {
+        path: '/tvs/:id',
+        name: 'TVDetails',
+        component: () =>
+            import ('../views/Tvs/TVDetails.vue'),
     },
     {
         path: '/about',
