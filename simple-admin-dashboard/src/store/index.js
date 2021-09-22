@@ -8,11 +8,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: false
+    isLogin: false,
+    items: []
   },
   mutations: {
     SET_IS_LOGIN(state, payload) {
       state.isLogin = payload
+    },
+    SET_ITEMS(state, payload) {
+      state.items = payload
     }
   },
   actions: {
@@ -60,6 +64,18 @@ export default new Vuex.Store({
           title: 'Oops...',
           text: 'Please input all the fields properly!'
         })
+        console.log(err)
+      }
+    },
+    async getItems({commit}) {
+      try {
+        const result = await axios.get("/items", {
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        commit("SET_ITEMS", result.data)
+      } catch (err) {
         console.log(err)
       }
     }
