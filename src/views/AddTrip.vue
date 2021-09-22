@@ -110,6 +110,7 @@ Status Gunung : ${status},
 Lokasi: ${mount[0].lokasi}
 `
         this.description = this.mountDescription
+        this.trackId = null
       },
       trackId: function(){
         const track = this.trackList.filter(el => el.id == this.trackId)
@@ -147,23 +148,9 @@ transport : ${track[0].transport}
             this.$toasted.show(errors).goAway(2000)
           }
         })
-      },
-      getWeather: function(){
-        this.$store.dispatch('getWeather', {
-          lat: 33.44,
-          lon: -94.04
-        })
-        .then(response => {
-          console.log(response.data);
-          // 
-        })
-        .catch(err => {
-          console.log(err.response);
-        })
       }
     },
     created: function(){
-      // this.getWeather()
       this.$store.dispatch('getMountains')
     }
 }

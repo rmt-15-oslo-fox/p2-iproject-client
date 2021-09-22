@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import weatherAPI from '../apis/openWeatherAPI'
+// import weatherAPI from '../apis/openWeatherAPI'
 import mountainAPI from '../apis/mountainAPI'
+// import geoCodingAPI from '../apis/geoCodingAPI'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -9,7 +10,9 @@ export default new Vuex.Store({
     isLogin: false,
     mountains: [],
     mytrips: [],
-    alltrip: []
+    alltrip: [],
+    getDate: null,
+    chats: []
   },
   mutations: {
     SET_ISLOGIN: function (state, status) {
@@ -23,6 +26,9 @@ export default new Vuex.Store({
     },
     SET_ALLTRIP: function(state, payload){
       state.alltrip = payload
+    },
+    PUSH_MESSAGE: function(state, payload){
+      state.chats.push(payload)
     }
   },
   actions: {
@@ -89,12 +95,37 @@ export default new Vuex.Store({
         }
       })
     },
-    getWeather: function(context, payload){
-      const { lat, lon } = payload
-      return weatherAPI.get('', {
-        params: {
-          lat,
-          lon
+    getWeather: function(context, location){
+      return mountainAPI.get('/weather', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        params:{
+          location
+        }
+      })
+    },
+
+    postEquipment: function(context, payload){
+      return mountainAPI.post('/equipment', payload, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+
+    getEquipmentById: function(context, id){
+      return mountainAPI.get(`/equipment/${id}`, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+
+    postUserEquipment: function(context, payload){
+      return mountainAPI.post('/equipmentuser', payload, {
+        headers: {
+          access_token: localStorage.getItem('access_token')
         }
       })
     }

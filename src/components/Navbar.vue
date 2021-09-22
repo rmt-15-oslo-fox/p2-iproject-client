@@ -42,7 +42,7 @@
             <div
               class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
               href="#pablo"
-              ><span class="inline-block ml-2">Your Journey</span></div
+              ><span class="inline-block ml-2">My Trip</span></div
             >
               </router-link>
           </li>
@@ -96,6 +96,7 @@ export default {
         .then((response) => {
           localStorage.setItem("access_token", response.data.access_token);
           localStorage.setItem("userId", response.data.id);
+          localStorage.setItem("name", response.data.name);
           this.$store.commit("SET_ISLOGIN", true);
           this.$toasted.show("Login successfully").goAway(2000);
         })
@@ -107,7 +108,7 @@ export default {
           if(window.gapi.auth2.getAuthInstance()){
               window.gapi.auth2.getAuthInstance().disconnect()
           }
-          localStorage.removeItem('access_token')
+          localStorage.clear()
           this.$store.commit('SET_ISLOGIN', false)
           this.$toasted.show('Logout Successfully').goAway(2000)
           this.$router.push({name: 'Home'})
@@ -120,7 +121,7 @@ export default {
 .g-signin-button {
   margin-top: -5px;
   display: inline-block;
-  padding: 2px 2px;
+  padding: 2px 4px;
   border-radius: 5px;
   background-color: #3c82f7;
   color: #fff;
@@ -128,5 +129,6 @@ export default {
   text-align: center;
   height: 20px;
   cursor: pointer;
+  font-size: 13px;
 }
 </style>

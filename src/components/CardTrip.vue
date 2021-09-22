@@ -57,7 +57,9 @@ export default {
       return new Date(this.trip.schedule).toUTCString().toString().slice(5,17)
     },
     isJoined: function(){
-      if(this.trip.Users.map(el => el.id).includes(+localStorage.getItem('userId'))){
+      if(!localStorage.getItem('access_token')){
+        return false
+      } else if(this.trip.Users.map(el => el.id).includes(+localStorage.getItem('userId'))){
         return true
       } else {
         return false
@@ -66,6 +68,9 @@ export default {
   },
   methods: {
     joinTrip: function(){
+      if(!this.$store.state.isLogin){
+        return this.$toasted.show('You must login first').goAway(2000)
+      }
       this.$store.dispatch('joinTrip', {TripId:this.trip.id})
       .then(() => {
         this.$toasted.show('Successfully Join Trip').goAway(2000)
