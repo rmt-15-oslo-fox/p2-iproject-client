@@ -27,7 +27,7 @@ export default {
         .then(res => {
           localStorage.setItem("access_token", res.data.access_token)
           this.$store.commit("SET_LOGIN", true)
-          this.$toast.success("Welcome back, ", this.username)
+          this.$toast.success("Welcome back")
           this.$router.push({ path: '/'})
         })
         .catch(err => this.$toast.error(err.response.data.message))  
