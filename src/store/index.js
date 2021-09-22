@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     fetchPopular () {
       return movieAPI.get('/movies/popular')
+    },
+    searchMovie(context, payload) {
+      return movieAPI.get('/movies', {params: payload})
     }
   },
   modules: {},
