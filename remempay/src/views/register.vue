@@ -64,12 +64,14 @@
         </button>
       </div>
     </form>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "RegisterPage",
   data() {
@@ -79,6 +81,9 @@ export default {
       password: "",
       name: ""
     };
+  },
+  components: {
+    HFooter
   },
   methods: {
     register: function() {

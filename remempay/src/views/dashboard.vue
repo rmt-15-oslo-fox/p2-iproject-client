@@ -53,9 +53,11 @@
         </div>
       </div>
     </div>
+    <HFooter></HFooter>
   </div>
 </template>
 <script>
+import HFooter from "vue-hacktiv8-footer";
 import Navbar from "../components/Navbar.vue";
 export default {
   name: "Dashboard",
@@ -90,7 +92,8 @@ export default {
     }
   },
   components: {
-    Navbar
+    Navbar,
+    HFooter
   },
   created() {
     if (!localStorage.access_token) {

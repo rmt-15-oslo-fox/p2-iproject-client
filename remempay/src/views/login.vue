@@ -49,6 +49,7 @@
         >Login</GoogleLogin
       >
     </form>
+    <HFooter></HFooter>
   </div>
 </template>
 
@@ -56,6 +57,7 @@
 import GoogleLogin from "vue-google-login";
 import axios from "axios";
 import Swal from "sweetalert2";
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "LoginPage",
   data() {
@@ -74,7 +76,8 @@ export default {
     };
   },
   components: {
-    GoogleLogin
+    GoogleLogin,
+    HFooter
   },
   methods: {
     login: function() {

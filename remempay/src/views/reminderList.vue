@@ -21,15 +21,18 @@
         </div>
       </div>
     </div>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 import Navbar from "../components/Navbar.vue";
 export default {
   name: "Reminder",
   components: {
-    Navbar
+    Navbar,
+    HFooter
   },
   computed: {
     reminder() {

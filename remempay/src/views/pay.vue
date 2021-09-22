@@ -1,5 +1,6 @@
 <template>
   <div id="sign-up">
+    <Navbar></Navbar>
     <form
       id="register-form"
       v-on:submit.prevent="pay(data.id)"
@@ -40,13 +41,21 @@
         </button>
       </div>
     </form>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
+import Navbar from "../components/Navbar.vue";
 import axios from "axios";
 import Swal from "sweetalert2";
+import navbar from "../components/navbar.vue";
 export default {
+  components: {
+    Navbar,
+    HFooter
+  },
   name: "pay",
   data() {
     return {

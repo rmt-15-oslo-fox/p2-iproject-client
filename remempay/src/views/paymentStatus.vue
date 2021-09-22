@@ -21,17 +21,20 @@
         </div>
       </div>
     </div>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
 import Navbar from "../components/Navbar.vue";
+import HFooter from "vue-hacktiv8-footer";
 import axios from "axios";
 import Swal from "sweetalert2";
 export default {
   name: "Status",
   components: {
-    Navbar
+    Navbar,
+    HFooter
   },
   computed: {
     status() {

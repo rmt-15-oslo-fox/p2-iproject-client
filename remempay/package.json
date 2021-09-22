@@ -11,6 +11,7 @@
     "axios": "^0.21.4",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.5",
+    "nodemailer": "^6.6.3",
     "sweetalert2": "^11.1.6",
     "vue": "^2.6.14",
     "vue-google-login": "^2.0.5",
