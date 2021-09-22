@@ -13,39 +13,12 @@
                 id="chat-content"
                 style="overflow-y: scroll !important; height: 400px !important"
               >
-                <div class="media media-chat">
-                  <div class="username">
-                    <p>
-                      username1:
-                    </p>
-                  </div>
-                  <div class="media-body">
-                    <p>How are you ...???</p>
-                  </div>
-                </div>
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>Hiii, I'm good.</p>
-                  </div>
-                </div>
-                <div class="media media-chat media-chat-reverse">
-                  <div class="media-body">
-                    <p>How are you doing?</p>
-                    <p>
-                      Long time no see! Tomorrow office. will be free on sunday.
-                    </p>
-                  </div>
-                </div>
-                <div class="media media-chat">
-                  <div class="username">
-                    <p>
-                      username2:
-                    </p>
-                  </div>
-                  <div class="media-body">
-                    <p>Hello Everybody!!!!</p>
-                  </div>
-                </div>
+                <chat-card
+                  v-for="(message, index) in messages"
+                  :key="index"
+                  :message-data="message"
+                >
+                </chat-card>
                 <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px">
                   <div
                     class="ps-scrollbar-x"
@@ -90,8 +63,10 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import ChatCard from "../components/ChatCard.vue";
 export default {
   name: `ChatBox`,
+  components: { ChatCard },
   data() {
     return {
       message: "",
@@ -100,11 +75,26 @@ export default {
   computed: {
     ...mapState(["messages"]),
   },
+  sockets: {
+    broadcastMessage(data) {
+      //   console.log(data);
+      this.INSERT_MESSAGE(data);
+      this.message = "";
+    },
+  },
   methods: {
     ...mapMutations(["INSERT_MESSAGE"]),
     messageHandler() {
       //   push message to a state
-      this.INSERT_MESSAGE(this.message);
+      this.$socket.emit("sendMessage", {
+        message: this.message,
+        username: localStorage.getItem("username"),
+      });
+
+      //   this.INSERT_MESSAGE({
+      //     message: this.message,
+      //     username: localStorage.getItem("username"),
+      //   });
     },
   },
 };

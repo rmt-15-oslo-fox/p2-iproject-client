@@ -3,36 +3,42 @@
     <label for="">Online Users</label>
     <ul>
       <li class="list-item">
-        Username1
+        {{ username }}
       </li>
-      <li class="list-item">
-        Username2
-      </li>
-      <li class="list-item">
-        Username3
-      </li>
-      <li class="list-item">
-        Username4
-      </li>
-      <li class="list-item">
-        Username5
-      </li>
-      <li class="list-item">
-        Username6
-      </li>
-      <li class="list-item">
-        Username7
-      </li>
-      <li class="list-item">
-        Username8
+      <li
+        class="list-item"
+        v-for="(data, index) in users"
+        :key="index"
+        v-show="index + 1 !== users.length"
+      >
+        {{ data }}
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
   name: `OnlineList`,
+  data() {
+    return {
+      username: localStorage.getItem("username"),
+    };
+  },
+  methods: {
+    ...mapMutations(["INSERT_USERS"]),
+  },
+  computed: {
+    ...mapState(["users"]),
+  },
+  sockets: {
+    sendUsers(user) {
+      // console.log(user);
+      this.INSERT_USERS(user);
+    },
+  },
+  created() {},
 };
 </script>
 

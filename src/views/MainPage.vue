@@ -20,7 +20,7 @@ import SearchField from "../components/SearchField.vue";
 import ChatBox from "../components/ChatBox.vue";
 import OnlineList from "../components/OnlineList.vue";
 export default {
-  name: `Main`,
+  name: `MainPage`,
   components: {
     SearchField,
     ChatBox,
