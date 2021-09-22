@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
+import LandingPage from '../views/LandingPage.vue'
+import DrinkDetail from '../views/DrinkDetail.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'LandingPage',
+    component: LandingPage
   },
   {
     path: '/about',
@@ -23,6 +24,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/drinkDetail/:id',
+    name: 'DrinkDetail',
+    component: DrinkDetail
   }
 ]
 
