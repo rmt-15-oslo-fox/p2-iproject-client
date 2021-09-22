@@ -55,7 +55,7 @@
                       <h6 class="text-xs">{{item.day}}</h6>
                       <h6 class="text-xs mt-1">{{item.fullDate}}</h6>
                       <h6 class="text-sm mt-4 mb-4">{{item.temp}} &#176;C</h6>
-                      <img class="h-10 w-10" src="../assets/cloudy.svg" />
+                      <img class="h-10 w-10" :src="item.image" />
                       <h6 class="text-xs mt-4 normal-case">{{ item.cuaca }}</h6>
                     </div>
                   </div>
@@ -73,24 +73,6 @@
 export default {
   name: "Weather",
   props: ['data', 'lokasi'],
-  computed: {
-    setImage: function(){
-      return this.data.map(el => {
-        if(el.cuaca.includes('hujan')){
-          el.image = '../assets/rainy.svg'
-        } else if (el.cuaca.includes('berawan')){
-          el.image = '../assets/cloudy.svg'
-        } else if (el.cuaca.includes('cerah')){
-          el.image = '../assets/sun.svg'
-        } else if (el.cuaca.includes('pecah')){
-          el.image = '../assets/storm.svg'
-        } else {
-          el.image = '../assets/SunCloudy.svg'
-        }
-        return el
-      })
-    }
-  },
   methods: {
     closeForeCast: function(){
       this.$emit('closeForeCast')

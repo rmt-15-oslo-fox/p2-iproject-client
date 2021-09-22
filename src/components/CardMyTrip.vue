@@ -140,33 +140,6 @@
       >
         <div class="flex flex-row h-96">
           <div class="w-1/5">
-            <div class="w-3/12 w-full pr-5">
-              <div
-                class="
-                  flex flex-col
-                  min-w-0
-                  bg-white
-                  w-full
-                  shadow-lg
-                  rounded-lg
-                  h-96
-                "
-              >
-                <div class="px-4 py-5 flex-auto">
-                  <h6 class="text-xl font-semibold">Members</h6>
-                  <hr class="mb-5" />
-                  <ul
-                    v-for="(member, i) in members"
-                    :key="member"
-                    class="mb-3 mt-3"
-                  >
-                    <li class="normal-case">{{ i + 1 }}. {{ member }}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="w-1/5">
             <div class="pr-5">
               <div
                 class="
@@ -181,19 +154,106 @@
                 "
               >
                 <div class="px-4 py-5 flex-auto">
-                  <h6 class="text-xl font-semibold">Peralatan</h6>
+                  <div class="flex flex-row justify-between">
+                    <h6 class="text-lg font-semibold">Peralatan</h6>
+                    <button class="mt-1 text-sm" @click="$modal.show('my-modal')">
+                    <i class="fas fa-plus-circle"></i>
+                    </button>
+                  </div>
                   <hr />
                   <div class="mt-2 mb-2 text-gray-600">
                     <div class="flex-flex-col">
                       <div class="flex flex-col mr-5">
-                        <div class="mt-3">
-                          <input disabled checked type="checkbox" /> Tenda
+                        <div class="mt-3 normal-case">
+                          <h1>You dont have any tools</h1>
                         </div>
-                        <div class="mt-3"><input type="checkbox" /> Tenda</div>
-                        <div class="mt-3"><input type="checkbox" /> Tenda</div>
+                        <t-modal name="my-modal">
+                          <div class="flex flex-col justify-start text-center">
+                            <div>
+                              <h6 class="text-lg font-semibold">Pilih peralatan</h6>
+                              <hr>
+                              <div class="flex flex row justify-evenly">
+                                <div>
+                                  <h6 class="text-sm mt-5 normal-case">Nama Alat</h6>
+                                  <hr>
+                                </div>
+                                <div>
+                                  <h6 class="text-sm mt-5 normal-case">Jumlah</h6>
+                                  <hr>
+                                </div>
+                              </div>
+                              <div v-for="i in 7" :key="i" class="flex flex row justify-evenly">
+                                <div class="text-left mt-5 -ml-12">
+                                    <input type="checkbox">
+                                    <span class="ml-2 normal-case">Tenda</span>
+                                  </div>
+                                  <div class="text-left mt-5 ml-16">
+                                    <input type="number" placeholder="0" class="border-0 px-3 py-2 -mt-1 placeholder-gray-400 text-gray-700 bg-white rounded shadow focus:outline-none focus:ring w-20 h-5">
+                                  </div>
+                              </div>
+                              <div class="mt-5">Add custom tools</div>
+                              <div class="flex flex row justify-center">
+                                <div class="text-left mt-5 -ml-12">
+                                    <input type="text" placeholder="type your tools" class=" border-0 px-3 py-2 -mt-1 placeholder-gray-400 text-gray-700 bg-white rounded shadow focus:outline-none focus:ring w-36 h-5">
+                                  </div>
+                                  <div class="text-left mt-5 ml-16">
+                                    <input type="number" placeholder="0" class="border-0 px-3 py-2 -mt-1 ml-5 placeholder-gray-400 text-gray-700 bg-white rounded shadow focus:outline-none focus:ring w-20 h-5">
+                                  </div>
+                              </div>
+                              <button class="
+                                bg-yellow-500
+                                text-white
+                                active:bg-gray-100
+                                text-xs
+                                font-bold
+                                px-4
+                                py-2
+                                rounded
+                                shadow
+                                hover:shadow-md
+                                outline-none
+                                focus:outline-none
+                                lg:mr-1
+                                lg:mb-0
+                                mb-5
+                                mt-5
+                                ml-5
+                              ">
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </t-modal>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-1/5">
+            <div class="w-3/12 w-full pr-5">
+              <div
+                class="
+                  flex flex-col
+                  min-w-0
+                  bg-white
+                  w-full
+                  shadow-lg
+                  rounded-lg
+                  h-96
+                "
+              >
+                <div class="px-4 py-5 flex-auto">
+                  <h6 class="text-lg font-semibold">Members</h6>
+                  <hr class="mb-5" />
+                  <ul
+                    v-for="(member, i) in members"
+                    :key="member"
+                    class="mb-3 mt-3"
+                  >
+                    <li class="normal-case">{{ i + 1 }}. {{ member }}</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -213,7 +273,7 @@
                 "
               >
                 <div class="px-4 py-5">
-                  <h6 class="text-xl font-semibold">Chat</h6>
+                  <h6 class="text-lg font-semibold">Chat</h6>
                   <hr />
                   <!-- chat Area -->
                   <chat-room :idRoom="trip.id"></chat-room>
@@ -313,6 +373,20 @@ export default {
       this.$store.dispatch('getWeather', location)
         .then(response => {
           this.weather = response.data
+          this.weather.map(el => {
+            if(el.cuaca.includes('hujan')){
+              el.image = require('@/assets/rainy.svg')
+            } else if (el.cuaca.includes('berawan')){
+              el.image = require('@/assets/cloudy.svg')
+            } else if (el.cuaca.includes('cerah')){
+              el.image = require('@/assets/sun.svg')
+            } else if (el.cuaca.includes('pecah')){
+              el.image = require('@/assets/storm.svg')
+            } else {
+              el.image = require('@/assets/SunCloudy.svg')
+            }
+            return el
+          })
           this.showForeCast = true
         })
         .catch(err => {
