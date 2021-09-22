@@ -33,8 +33,9 @@ export default {
       })
         .then(() => {
           this.$router.push({ path: '/login'})
+          this.$toast.success("Registered successfully")
         })
-        .catch(err => console.log(err))
+        .catch(err => err.response.data.message.forEach(el => this.$toast.error(el)))
     }
   }
 }

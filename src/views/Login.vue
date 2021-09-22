@@ -27,9 +27,10 @@ export default {
         .then(res => {
           localStorage.setItem("access_token", res.data.access_token)
           this.$store.commit("IS_LOGIN", true)
+          this.$toast.success("Welcome back, ", this.username)
           this.$router.push({ path: '/'})
         })
-        .catch(err => console.log)  
+        .catch(err => this.$toast.error(err.response.data.message))  
     },
   }
 }
