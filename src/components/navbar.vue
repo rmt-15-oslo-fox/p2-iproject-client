@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex justify-between bg-black text-white h-16 items-center px-2 w-full fixed top-0">
+  <nav class="flex justify-between bg-green-700 text-white h-16 items-center px-2 w-full fixed top-0">
     <router-link to="/" class="text-2xl cursor-pointer">Movie App</router-link>
     <ul class="flex justify-between">
       <li class="px-4 py-3 text-xl" v-if="!isLoggedIn">
