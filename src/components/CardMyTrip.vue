@@ -157,6 +157,7 @@
                 <div class="px-4 py-5 flex-auto">
                   <div class="flex flex-row justify-between">
                     <h6 class="text-lg font-semibold normal-case">Peralatan</h6>
+                    <div class="w-full text-center"></div>
                     <button
                       class="mt-1 text-sm"
                       @click="$modal.show('my-modal')"
@@ -174,22 +175,63 @@
                         >
                           <h1>You dont have any tools</h1>
                         </div>
+
+                        <!-- item equipment -->
                         <div v-else class="mt-3 normal-case flex flex-col">
-                          <div v-for="item in updateList" :key="item">
+                          <div v-for="item in listEquipment" :key="item">
                             <div class="mb-2 flex flex-row">
                               <input
-                                :disabled="item.jumlah <= +(item.hasFill)"
-                                :checked="item.jumlah <= +(item.hasFill)"
+                                :disabled="item.jumlah <= +item.hasFill"
+                                :checked="item.jumlah <= +item.hasFill"
                                 type="checkbox"
                                 @change="updateEquipment(item.id)"
                               />
-                              <div class="ml-1">
-                                {{ item.name }} ({{ +(item.hasFill) }} of
-                                {{ item.jumlah }})
+                              <div class="flex flex-col">
+                                <div
+                                  class="ml-1"
+                                  ref="btnRef"
+                                  v-on:mouseenter="toggleTooltip()"
+                                  v-on:mouseleave="toggleTooltip()"
+                                >
+                                  {{ item.name }} ({{ +item.hasFill }} of
+                                  {{ item.jumlah }})
+                                </div>
+
+                                <!-- tooltip -->
+                                <div
+                                  ref="tooltipRef"
+                                  v-bind:class="{
+                                    hidden: !tooltipShow,
+                                    block: tooltipShow,
+                                  }"
+                                  class="
+                                    absolute
+                                    ml-28
+                                    bg-pink-600
+                                    border-0
+                                    block
+                                    z-50
+                                    font-normal
+                                    leading-normal
+                                    text-sm
+                                    max-w-xs
+                                    text-left
+                                    no-underline
+                                    break-words
+                                    rounded-lg
+                                  "
+                                >
+                                  <div>
+                                    tes
+                                  </div>
+                                </div>
+
+
                               </div>
                             </div>
                           </div>
                         </div>
+
                         <t-modal name="my-modal">
                           <div class="flex flex-col justify-start text-center">
                             <div>
@@ -640,6 +682,7 @@
 </template>
 
 <script>
+import { createPopper } from "@popperjs/core";
 import { AddToCalendar } from "vue-add-events-to-google-calendar";
 import ChatRoom from "../components/ChatRoom.vue";
 import ChatInput from "../components/ChatInput.vue";
@@ -655,6 +698,7 @@ export default {
   },
   data: function () {
     return {
+      tooltipShow: false,
       openDetail: false,
       showForeCast: false,
       weather: [],
@@ -726,19 +770,46 @@ export default {
     members: function () {
       return this.trip.Users.map((el) => el.name);
     },
-    updateList: function(){
-      const newList = this.listEquipment.map(item => {
-        let totalChecked = 0
-        item.Users.map(el => {
-          totalChecked += +(el.EquipmentUser.jumlah)
-        })
-        item.hasFill = totalChecked
-        return item
-      })
-      return newList
-    }
+    getUserEquipment: function () {
+      let equipmentByUser = this.listEquipment.map((el) => {
+        let item = {
+          name: el.name,
+          users: [],
+        };
+        el.EquipmentUsers.forEach((user) => {
+          const obj = {
+            name: user.User.name,
+            jumlah: user.jumlah,
+          };
+          item.users.push(obj);
+        });
+        return item;
+      });
+      return equipmentByUser;
+    },
+  },
+  watch: {
+    listEquipment: function () {
+      this.listEquipment.forEach((item) => {
+        let totalChecked = 0;
+        item.EquipmentUsers.forEach((el) => {
+          totalChecked += +el.jumlah;
+        });
+        item.hasFill = totalChecked;
+      });
+    },
   },
   methods: {
+    toggleTooltip: function () {
+      if (this.tooltipShow) {
+        this.tooltipShow = false;
+      } else {
+        this.tooltipShow = true;
+        createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
+          placement: "right",
+        });
+      }
+    },
     postEquipment: function () {
       if (Object.values(this.equipmentList).includes(null)) {
         this.$toasted.show("fill all amount").goAway(2000);
@@ -785,7 +856,7 @@ export default {
       this.$store
         .dispatch("postUserEquipment", payload)
         .then((response) => {
-          this.getEquipmentList()
+          this.getEquipmentList();
           console.log(response.data);
         })
         .catch((err) => {
@@ -797,6 +868,7 @@ export default {
         this.openDetail = false;
         this.showForeCast = false;
       } else {
+        this.getEquipmentList();
         this.openDetail = true;
       }
     },
@@ -872,7 +944,7 @@ export default {
     },
   },
   created() {
-    this.getEquipmentList();
+    // this.getEquipmentList();
   },
 };
 </script>
