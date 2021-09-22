@@ -6,11 +6,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    loggedIn: false
+    loggedIn: false,
+    movies: []
   },
   mutations: {
     SET_LOGIN (state, payload) {
       state.loggedIn = payload
+    },
+    SET_MOVIES (state, payload) {
+      state.movies = payload
     }
   },
   actions: {
@@ -19,6 +23,9 @@ export default new Vuex.Store({
     },
     register (context, payload) {
       return movieAPI.post('/users/register', payload)
+    },
+    fetchPopular () {
+      return movieAPI.get('/movies/popular')
     }
   },
   modules: {},
