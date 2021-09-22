@@ -27,7 +27,7 @@ export default {
     Logout() {
       localStorage.removeItem("access_token")
       this.$toast.success("Logged out successfully")
-      this.$store.commit("IS_LOGIN", false)
+      this.$store.commit("SET_LOGIN", false)
     }
   }
 };
