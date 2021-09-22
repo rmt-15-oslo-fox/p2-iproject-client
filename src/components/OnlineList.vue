@@ -2,23 +2,15 @@
   <div class="col-md-2">
     <label for="">Online Users</label>
     <ul>
-      <li class="list-item">
-        {{ username }}
-      </li>
-      <li
-        class="list-item"
-        v-for="(data, index) in users"
-        :key="index"
-        v-show="index + 1 !== users.length"
-      >
-        {{ data }}
+      <li class="list-item" v-for="(data, index) in users" :key="index">
+        {{ data.username }}
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 export default {
   name: `OnlineList`,
   data() {
@@ -31,6 +23,7 @@ export default {
   },
   computed: {
     ...mapState(["users"]),
+    ...mapGetters(["FILTER_ONLINE"]),
   },
   sockets: {
     sendUsers(user) {

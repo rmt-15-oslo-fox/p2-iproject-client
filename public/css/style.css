@@ -83,6 +83,13 @@ h4.card-title {
 .ps-container {
   position: relative;
 }
+#login {
+  display: none;
+}
+
+#loggedin {
+  display: none;
+}
 
 .ps-container {
   -ms-touch-action: auto;
@@ -190,9 +197,11 @@ h4.card-title {
 .media-meta-day::after {
   margin-left: 16px;
 }
-#chat-content {
+.search-result {
   display: flex;
-  flex-direction: column-reverse;
+}
+.search-result a {
+  margin-right: 5px;
 }
 .media-chat.media-chat-reverse {
   padding-right: 12px;
