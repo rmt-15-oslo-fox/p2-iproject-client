@@ -7,6 +7,9 @@ import toasted from 'vue-toasted'
 import VueSocketIO from 'vue-socket.io'
 import VueChatScroll from 'vue-chat-scroll';
 import VueTailwind from 'vue-tailwind'
+// import Loading from 'vue-loading-overlay';
+// import 'vue-loading-overlay/dist/vue-loading.css';
+
 import {
   TModal,
 } from 'vue-tailwind/dist/components'
@@ -65,6 +68,7 @@ Vue.config.productionTip = false
 Vue.use(GSignInButton)
 Vue.use(toasted)
 Vue.use(VueChatScroll);
+// Vue.use(Loading)
 
 Vue.use(new VueSocketIO({
   debug: true,

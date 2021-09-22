@@ -10,25 +10,25 @@
         w-full
         mb-8
         shadow-lg
-        rounded-lg
+        rounded-2xl
       "
     >
-      <div class="px-4 py-5 flex-auto">
+      <div class="flex-auto mb-4">
         <img
           class="rounded-t-2xl"
-          style="width: 350px; height: 200px"
+          style="width: 400px; height: 200px"
           :src="trip.Mountain.imageUrl"
         />
-        <h6 class="text-xl font-semibold">{{trip.Mountain.name}}</h6>
-        <p>Tanggal: {{schedule}}</p>
-        <p>Jalur Pendakian: {{trip.Track.name}}</p>
+        <h6 class="text-xl font-semibold mt-2">{{trip.Mountain.name}}</h6>
+        <p class="text-sm mt-2 mb-2">{{date}}</p>
+        <p>Jalur : {{trip.Track.name}}</p>
         <p class="mt-2 mb-4 text-gray-600">
-          Jumlah anggota : {{trip.Users.length}} orang
+          Anggota : {{trip.Users.length}} orang
         </p>
         <button
             v-if="!isJoined"
             @click.prevent="joinTrip"
-            class="bg-blue-300 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+            class="bg-blue-300 mb-4 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
             type="button"
             style="transition: all 0.15s ease 0s;"
         >
@@ -37,7 +37,7 @@
         <button
             v-else
             disabled
-            class="bg-red-300 text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+            class="bg-red-300 mb-4  text-gray-800 active:bg-gray-100 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
             type="button"
             style="transition: all 0.15s ease 0s;"
         >
@@ -53,6 +53,9 @@ export default {
   name: "Card",
   props: ['trip'],
   computed: {
+    date: function(){
+      return new Date (this.trip.start_date).toLocaleDateString('id-ID')
+    },
     schedule: function(){
       return new Date(this.trip.schedule).toUTCString().toString().slice(5,17)
     },

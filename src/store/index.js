@@ -146,6 +146,16 @@ export default new Vuex.Store({
         },
         params: {EquipmentId}
       })
+    },
+
+    getEmbedMap: function(){
+      mountainAPI.get('/getEmbedMap')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err.response.data);
+      })
     }
   }
 })

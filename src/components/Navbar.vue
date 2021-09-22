@@ -8,12 +8,18 @@
       <div
         class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
       >
+      <div class="flex flex-row">
+        <div class="text-white">
+        <i class="fas fa-hiking"></i>
+      </div>
         <router-link :to="{name: 'Home'}">
         <a
-          class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+          class="text-xl font-bold lg:hover:text-gray-900 leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
           href=""
           >Nanjak Yuk</a>
         </router-link>
+      </div>
+      
         <button
           class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
           type="button"
@@ -31,8 +37,17 @@
               <router-link :to="{name: 'AllTrip'}">
                   
             <div
-              class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+              class="lg:text-white lg:hover:text-gray-900 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
               ><span class="inline-block ml-2">Trip Open</span>
+              </div>
+              </router-link>
+          </li>
+          <li class="flex items-center">
+              <router-link v-if="isLogin" :to="{name: 'AddTrip'}">
+                  
+            <div
+              class="lg:text-white lg:hover:text-gray-900 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+              ><span class="inline-block ml-2">Create Trip</span>
               </div>
               </router-link>
           </li>
@@ -40,7 +55,7 @@
 
               <router-link v-if="isLogin" :to="{name: 'MyTrip'}">
             <div
-              class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+              class="lg:text-white lg:hover:text-gray-900 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
               href="#pablo"
               ><span class="inline-block ml-2">My Trip</span></div
             >

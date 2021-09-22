@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div @click="showDetail" class="relative mb-1 mt-4">
+    <div @click="showDetail" class="relative mt-1 ">
       <button
         class="
           w-full
-          py-2
           text-left
           bg-white
           text-gray-800
@@ -13,8 +12,8 @@
           font-semibold
           uppercase
           px-4
-          py-2
-          rounded
+          py-4
+          rounded-2xl
           shadow
           hover:shadow-md
           outline-none
@@ -22,21 +21,45 @@
           normal-case
         "
         type="button"
-        style="transition: all 0.15s ease 0s"
       >
-        {{ index + 1 }}. Gn. {{ trip.Mountain.name }} --
-        {{ trip.Track.name }} --
-        {{ schedule }}
+      <p class="text-bold">{{ index + 1 }}. Gn. {{ trip.Mountain.name }}</p>
+        <p>{{ trip.Track.name }}</p>
+        <p>{{ startDate }} - {{ endDate }}</p>
       </button>
     </div>
     <div v-if="openDetail" class="detail">
-      <div>
+      
+      <div
+        class="
+          w-full
+          mt-1
+          py-5
+          text-left
+          bg-white
+          text-gray-800
+          active:bg-gray-100
+          text-xs
+          font-bold
+          uppercase
+          px-4
+          py-2
+          rounded-2xl
+          shadow
+          hover:shadow-md
+          outline-none
+          focus:outline-none
+        "
+      >
+      <div class="flex flex-col">
+        <!-- button -->
+        <div>
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto mt-1">
-          <li class="flex items-center">
+          <li class="flex mb-2 -mt-3 -ml-3">
+            <!-- cuaca -->
             <button
               @click="showForecast"
               class="
-                bg-yellow-500
+                bg-yellow-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -59,15 +82,17 @@
             >
               Prakiraan Cuaca
             </button>
+
+            <!-- calender -->
             <AddToCalendar
               :buttonText="'Save to calendar'"
               :details="`Naik Gunung ${trip.Mountain.name}`"
-              :endTime="new Date(`${schedule}`)"
+              :endTime="new Date(`${trip.end_date}`)"
               :location="`${trip.Mountain.lokasi}`"
-              :startTime="new Date(`${oneWeekBefore}`)"
+              :startTime="new Date(`${trip.start_date}`)"
               :title="`Naik Gunung ${trip.Mountain.name}`"
               class="
-                bg-blue-500
+                bg-blue-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -88,10 +113,12 @@
               type="button"
               style="transition: all 0.15s ease 0s"
             />
+
+            <!-- delete Trip -->
             <button
               @click.prevent="deleteHandler"
               class="
-                bg-red-500
+                bg-red-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -116,31 +143,11 @@
             </button>
           </li>
         </ul>
-      </div>
-      <div
-        v-if="!showForeCast"
-        class="
-          w-full
-          mt-1
-          py-5
-          text-left
-          bg-white
-          text-gray-800
-          active:bg-gray-100
-          text-xs
-          font-bold
-          uppercase
-          px-4
-          py-2
-          rounded
-          shadow
-          hover:shadow-md
-          outline-none
-          focus:outline-none
-        "
-      >
-        <div class="flex flex-row h-96">
-          <div class="w-1/3">
+        </div>
+
+        <!-- Main Page -->
+        <div v-if="!showForeCast" class="flex flex-row h-85">
+          <div class="w-1/4">
             <div class="pr-5">
               <div
                 class="
@@ -184,7 +191,7 @@
 
                         <!-- item equipment -->
                         <div v-else class="mt-3 normal-case w-56 flex flex-col h-64" :class="{'scroll': peralatanDetail}" v-chat-scroll>
-                          <div v-for="(item, i) in listEquipment" :key="i">
+                          <div v-for="(item) in listEquipment" :key="item">
                             <div class="mb-2 flex flex-row">
                               <input
                                 :disabled="item.jumlah <= +item.hasFill"
@@ -198,9 +205,9 @@
                                     <b class="text-red-800">{{ item.name }}</b>
                                     ({{ +item.hasFill }} of {{ item.jumlah }})
                                   </div>
-                                  <div class="mr-1" @click="deleteEquipment(item.id)">
+                                  <button class="mr-1" @click="deleteEquipment(item.id)">
                                     <i class="fas fa-trash-alt"></i>
-                                  </div>
+                                  </button>
                                 </div>
                                 <!-- detail -->
                                 <div v-if="peralatanDetail">
@@ -264,7 +271,7 @@
                         </div>
 
                         <t-modal name="my-modal">
-                          <div class="flex flex-col justify-start text-center">
+                          <div class="flex flex-col justify-start text-center mt-10">
                             <div>
                               <h6 class="text-lg font-semibold">
                                 Pilih peralatan
@@ -700,14 +707,18 @@
             </div>
           </div>
         </div>
+
+        <!-- forecast -->
+        <weather
+          v-else
+          @closeForeCast="closeForeCast"
+          :data="weather"
+          :lokasi="location"
+        ></weather>
       </div>
-      <!-- forecast -->
-      <weather
-        v-else
-        @closeForeCast="closeForeCast"
-        :data="weather"
-        :lokasi="location"
-      ></weather>
+      </div>
+      
+
     </div>
   </div>
 </template>
@@ -760,6 +771,12 @@ export default {
     userlogin: function(){
         return localStorage.getItem('name')
     },
+    startDate: function(){
+      return new Date(this.trip.start_date).toUTCString().toString().slice(5, 17);
+    },
+    endDate: function(){
+      return new Date(this.trip.end_date).toUTCString().toString().slice(5, 17);
+    },
     equipmentList: function () {
       let list = {};
       if (this.tenda_4) {
@@ -793,14 +810,6 @@ export default {
     },
     location: function () {
       return this.trip.Mountain.lokasi;
-    },
-    schedule: function () {
-      return new Date(this.trip.schedule).toUTCString().toString().slice(5, 17);
-    },
-    oneWeekBefore: function () {
-      let date = new Date(this.trip.schedule);
-      date.setDate(date.getDate() - 7);
-      return date;
     },
     members: function () {
       return this.trip.Users.map((el) => el.name);

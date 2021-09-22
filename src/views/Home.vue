@@ -1,8 +1,8 @@
 <template>
       <main>
       <div
-        class="relative pt-16 pb-32 flex content-center items-center justify-center"
-        style="min-height: 75vh;"
+        class="mt-relative pt-36 pb-32 flex content-center items-center justify-center"
+        
       >
         <!-- background image -->
         <div
