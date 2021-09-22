@@ -46,6 +46,7 @@
 <script>
 import axios from '../axios/server'
 import GoogleLogin from 'vue-google-login'
+import swal from 'sweetalert'
 export default {
 name:'login',
   data(){
