@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import Forums from '../views/Forums.vue'
 import Watchlist from '../views/Watchlist.vue'
 import Demo from '../views/Demo.vue'
+import NewsPage from '../views/NewsPage.vue'
 import DetailPage from '../views/DetailPage.vue'
 
 Vue.use(VueRouter)
@@ -46,6 +47,11 @@ const routes = [
     path: '/demo',
     name: 'Demo',
     component: Demo
+  },
+  {
+    path: '/news',
+    name: 'NewsPage',
+    component: NewsPage
   },
   {
     path: '/details',
