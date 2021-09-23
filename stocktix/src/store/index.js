@@ -1,95 +1,202 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 Vue.use(Vuex)
 
 const url = 'http://localhost:3000'
 
-// const api1 = 'QFjCk1Q1Kox96QYKbLEf7YMcBqfALBt1eZrgNcpb'
-const api2 = 'Y0Lixb7xv73Jg85WovOsr3SsWBhRlt2DaeRWyKFE'
-
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    nasdaq: {},
-    ihsg: {},
-    region: ''
+    successRegister: false,
+    composites: {},
+    region: '',
+    watchlistData: [],
+    forumData: '',
+    demoData: '',
+    foundStock: '',
+    currentDetail: {},
+    currentChart: ''
   },
   mutations: {
     SET_ISLOGIN (state, payload) {
       state.isLogin = payload
     },
-    SET_NASDAQ (state, payload) {
-      state.nasdaq = payload
+    SET_SUCCESSREGISTER (state, payload) {
+      state.successRegister = payload
     },
-    SET_IHSG (state, payload) {
-      state.ihsg = payload
-    }
+    SET_COMPOSITES (state, payload) {
+      state.composites = payload
+    },
+    SET_REGION(state, payload) {
+      state.region = payload
+    },
+    SET_WATCHLISTDATA(state, payload) {
+      state.watchlistData = payload
+    },
+    SET_FORUMDATA(state, payload) {
+      state.forumData = payload
+    },
+    SET_DEMODATA(state, payload) {
+      state.demoData = payload
+    },
+    SET_FOUNDSTOCK(state, payload) {
+      state.foundStock = payload
+    },
+    SET_CURRENTDETAIL(state, payload) {
+      state.currentDetail = payload
+    },
+    SET_CURRENTCHART(state, payload) {
+      state.currentChart = payload
+    },
   },
   actions: {
-    registerUser(context, payload) {
-      return axios({
-        method: 'POST',
-        url: `${url}/customers/register`,
-        data: payload
-      })
-    },
-    loginUser (context, payload) {
-      return axios({
-        method: 'POST',
-        url: `${url}/customers/login`,
-        data: payload
-      })
-    },
-    async fetchCompositeIndex(context) {
-      const { data } =  await axios({
-        method: 'GET',
-        url: 'https://yfapi.net/v8/finance/spark?interval=1d&range=1mo&symbols=%5EIXIC%2C%5EJKSE',
-        params: {modules: 'defaultKeyStatistics,assetProfile'},
-        headers: {
-          'x-api-key': api2
-        }
-      })
+    async registerUser(context, payload) {
       try {
-        // nasdaq
-        let timeStamp = data['^IXIC'].timestamp.map(element => {
-          let newDate = new Date(element*1000) 
-          // let formattedTime = newDate.getHours() + ' : ' + newDate.getMinutes()
-          let formattedDate = newDate.getDate() + '/' + newDate.getMonth()
-          return formattedDate
-        });
-        data['^IXIC'].timestamp = timeStamp
-
-        if(data['^IXIC'].close[0] > data['^IXIC'].close[data['^IXIC'].close.length -1]) {
-          data['^IXIC'].color = 'red'
-        } else if (data['^IXIC'].close[0] < data['^IXIC'].close[data['^IXIC'].close.length -1]) {
-          data['^IXIC'].color = 'green'
-        } else {
-          data['^IXIC'].color = 'yellow'
-        }
-        context.commit('SET_NASDAQ', data['^IXIC'])
-
-        // ihsg
-        let timeStamp2 = data['^JKSE'].timestamp.map(element => {
-          let newDate = new Date(element*1000) 
-          // let formattedTime = newDate.getHours() + ' : ' + newDate.getMinutes()
-          let formattedDate = newDate.getDate() + '/' + newDate.getMonth()
-          return formattedDate
-        });
-        data['^JKSE'].timestamp = timeStamp2
-
-        if(data['^JKSE'].close[0] > data['^JKSE'].close[data['^JKSE'].close.length -1]) {
-          data['^JKSE'].color = 'red'
-        } else if (data['^JKSE'].close[0] < data['^JKSE'].close[data['^JKSE'].close.length -1]) {
-          data['^JKSE'].color = 'green'
-        } else {
-          data['^JKSE'].color = 'yellow'
-        }
-        context.commit('SET_IHSG', data['^JKSE'])
-
+        const { data } = await axios({
+          method: 'POST',
+          url: `${url}/register`,
+          data: payload
+        })
+        Swal.fire(`Successfully created ${data.email}'s account`)
+        context.commit('SET_SUCCESSREGISTER', true)
       } catch (error) {
-        this.$swal(error.response.data.message)
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async loginUser (context, payload) {
+      try {
+        const data = await axios({
+          method: 'POST',
+          url: `${url}/login`,
+          data: payload
+        })
+        localStorage.setItem('access_token', data.data.access_token)
+        context.commit('SET_ISLOGIN', true)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async fetchCompositeIndex(context, payload) {
+      try {
+        const data = await axios({
+          method: 'GET',
+          url: `${url}/composites?index=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_COMPOSITES', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async fetchWatchlist(context, ) {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: `${url}/watchlists`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        if(data) {
+          let queryArr = data.map(element => {
+            return element.stockName
+          });
+          let queryStr = queryArr.join('%2C')
+          const fullData = await axios({
+            method: 'GET',
+            url: `${url}/bulksearch?stockName=${queryStr}`,
+            headers: {
+              access_token: localStorage.access_token
+            }
+          })
+          context.commit('SET_WATCHLISTDATA', fullData.data)
+        } 
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async fetchForum(context, ) {
+      try {
+        const data = await axios({
+          method: 'GET',
+          url: `${url}/forums`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_FORUMDATA', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async fetchDemo(context, ) {
+      try {
+        const data = await axios({
+          method: 'GET',
+          url: `${url}/demo`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_DEMODATA', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async searchStock(context, payload) {
+      try {
+        const  { data }  = await axios({
+          method: 'GET',
+          url: `${url}/search?stockName=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        if(!data) {
+          Swal.fire('Stock not found')
+        }
+        context.commit('SET_FOUNDSTOCK', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async addToWatchlist(context, payload) {
+      try {
+        const  { data }  = await axios({
+          method: 'POST',
+          url: `${url}/watchlists`,
+          data: {
+            stockName: payload
+          },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        if(data) {
+          Swal.fire('Successfully added to your stocklist')
+          context.commit('SET_FOUNDSTOCK', '')
+        }
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async fetchCurrentChartData(context, payload) {
+      try {
+        const data = await axios({
+          method: 'GET',
+          url: `${url}/stocks?stockName=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_CURRENTCHART', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
       }
     }
   },

@@ -13,6 +13,7 @@
     <h2><b>StockTix</b></h2>
     <br>
     <button 
+    @click.prevent="toRegister"
     id="start-journey-button"
     class="btn-lg rounded-pill">
     Start the journey </button>
@@ -25,6 +26,11 @@ import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 export default {
   name: 'Default',
+  methods: {
+    async toRegister() {
+      await this.$router.push('/register')
+    }
+  },
   components: {
     NavBar,
     Footer

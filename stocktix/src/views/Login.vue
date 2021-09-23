@@ -83,19 +83,14 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$store.dispatch('loginUser', {
+    async login() {
+      await this.$store.dispatch('loginUser', {
         email: this.email,
         password: this.password
       })
-      .then(data => { 
-        localStorage.setItem('access_token', data.data.access_token)
-        this.$store.commit('SET_ISLOGIN', true)
-        this.$router.push('/')
-      })
-      .catch(err => {
-        this.$swal(err.message)
-      })
+      if(this.$store.state.isLogin) {
+        this.$router.push('/home')
+      }
     },
   },
   components: {

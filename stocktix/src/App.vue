@@ -3,7 +3,15 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+export default {
+  async created() {
+    if(localStorage.access_token) {
+      this.$store.commit('SET_ISLOGIN', true)
+    }
+  },
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

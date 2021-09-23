@@ -12,7 +12,7 @@
         <img class="nav-logo" src="https://ik.imagekit.io/xvfgr2ixls8/StockTix__3__NYNlepD7Bx.png?updatedAt=1632373557500" alt="">
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
-        <router-link class="nav-link" to="/">Home</router-link>
+        <router-link class="nav-link" to="/home">Home</router-link>
       </li>
       <li v-if="!this.$store.state.isLogin" class="nav-item">
         <router-link class="nav-link" to="/login">Login</router-link> 
@@ -21,7 +21,7 @@
          <router-link class="nav-link" to="/register">Register</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
-         <router-link class="nav-link" to="/wathclist">Watchlist</router-link>
+         <router-link class="nav-link" to="/watchlist">Watchlist</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
          <router-link class="nav-link" to="/forum">Forum</router-link>
@@ -47,10 +47,11 @@
 export default {
   name: 'NavBar',
   methods: {
-    logout() {
+    async logout() {
       localStorage.clear()
       this.$router.push('/login')
       this.$store.commit('SET_ISLOGIN',false)
+      this.$store.commit('SET_REGION','')
     }
   },
   components: {
