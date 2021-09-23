@@ -5,9 +5,16 @@
       :title="`Add Event for ` + anime.titles.en"
       @close="closeDialog"
     >
-      <add-event :dataMovie="anime" :type="type"></add-event>
+      <add-event
+        :dataMovie="anime"
+        :type="type"
+        @close="closeDialog"
+      ></add-event>
     </base-dialog>
-    <div class="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div
+      class="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8"
+      v-if="isLoading === false"
+    >
       <!-- Product -->
       <div
         class="lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16"
@@ -15,7 +22,7 @@
         <!-- Product image -->
         <div class="lg:row-end-1 lg:col-span-4">
           <div
-            class="aspect-w-4 aspect-h-3 rounded-lg bg-green-100 overflow-hidden  flex
+            class="aspect-w-4 aspect-h-5 rounded-lg bg-green-100 overflow-hidden  flex
               items-center
               justify-center"
           >
@@ -113,6 +120,9 @@
         ></div>
       </div>
     </div>
+    <div class="mt-48" v-if="isLoading">
+      <base-spinner></base-spinner>
+    </div>
   </div>
 </template>
 <script>
@@ -120,91 +130,19 @@ import { mapActions, mapState } from 'vuex';
 import { StarIcon } from '@heroicons/vue/solid';
 import AddEvent from '../../components/events/AddEvent.vue';
 
-const anime = {
-  anilist_id: 21,
-  mal_id: 21,
-  format: 0,
-  status: 1,
-  titles: {
-    en: 'One Piece',
-    jp: 'ワンピース',
-    it: 'One Piece',
-  },
-  descriptions: {
-    en: 'Gold Roger was known as the Pirate Ki...',
-    it: 'Monkey D. Luffy (Nel doppiaggio itali...',
-  },
-  start_date: '1999-10-20T00:00:00Z',
-  end_date: '1970-01-01T00:00:00Z',
-  season_period: 3,
-  season_year: 1999,
-  episodes_count: 981,
-  episode_duration: 24,
-  cover_image: 'https://s4.anilist.co/file/anilistcdn/media/anime/cov...',
-  cover_color: '#e4a15d',
-  banner_image: 'https://s4.anilist.co/file/anilistcdn/media/anime/ba...',
-  genres: [
-    'Action',
-    'Adventure',
-    'Comedy',
-    'Drama',
-    'Fantasy',
-    'Pirates',
-    'Shounen',
-    'Ensemble Cast',
-    'Super Power',
-    'Ships',
-    'Male Protagonist',
-    'Conspiracy',
-    'Tragedy',
-    'Crime',
-    'Time Skip',
-    'Politics',
-    "Boys' Love",
-    'War',
-    'Shapeshifting',
-    'Swordplay',
-    'Lost Civilization',
-    'Guns',
-    'Animals',
-    'Anachronism',
-    'Primarily Adult Cast',
-    'Cyborg',
-    'Skeleton',
-    'Espionage',
-    'Primarily Male Cast',
-    'Gender Bending',
-    'Ninja',
-    'Henshin',
-    'Real Robot',
-    'Anti-Hero',
-    'Mermaid',
-    'Battle Royale',
-    'Assassins',
-    'Tanned Skin',
-    'Zombie',
-    'Time Manipulation',
-    'Kuudere',
-  ],
-  score: 86,
-  id: 11,
-};
-
 export default {
   name: 'AnimeDetail',
   data() {
     return {
       add: true,
       type: 'anime',
+      isLoading: false,
     };
   },
   computed: {
-    ...mapState(['isLoggedIn']),
+    ...mapState(['anime']),
     id() {
       return this.$route.params.id;
-    },
-    anime() {
-      return anime;
     },
     animeStatus() {
       let status = '';
@@ -252,7 +190,7 @@ export default {
       return format;
     },
     imgUrl() {
-      if (!anime.cover_image) {
+      if (!this.anime.cover_image) {
         return 'https://lorempixel.com/500/800/cats/';
       } else {
         return this.anime.cover_image;
@@ -260,7 +198,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['actionFetchMovie', 'actionAddBookmark']),
+    ...mapActions(['actionFetchAnime']),
     openDialog() {
       this.add = false;
     },
@@ -273,15 +211,12 @@ export default {
     AddEvent,
   },
   async created() {
-    try {
-      if (this.id) {
-        await this.actionFetchMovie(this.id);
-      } else {
-        this.$router.push('/notfound');
-      }
-    } catch (err) {
-      // this.$toast.error('fetching Failed');
-      console.log(err);
+    if (this.id) {
+      this.isLoading = true;
+      await this.actionFetchAnime(this.id);
+      this.isLoading = false;
+    } else {
+      this.$router.push('/notfound');
     }
   },
 };

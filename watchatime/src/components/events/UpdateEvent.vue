@@ -1,7 +1,7 @@
 <template>
   <div class="md:grid md:grid-cols-3 md:gap-6">
     <div class="mt-5 md:mt-0 md:col-span-3">
-      <form @submit.prevent="handleAdd" action="#" method="POST">
+      <form @submit.prevent="handleUpdate" action="#" method="POST">
         <div class="shadow overflow-hidden sm:rounded-md">
           <div class="px-4 py-5 bg-white sm:p-6">
             <div class="grid grid-cols-6 gap-6">
@@ -19,20 +19,6 @@
                   class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div v-if="type === 'anime'" class="col-span-6 sm:col-span-3">
-                <label
-                  for="episode"
-                  class="block text-sm font-medium text-gray-700"
-                  >Episode</label
-                >
-                <input
-                  v-model="dataEvent.episode"
-                  type="number"
-                  name="episode"
-                  id="episode"
-                  class="mt-1 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                />
-              </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label
@@ -41,7 +27,6 @@
                   >Status</label
                 >
                 <select
-                  disabled
                   v-model="dataEvent.status"
                   id="status"
                   name="status"
@@ -72,14 +57,14 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
-  name: 'AddEvent',
-  props: ['dataMovie', 'type'],
+  name: 'UpdateEvent',
+  props: ['event'],
   data() {
     return {
       dataEvent: {
-        start: new Date().toISOString().slice(0, -8),
-        status: 'active',
-        episode: 0,
+        start: this.event.start,
+        status: this.event.start,
+        summary: this.event.summary,
       },
     };
   },
@@ -88,39 +73,25 @@ export default {
       let date = this.dataEvent.start;
       return new Date(date);
     },
-    summary() {
-      let output =
-        this.dataEvent.episode != 0
-          ? `${this.type}-${this.dataEvent.episode}-${this.dataMovie.id}`
-          : `${this.type}-${this.dataMovie.id}`;
-      return output;
-    },
     endDate() {
-      let time = 0;
-      if (this.dataMovie.runtime) {
-        time = this.dataMovie.runtime;
-      } else if (
-        this.dataMovie.episode_run_time &&
-        this.dataMovie.episode_run_time[0]
-      ) {
-        time = this.dataMovie.episode_run_time[0];
-      } else {
-        time = this.dataMovie.episode_duration;
-      }
+      let time =
+        Math.abs(new Date(this.event.end) - new Date(this.event.start)) /
+        1000 /
+        60;
       let date = this.addMinutes(this.startDate, time);
       return date;
     },
   },
   methods: {
-    ...mapActions(['actionAddEvents']),
-    async handleAdd() {
+    ...mapActions(['actionUpdateEvents']),
+    async handleUpdate() {
       let payload = {
         start: this.startDate,
         end: this.endDate,
         status: this.dataEvent.status,
-        summary: this.summary,
+        summary: this.event.summary,
       };
-      await this.actionAddEvents(payload);
+      await this.actionUpdateEvents({ payload, id: this.event.id });
       this.$emit('close');
     },
     addMinutes(date, minutes) {

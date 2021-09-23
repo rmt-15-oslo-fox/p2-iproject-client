@@ -1,19 +1,30 @@
 <template>
   <div>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/movies">Movies</router-link> |
-      <router-link to="/animes">Animes</router-link> |
-      <router-link to="/tvshows">Tv Show</router-link> |
-      <router-link to="/events">Event</router-link> |
-      <router-link to="/dashboard">Dashboard</router-link>
-    </div>
+    <the-navbar></the-navbar>
     <router-view />
   </div>
 </template>
+<script>
+import { mapMutations } from 'vuex';
+import TheNavbar from './components/layouts/TheNavbar.vue';
+
+export default {
+  components: { TheNavbar },
+  name: 'App',
+  methods: {
+    ...mapMutations(['SET_IS_LOGGED_IN']),
+  },
+  created() {
+    if (localStorage.getItem('access_token')) {
+      this.SET_IS_LOGGED_IN(true);
+      this.$router.push('/dashboard');
+    } else {
+      this.SET_IS_LOGGED_IN(false);
+      this.$router.push('/login');
+    }
+  },
+};
+</script>
 
 <style>
 #app {
@@ -22,18 +33,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

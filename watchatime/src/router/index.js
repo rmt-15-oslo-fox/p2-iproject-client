@@ -8,7 +8,9 @@ import MovieList from '../views/Movies/MovieList.vue';
 import TVList from '../views/Tvs/TVList.vue';
 import AnimeList from '../views/Animes/AnimeList.vue';
 import EventList from '../views/Events/EventList.vue';
-import CompletedList from '../views/Events/CompletedList.vue';
+import MovieDetails from '../views/Movies/MovieDetails.vue';
+import TVDetails from '../views/Tvs/TVDetails.vue';
+import AnimeDetails from '../views/Animes/AnimeDetails.vue';
 
 const routes = [{
         path: '/',
@@ -41,11 +43,6 @@ const routes = [{
         component: EventList,
     },
     {
-        path: '/completed',
-        name: 'Completed',
-        component: CompletedList,
-    },
-    {
         path: '/tvshows',
         name: 'TVs',
         component: TVList,
@@ -58,26 +55,17 @@ const routes = [{
     {
         path: '/movies/:id',
         name: 'MovieDetails',
-        component: () =>
-            import ('../views/Movies/MovieDetails.vue'),
+        component: MovieDetails,
     },
     {
         path: '/tvs/:id',
         name: 'TVDetails',
-        component: () =>
-            import ('../views/Tvs/TVDetails.vue'),
+        component: TVDetails,
     },
     {
         path: '/animes/:id',
         name: 'AnimesDetails',
-        component: () =>
-            import ('../views/Animes/AnimeDetails.vue'),
-    },
-    {
-        path: '/events/:id',
-        name: 'EventDetails',
-        component: () =>
-            import ('../views/Events/EventDetails.vue'),
+        component: AnimeDetails,
     },
     {
         path: '/about',
@@ -94,6 +82,15 @@ const routes = [{
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
+});
+router.beforeEach((to, from, next) => {
+    if (to.name === 'Dashboard' && !localStorage.getItem('access_token')) {
+        next({ name: 'Login' });
+    } else if (to.name === 'Login' && localStorage.getItem('access_token')) {
+        next({ name: 'Dashboard' });
+    } else if (to.name === 'Register' && localStorage.getItem('access_token')) {
+        next({ name: 'Dashboard' });
+    } else next();
 });
 
 export default router;

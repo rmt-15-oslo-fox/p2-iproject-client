@@ -1,5 +1,12 @@
 <template lang="">
   <div>
+    <base-dialog
+      :show="!add"
+      :title="`Edit Event for ` + event.summary"
+      @close="closeDialog"
+    >
+      <UpdateEvent :event="event" @close="closeDialog"></UpdateEvent>
+    </base-dialog>
     <h3 class="sr-only">
       Schedule Date
       <time :datetime="event.datetime">{{ event.date }}</time>
@@ -14,13 +21,13 @@
         <div class="flex justify-between md:block">
           <dt class="font-medium text-gray-900">Schedule ID</dt>
           <dd class="md:mt-1">
-            {{ event.number }}
+            {{ event.summary }}
           </dd>
         </div>
         <div class="flex justify-between pt-4 md:block md:pt-0">
           <dt class="font-medium text-gray-900">Due Date</dt>
           <dd class="md:mt-1">
-            <time :datetime="event.datetime">{{ event.date }}</time>
+            <time :datetime="event.end">{{ event.end.split('T')[0] }}</time>
           </dd>
         </div>
         <div
@@ -28,104 +35,56 @@
         >
           <dt>Est. Watch Time</dt>
           <dd class="md:mt-1">
-            {{ event.total }}
+            {{
+              Math.abs(new Date(event.end) - new Date(event.start)) / 1000 / 60
+            }}
           </dd>
         </div>
       </dl>
       <div class="space-y-4 mt-6 sm:flex sm:space-x-4 sm:space-y-0 md:mt-0">
-        <router-link
-          :to="event.invoiceHref"
+        <button
+          @click.prevent="openDialog"
           class="w-full flex items-center justify-center bg-white py-2 px-4 border border-green-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 md:w-auto"
         >
           Update
-        </router-link>
-        <router-link
-          :to="event.invoiceHref"
+        </button>
+        <button
+          @click.prevent="handleDelete(event.id)"
           class="w-full flex items-center justify-center bg-white py-2 px-4 border border-red-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 md:w-auto"
         >
           Delete
-        </router-link>
-      </div>
-    </div>
-
-    <div class="mt-1 flow-root px-4 sm:mt-2 sm:px-0 border-b border-r border-l">
-      <div class="my-6 divide-y divide-gray-200 sm:-my-10 ">
-        <div
-          v-for="product in event.products"
-          :key="product.id"
-          class="flex py-6 sm:py-10"
-        >
-          <div class="min-w-0 flex-1 lg:flex lg:flex-col">
-            <div class="lg:flex-1">
-              <div class="sm:flex">
-                <div>
-                  <h4 class="font-medium text-gray-900">{{ product.name }}</h4>
-                  <p class="hidden mt-2 text-sm text-gray-500 sm:block">
-                    {{ product.description }}
-                  </p>
-                </div>
-                <p class="mt-1 font-medium text-gray-900 sm:mt-0 sm:ml-6">
-                  {{ product.price }}
-                </p>
-              </div>
-              <div class="mt-2 flex text-sm font-medium sm:mt-4">
-                <a
-                  :href="product.href"
-                  class="text-indigo-600 hover:text-indigo-500"
-                  >View Movie</a
-                >
-                <div class="border-l border-gray-200 ml-4 pl-4 sm:ml-6 sm:pl-6">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-500"
-                    >Watch Again</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 font-medium mb-4">
-              <div v-if="product.status === 'delivered'" class="flex space-x-2">
-                <CheckIcon
-                  class="flex-none w-6 h-6 text-green-500"
-                  aria-hidden="true"
-                />
-                <p>
-                  Completed<span class="hidden sm:inline">
-                    on
-                    <time :datetime="product.datetime">{{
-                      product.date
-                    }}</time></span
-                  >
-                </p>
-              </div>
-              <p v-else-if="product.status === 'out-for-delivery'">
-                On-Hold
-              </p>
-              <p
-                v-else-if="product.status === 'cancelled'"
-                class="text-gray-500"
-              >
-                Cancelled
-              </p>
-            </div>
-          </div>
-          <div class="ml-4 flex-shrink-0 sm:m-0 sm:mr-6 sm:order-first">
-            <img
-              :src="product.imageSrc"
-              :alt="product.imageAlt"
-              class="col-start-2 col-end-3 sm:col-start-1 sm:row-start-1 sm:row-span-2 w-20 h-20 rounded-lg object-center object-cover sm:w-40 sm:h-40 lg:w-52 lg:h-52"
-            />
-          </div>
-        </div>
+        </button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { CheckIcon } from '@heroicons/vue/outline';
+import { mapActions } from 'vuex';
+import UpdateEvent from '../../components/events/UpdateEvent.vue';
+
 export default {
-  name: 'EventDetails',
+  name: 'EventCard',
   props: ['event'],
+  data() {
+    return {
+      add: true,
+    };
+  },
   components: {
-    CheckIcon,
+    UpdateEvent,
+  },
+  methods: {
+    ...mapActions(['actionDeleteEvents', 'actionFetchEvents']),
+    openDialog() {
+      this.add = false;
+    },
+    closeDialog() {
+      this.add = true;
+    },
+    async handleDelete(id) {
+      await this.actionDeleteEvents(id);
+      await this.actionFetchEvents();
+    },
   },
 };
 </script>

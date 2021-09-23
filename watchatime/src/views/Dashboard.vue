@@ -10,17 +10,26 @@
             <!-- Welcome panel -->
             <section aria-labelledby="profile-overview-title">
               <div class="rounded-lg bg-white overflow-hidden shadow">
-                <h2 class="sr-only" id="profile-overview-title">
-                  Profile Overview
-                </h2>
-                <div class="bg-white p-6">
+                <div
+                  v-if="!today || today.length == 0"
+                  class="rounded-lg bg-green-100 mx-2 my-2 h-12 overflow-hidden shadow"
+                >
+                  <h2
+                    id="profile-overview-title"
+                    class="justify-center text-lg mt-2 flex items-center"
+                  >
+                    No Schedule Today
+                  </h2>
+                </div>
+
+                <div v-else class="bg-white p-6">
                   <div class="sm:flex sm:items-center sm:justify-between">
                     <div class="sm:flex sm:space-x-5">
                       <div class="flex-shrink-0">
                         <img
                           class="mx-auto h-20 w-20 rounded-full"
-                          :src="user.imageUrl"
-                          alt=""
+                          src="https://images.unsplash.com/photo-1535802158478-342f4f24b2f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80"
+                          alt="placeholder"
                         />
                       </div>
                       <div
@@ -30,34 +39,49 @@
                           Today Schedule
                         </p>
                         <p class="text-xl font-bold text-gray-900 sm:text-2xl">
-                          Schedule Name
+                          {{ today.summary }}
                         </p>
                         <p class="text-sm font-medium text-gray-600">
-                          Schedule Time
+                          {{ today.start.split('T')[0] }}
+                          {{ today.start.split('T')[1].split('.')[0] }}
                         </p>
                       </div>
                     </div>
                     <div class="mt-5 flex justify-center sm:mt-0">
-                      <a
-                        href="#"
+                      <button
+                        v-if="today.status && today.status !== `completed`"
+                        @click.prevent="completeThis(today.id)"
                         class="flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                       >
-                        View Schedule
-                      </a>
+                        Complete
+                      </button>
+                      <button
+                        v-else
+                        disabled
+                        class="flex justify-center items-center px-4 py-2 border border-green-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-green-400"
+                      >
+                        Completed
+                      </button>
                     </div>
                   </div>
                 </div>
                 <div
                   class="border-t border-gray-200 bg-gray-50 grid grid-cols-1 divide-y divide-gray-200 sm:grid-cols-3 sm:divide-y-0 sm:divide-x"
                 >
-                  <div
-                    v-for="stat in stats"
-                    :key="stat.label"
-                    class="px-6 py-5 text-sm font-medium text-center"
-                  >
-                    <span class="text-gray-900">{{ stat.value }}</span>
+                  <div class="px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-gray-900">{{ active }}</span>
                     {{ ' ' }}
-                    <span class="text-gray-600">{{ stat.label }}</span>
+                    <span class="text-gray-600">Schedule Planned</span>
+                  </div>
+                  <div class="px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-gray-900">{{ completed }}</span>
+                    {{ ' ' }}
+                    <span class="text-gray-600">Schedule Completed</span>
+                  </div>
+                  <div class="px-6 py-5 text-sm font-medium text-center">
+                    <span class="text-gray-900">{{ onHold }}</span>
+                    {{ ' ' }}
+                    <span class="text-gray-600">Schedule On-Hold</span>
                   </div>
                 </div>
               </div>
@@ -81,7 +105,7 @@
                     actionIdx === actions.length - 1
                       ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
                       : '',
-                    'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500',
+                    'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500 flex justify-between',
                   ]"
                 >
                   <div>
@@ -134,58 +158,13 @@
           <!-- Right column -->
           <div class="grid grid-cols-1 gap-4">
             <!-- Announcements -->
-            <section aria-labelledby="announcements-title">
+            <section aria-labelledby="announcements-title py-5">
               <div class="rounded-lg bg-white overflow-hidden shadow">
-                <div class="p-6">
-                  <h2
-                    class="text-base font-medium text-gray-900"
-                    id="trending-title"
-                  >
-                    On Theatre
-                  </h2>
-                  <div class="flow-root mt-6">
-                    <ul class="-my-5 divide-y divide-gray-200">
-                      <li
-                        v-for="announcement in announcements"
-                        :key="announcement.id"
-                        class="py-5"
-                      >
-                        <div
-                          class="relative focus-within:ring-2 focus-within:ring-cyan-500"
-                        >
-                          <h3 class="text-sm font-semibold text-gray-800">
-                            <a
-                              :href="announcement.href"
-                              class="hover:underline focus:outline-none"
-                            >
-                              <!-- Extend touch target to entire panel -->
-                              <span
-                                class="absolute inset-0"
-                                aria-hidden="true"
-                              />
-                              {{ announcement.title }}
-                            </a>
-                          </h3>
-                          <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                            {{ announcement.preview }}
-                          </p>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="mt-6">
-                    <a
-                      href="#"
-                      class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                    >
-                      View all
-                    </a>
-                  </div>
-                </div>
+                <DatePicker v-model="date" :attributes="attrs" />
               </div>
             </section>
 
-            <!-- Recent Hires -->
+            <!-- Recent Schedule -->
             <section aria-labelledby="recent-hires-title">
               <div class="rounded-lg bg-white overflow-hidden shadow">
                 <div class="p-6">
@@ -195,50 +174,42 @@
                   >
                     Latest Schedule
                   </h2>
-                  <div class="flow-root mt-6">
+                  <div class="flow-root mt-6 ">
                     <ul class="-my-5 divide-y divide-gray-200">
                       <li
-                        v-for="person in recentHires"
-                        :key="person.handle"
+                        v-for="event in events.sort((a, b) => a.id - b.id)"
+                        :key="event.summary + event.id"
                         class="py-4"
                       >
-                        <div class="flex items-center space-x-4">
-                          <div class="flex-shrink-0">
-                            <img
-                              class="h-8 w-8 rounded-full"
-                              :src="person.imageUrl"
-                              alt=""
-                            />
-                          </div>
+                        <div
+                          class="flex items-center justify-between space-x-4"
+                        >
                           <div class="flex-1 min-w-0">
                             <p
                               class="text-sm font-medium text-gray-900 truncate"
                             >
-                              {{ person.name }}
+                              {{ event.summary }}
                             </p>
                             <p class="text-sm text-gray-500 truncate">
-                              {{ '@' + person.handle }}
+                              {{ '@' + event.start }}
                             </p>
                           </div>
                           <div>
-                            <a
-                              :href="person.href"
-                              class="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
-                            >
-                              View
-                            </a>
+                            <p class="text-sm text-gray-500 truncate">
+                              {{ event.status }}
+                            </p>
                           </div>
                         </div>
                       </li>
                     </ul>
                   </div>
                   <div class="mt-6">
-                    <a
-                      href="#"
+                    <router-link
+                      to="/events"
                       class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                     >
                       View all
-                    </a>
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -252,6 +223,9 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+import { Calendar, DatePicker } from 'v-calendar';
+
 import {
   Menu,
   MenuButton,
@@ -266,7 +240,6 @@ import {
 } from '@headlessui/vue';
 import {
   FilmIcon,
-  BadgeCheckIcon,
   BellIcon,
   DesktopComputerIcon,
   ClockIcon,
@@ -277,19 +250,6 @@ import {
 } from '@heroicons/vue/outline';
 import { SearchIcon } from '@heroicons/vue/solid';
 
-const user = {
-  name: 'Chelsea Hagon',
-  email: 'chelseahagon@example.com',
-  role: 'Human Resources Manager',
-  imageUrl:
-    'https://images.unsplash.com/photo-1535802158478-342f4f24b2f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80',
-};
-
-const stats = [
-  { label: 'Schedule Planned', value: 12 },
-  { label: 'Schedule Completed', value: 4 },
-  { label: 'Schedule On-Hold', value: 2 },
-];
 const actions = [
   {
     icon: ClockIcon,
@@ -297,13 +257,6 @@ const actions = [
     href: '/events',
     iconForeground: 'text-green-700',
     iconBackground: 'bg-green-50',
-  },
-  {
-    icon: BadgeCheckIcon,
-    name: 'Completed',
-    href: '/completed',
-    iconForeground: 'text-purple-700',
-    iconBackground: 'bg-purple-50',
   },
   {
     icon: FilmIcon,
@@ -326,57 +279,20 @@ const actions = [
     iconForeground: 'text-gray-700',
     iconBackground: 'bg-gray-50',
   },
-  {
-    icon: SearchIcon,
-    name: 'Search',
-    href: '/search',
-    iconForeground: 'text-indigo-700',
-    iconBackground: 'bg-indigo-50',
-  },
 ];
-const recentHires = [
-  {
-    name: 'Schedule 1',
-    handle: 'date',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    href: '#',
-  },
-  {
-    name: 'Schedule 2',
-    handle: 'date',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    href: '#',
-  },
-  {
-    name: 'Schedule 3',
-    handle: 'date',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    href: '#',
-  },
-];
-const announcements = [
-  {
-    id: 1,
-    title: 'Movie 1',
-    href: '#',
-    preview: 'Movie summary',
-  },
-  {
-    id: 2,
-    title: 'Movie 2',
-    href: '#',
-    preview: 'Movie summary',
-  },
-  {
-    id: 3,
-    title: 'Movie 3',
-    href: '#',
-    preview: 'Movie summary',
-  },
-];
+
+const isToday = (someDate) => {
+  var inputDate = new Date(someDate);
+
+  // Get today's date
+  var todaysDate = new Date();
+
+  // call setHours to take the time out of the comparison
+  if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+    return true;
+  }
+  return false;
+};
 
 export default {
   components: {
@@ -395,15 +311,61 @@ export default {
     SearchIcon,
     XIcon,
     TrendingUpIcon,
+    Calendar,
+    DatePicker,
   },
   setup() {
     return {
-      user,
-      stats,
       actions,
-      recentHires,
-      announcements,
     };
+  },
+  data() {
+    return {
+      stats: [
+        { label: 'Schedule Planned', value: this.active || 0 },
+        { label: 'Schedule Completed', value: this.completed || 0 },
+        { label: 'Schedule On-Hold', value: this.onHold || 0 },
+      ],
+    };
+  },
+  computed: {
+    ...mapState(['events']),
+    completed() {
+      return this.events.filter((el) => el.status === 'completed').length;
+    },
+    active() {
+      return this.events.filter((el) => el.status === 'active').length;
+    },
+    onHold() {
+      return this.events.filter((el) => el.status === 'on-hold').length;
+    },
+    today() {
+      return this.events.find((el) => isToday(el.start));
+    },
+    date() {
+      return this.events.map((el) => el.start);
+    },
+    attrs() {
+      return this.events.map((el) => {
+        return {
+          highlight: {
+            color: 'green',
+            fillMode: 'light',
+          },
+          dates: new Date(el.start),
+        };
+      });
+    },
+  },
+  methods: {
+    ...mapActions(['actionFetchEvents', 'actionPatchEvents']),
+    async completeThis(id) {
+      await this.actionPatchEvents(id);
+      await this.actionFetchEvents();
+    },
+  },
+  async created() {
+    await this.actionFetchEvents();
   },
 };
 </script>

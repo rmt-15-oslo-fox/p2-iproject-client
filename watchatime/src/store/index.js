@@ -1,5 +1,8 @@
 import { createStore } from 'vuex';
 import db from '../api/db';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export default createStore({
     state: {
@@ -57,24 +60,29 @@ export default createStore({
             state.moviesData = payload;
         },
         SET_ANIMES_DATA(state, payload) {
-            state.tvsData = payload;
+            state.animesData = payload;
         },
         SET_TVS_DATA(state, payload) {
-            state.animesData = payload;
+            state.tvsData = payload;
         },
         SET_EVENTS_DATA(state, payload) {
             state.eventsData = payload;
         },
     },
     actions: {
-        async actionFetchMovies(context) {
+        async actionFetchMovies(context, page) {
             try {
-                const response = await db.get('/public/movies');
-                const movies = response.data.data;
+                let url = '/movies';
+                if (page) {
+                    url += `?page=${page}`;
+                }
+                const response = await db.get(url);
+                const movies = response.data.results;
                 context.commit('SET_MOVIES_DATA', response.data);
                 context.commit('SET_MOVIES', movies);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Movies!');
             }
         },
         async actionFetchTV(context, id) {
@@ -84,44 +92,57 @@ export default createStore({
                 context.commit('SET_TV', tv);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching TV!');
             }
         },
-        async actionFetchTvs(context) {
+        async actionFetchTvs(context, page) {
             try {
-                const response = await db.get('/tvs');
-                const tvs = response.data.data;
+                let url = '/tvs';
+                if (page) {
+                    url += `?page=${page}`;
+                }
+                const response = await db.get(url);
+                const tvs = response.data.results;
                 context.commit('SET_TVS_DATA', response.data);
                 context.commit('SET_TVS', tvs);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Tvs!');
             }
         },
         async actionFetchAnime(context, id) {
             try {
                 const response = await db.get(`/animes/${id}`);
-                const anime = response.data;
+                const anime = response.data.data;
                 context.commit('SET_ANIME', anime);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Anime!');
             }
         },
-        async actionFetchAnimes(context) {
+        async actionFetchAnimes(context, page) {
             try {
-                const response = await db.get('/animes');
-                const tvs = response.data.documents;
-                context.commit('SET_ANIMES_DATA', response.data);
-                context.commit('SET_ANIMES', tvs);
+                let url = '/animes';
+                if (page) {
+                    url += `?page=${page}`;
+                }
+                const response = await db.get(url);
+                const animes = response.data.data.documents;
+                context.commit('SET_ANIMES_DATA', response.data.data);
+                context.commit('SET_ANIMES', animes);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Animes!');
             }
         },
         async actionFetchMovie(context, id) {
             try {
-                const response = await db.get(`/public/movies/${id}`);
+                const response = await db.get(`/movies/${id}`);
                 const movie = response.data;
                 context.commit('SET_MOVIE', movie);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Movie!');
             }
         },
         async actionFetchEvents(context) {
@@ -132,7 +153,7 @@ export default createStore({
                 }
                 const response = await db({
                     method: 'GET',
-                    url: '/events/',
+                    url: '/events',
                     headers: {
                         access_token: token,
                     },
@@ -142,6 +163,7 @@ export default createStore({
                 context.commit('SET_EVENTS', events);
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Fetching Events!');
             }
         },
         async actionFetchFilterMovies(context, payload) {
@@ -159,46 +181,61 @@ export default createStore({
             try {
                 const response = await db({
                     method: 'post',
-                    url: '/user/login',
-                    data: payload,
+                    url: '/users/login',
+                    data: {
+                        email: payload.email,
+                        password: payload.password,
+                    },
                 });
                 localStorage.setItem('access_token', response.data.access_token);
                 context.commit('SET_IS_LOGGED_IN', true);
+                toast.success('Login Success, Welcome');
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Logining');
             }
         },
         async actionRegister(context, payload) {
             try {
                 await db({
                     method: 'post',
-                    url: '/user/register',
-                    data: payload,
+                    url: '/users/register',
+                    data: {
+                        email: payload.email,
+                        password: payload.password,
+                        username: payload.username,
+                    },
                 });
+                toast.success('Register Success, Login to Continue');
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Register');
             }
         },
         async actionGoogleSignIn(context, payload) {
             try {
                 const result = await db({
                     method: 'post',
-                    url: '/user/googleAuth',
+                    url: '/users/googleRegister',
                     data: { id_token: payload },
                 });
                 localStorage.setItem('access_token', result.data.access_token);
                 localStorage.setItem('id_token', payload);
                 context.commit('SET_IS_LOGGED_IN', true);
+                toast.success('Login Success, Welcome');
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Google Logining');
             }
         },
         async actionLogout(context) {
             try {
                 localStorage.clear();
                 context.commit('SET_IS_LOGGED_IN', false);
+                toast.success('Logout Success');
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Logout');
             }
         },
         async actionAddEvents(context, payload) {
@@ -210,14 +247,76 @@ export default createStore({
                 }
                 await db({
                     method: 'post',
-                    url: `/events/${payload.id}`,
+                    url: `/events`,
                     headers: {
                         access_token: token,
                     },
                     data: { start, end, summary, status },
                 });
+                toast.success('Event added');
             } catch (err) {
                 context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Adding Events');
+            }
+        },
+        async actionPatchEvents(context, id) {
+            try {
+                let token = localStorage.getItem('access_token');
+                if (!token) {
+                    throw new Error();
+                }
+                await db({
+                    method: 'patch',
+                    url: `/events/${id}`,
+                    headers: {
+                        access_token: token,
+                    },
+                });
+                toast.success('Event Updated');
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Adding Events');
+            }
+        },
+        async actionDeleteEvents(context, id) {
+            try {
+                let token = localStorage.getItem('access_token');
+                if (!token) {
+                    throw new Error();
+                }
+                await db({
+                    method: 'delete',
+                    url: `/events/${id}`,
+                    headers: {
+                        access_token: token,
+                    },
+                });
+                toast.success('Event Deleted');
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Deleting Events');
+            }
+        },
+        async actionUpdateEvents(context, payloadedit) {
+            try {
+                let token = localStorage.getItem('access_token');
+                if (!token) {
+                    throw new Error();
+                }
+                const { payload, id } = payloadedit;
+                console.log(payload);
+                await db({
+                    method: 'put',
+                    url: `/events/${id}`,
+                    headers: {
+                        access_token: token,
+                    },
+                    data: payload,
+                });
+                toast.success('Event Updated');
+            } catch (err) {
+                context.commit('SET_ERROR', err.response.data);
+                toast.error('Error Updating Events');
             }
         },
     },

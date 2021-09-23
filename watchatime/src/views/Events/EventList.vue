@@ -13,17 +13,26 @@
           </p>
         </div>
 
-        <section aria-labelledby="recent-heading" class="mt-16">
-          <h2 id="recent-heading" class="sr-only">Recent Schedule</h2>
-
+        <section
+          v-if="events.length > 0"
+          aria-labelledby="recent-heading"
+          class="mt-16"
+        >
           <div class="space-y-16 sm:space-y-24">
             <event-card
               v-for="event in events"
-              :key="event.number"
+              :key="event.id"
               :event="event"
             ></event-card>
           </div>
         </section>
+        <div v-else>
+          <p
+            class="text-2xl mt-40 font-extrabold tracking-tight sm:text-3xl text-gray-500"
+          >
+            No Schedule Yet
+          </p>
+        </div>
       </div>
     </main>
   </div>
@@ -31,41 +40,21 @@
 
 <script>
 import EventCard from '../../components/events/EventCard.vue';
-const events = [
-  {
-    number: 'WU88191111',
-    date: 'January 22, 2021',
-    datetime: '2021-01-22',
-    href: `/events/WU88191111`,
-    invoiceHref: `/movies/WU88191111`,
-    total: '108.00 Minutes',
-    products: [
-      {
-        id: 1,
-        name: 'This is Title',
-        description: 'This is summary',
-        href: '#',
-        price: '35 Minutes',
-        status: 'out-for-delivery',
-        date: 'January 5, 2021',
-        datetime: '2021-01-05',
-        imageSrc:
-          'https://tailwindui.com/img/ecommerce-images/order-history-page-06-product-01.jpg',
-        imageAlt:
-          'Olive drab green insulated bottle with flared screw lid and flat top.',
-      },
-      // More products...
-    ],
-  },
-  // More events...
-];
+import { mapActions, mapState } from 'vuex';
 
 export default {
   components: { EventCard },
   data() {
-    return {
-      events,
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(['events']),
+  },
+  methods: {
+    ...mapActions(['actionFetchEvents', 'actionPatchEvents']),
+  },
+  async created() {
+    await this.actionFetchEvents();
   },
 };
 </script>
