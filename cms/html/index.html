@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management System</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!-- bootstrap -->
+    <!-- bootstrap data table -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.1/datatables.min.css" />
+    <!-- bootstrap data table -->
+    <!-- bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- bootstrap icon -->
+    <!-- css -->
+    <link rel="stylesheet" href="style.css">
+    <!-- css -->
+</head>
+
+<body>
+
+    <div class="dashboard" id="app">
+
+        <div class="main-dashboard">
+            <!-- navbar -->
+            <div class="navbar-top fixed-top">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <!-- sidebar button -->
+                        <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <!-- sidebar button -->
+                        <a class="navbar-brand fw-bold me-auto" href="#">CMS</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse me-auto flex-row-reverse" id="navbarSupportedContent">
+                            <form class="order-2 me-md-3 me-0 mt-md-0 mt-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Recipient's username"
+                                        aria-label="Recipient's username" aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                            <ul class="navbar-nav btn-group dropstart mb-2 mb-lg-0 dropdown-menu-end order-1">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-fill"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                </nav>
+            </div>
+            <!-- navbar -->
+            <div class="main-content">
+
+                <div class="dashboard-main" v-if="page === 'dashboard-main'">
+                    <h2 class="text-start col-md-7 offset-md-4">Job Lists</h2>
+                    <div class="rounded-5 col-md-7 offset-md-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Job Type</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>
+                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-success">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>@fat</td>
+                                    <td>@fat</td>
+                                    <td>
+                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-success">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>@twitter</td>
+                                    <td>@twitter</td>
+                                    <td>
+                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-success">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- login -->
+                <div class="row" v-else-if="page === 'login'">
+                    <div class="login container m-auto border mt-5 rounded-5 col-md-5">
+                        <form class="p-5">
+                            <h2 class="text-center">Login</h2>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <button v-on:click="page = 'dashboard-main'" type="submit"
+                                class="btn btn-primary">Submit</button><br>
+                            <small>dont have an account ? <a href="#">register</a></small>
+                        </form>
+                    </div>
+                </div>
+                <!-- login -->
+
+                <!-- register -->
+                <div class="row" v-else-if="page === 'register'">
+                    <div class="register container m-auto border mt-5 rounded-5 col-md-5">
+                        <form class="p-5">
+                            <h2 class="text-center">Register</h2>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- register -->
+
+                <!-- history -->
+                <div class="history" v-if="page === 'history'">
+                    <h2 class="text-center col-md-7 offset-md-4">History</h2>
+                    <div class="rounded-5 col-md-7 offset-md-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Job id</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Update by</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                    <td>@twitter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- history -->
+
+                <!-- create form -->
+                <div class="row" v-else-if="page === 'create-form'">
+                    <div class="create-form container offset-md-4 border mt-5 rounded-5 col-md-6">
+                        <form class="p-5">
+                            <h2 class="text-center">Create Jobs</h2>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Title</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Description</label>
+                                <input class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Image</label>
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Job Type</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- create form -->
+
+                <!-- update form -->
+                <div class="row" v-else-if="page === 'update-form'">
+                    <div class="create-form container offset-md-4 border mt-5 rounded-5 col-md-6">
+                        <form class="p-5">
+                            <h2 class="text-center">Create Jobs</h2>
+                            <div class="mb-3 mt-3">
+                                <label for="exampleInputEmail1" class="form-label">Title</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Description</label>
+                                <input class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Image</label>
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Job Type</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label class="form-label">Status</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- update form -->
+
+                <!-- about page -->
+                <div class="about row mt-5 mb-5 pt-5" v-else-if="page === 'about'">
+                    <h2 class="col-md-7 offset-md-4 text-center">About Page</h2>
+                    <p class="col-md-7 mt-3 p-5 p-md-0 offset-md-4 text-justify lh-base" v-html="about"></p>
+                </div>
+                <!-- about page -->
+
+            </div>
+        </div>
+
+        <div class="sidebar"
+            v-if="page === 'dashboard-main' || page === 'create-form' || page === 'update-form' || page === 'about' || page === 'history'">
+            <div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Jobs Portal</h5>
+                </div>
+                <div class="offcanvas-body">
+                    <div>
+                        Some text as placeholder. In real life you can have the elements you have chosen. Like, text,
+                        images, lists, etc.
+                    </div>
+                    <div class="dropdown mt-3">
+                        <div class="border link-unstyled text-center update-sidebar">
+                            <button v-on:click="page = 'dashboard-main'" class="btn w-100 h-100 pt-3 pb-3">List
+                                Jobs</button>
+                        </div>
+                        <div class="border link-unstyled text-center create-sidebar">
+                            <button v-on:click="page = 'create-form'" class="btn w-100 h-100 pt-3 pb-3">Create
+                                Jobs</button>
+                        </div>
+                        <div class="border link-unstyled text-center create-sidebar">
+                            <button v-on:click="page = 'history'" class="btn w-100 h-100 pt-3 pb-3">History</button>
+                        </div>
+                        <div class="border link-unstyled text-center register-sidebar">
+                            <button v-on:click="page = 'register'" class="btn w-100 h-100 pt-3 pb-3">Register</button>
+                        </div>
+                        <div v-on:click="page = 'about'" class="border link-unstyled text-center about-sidebar">
+                            <button class="btn w-100 h-100 pt-3 pb-3">About</button>
+                        </div>
+                        <div class="border link-unstyled text-center user mt-5" height="300px">
+                            <button class="btn w-100 h-100 border d-flex justify-content-around align-items-center">
+                                <img src="https://cdn.pixabay.com/photo/2015/03/03/08/55/portrait-657116__340.jpg"
+                                    alt="" width="50px" height="50px" class="rounded-circle">
+                                <p class="d-flex align-items-center">
+                                    User
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- vue learning purpose version 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+    <!-- script bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+    <!-- script bootstrap -->
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <!-- jquery data table -->
+    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <!-- jquery data table -->
+    <!-- bootstrap data table -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.1/datatables.min.js"></script>
+    <!-- bootstrap data table -->
+    <!-- script -->
+    <script src="./script.js"></script>
+    <!-- script -->
+
+</body>
+
+</html>
