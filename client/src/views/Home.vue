@@ -154,8 +154,8 @@
             Kepoin Dagelan <br />
             Lebih Lagi
           </h4>
-          <a
-            href="./about.html"
+          <router-link
+            to="/about"
             class="
               btn-find-more
               b-yellow
@@ -167,7 +167,7 @@
             "
           >
             Cari Tahu Tentang Dagelan
-          </a>
+          </router-link>
         </div>
       </div>
 
@@ -232,8 +232,8 @@
               m-auto
             "
           >
-            <a
-              href="./detail-portfolio.html"
+            <router-link
+              to="/portfolio/detail-portfolio"
               class="card-artikel-2 mt-2 mt-md-0 hvr-wobble-vertical"
             >
               <div class="card card-artikel">
@@ -256,9 +256,9 @@
                   <p class="f-s-18 c-white">Content Development & Design</p>
                 </div>
               </div>
-            </a>
-            <a
-              href="./detail-portfolio.html"
+            </router-link>
+            <router-link
+              to="/portfolio/detail-portfolio"
               class="card-artikel-2 pt-md-0 pt-3 hvr-wobble-vertical"
             >
               <div class="card card-artikel">
@@ -281,9 +281,9 @@
                   <p class="f-s-18 c-white">Content Development & Design</p>
                 </div>
               </div>
-            </a>
-            <a
-              href="./detail-portfolio.html"
+            </router-link>
+            <router-link
+              to="/portfolio/detail-portfolio"
               class="card-artikel-3 hvr-wobble-vertical pt-md-0 pt-3"
             >
               <div class="card card-artikel position-relative">
@@ -306,12 +306,12 @@
                   <p class="f-s-18 c-white">Content Development & Design</p>
                 </div>
               </div>
-            </a>
+            </router-link>
           </div>
         </div>
         <div class="btn-more-artikel mt-5 text-center">
-          <a
-            href="./portfolio.html"
+          <router-link
+            to="/portfolio/detail-portfolio"
             class="
               btn-find-more-artikel
               b-yellow
@@ -324,7 +324,7 @@
             "
           >
             Lihat Semua Portfolio
-          </a>
+          </router-link>
         </div>
       </div>
     </main>
@@ -1422,8 +1422,8 @@
             justify-content-center
           "
         >
-          <a
-            href="/detail-partner.html"
+          <router-link
+            to="/partner/detail-partner"
             class="card card-product hvr-bob col-md-3"
           >
             <img
@@ -1463,9 +1463,9 @@
                 hai.dudu
               </h3>
             </div>
-          </a>
-          <a
-            href="/detail-partner.html"
+          </router-link>
+          <router-link
+            to="/partner/detail-partner"
             class="card card-product hvr-bob-1 col-md-3"
           >
             <img
@@ -1505,9 +1505,9 @@
                 tahilalats
               </h3>
             </div>
-          </a>
-          <a
-            href="/detail-partner.html"
+          </router-link>
+          <router-link
+            to="/partner/detail-partner"
             class="card card-product hvr-bob col-md-3"
           >
             <img
@@ -1547,9 +1547,9 @@
                 volix.media
               </h3>
             </div>
-          </a>
-          <a
-            href="/detail-partner.html"
+          </router-link>
+          <router-link
+            to="/partner/detail-partner"
             class="card card-product hvr-bob-1 col-md-3"
           >
             <img
@@ -1589,11 +1589,11 @@
                 dalang.pelo
               </h3>
             </div>
-          </a>
+          </router-link>
         </div>
         <div class="more-produk text-center pb-5 z-99 position-relative">
-          <a
-            href="partner.html"
+          <router-link
+            to="/partner"
             class="
               btn-more-produk
               f-s-16
@@ -1605,7 +1605,7 @@
             "
           >
             Lihat Semua Partner
-          </a>
+          </router-link>
         </div>
         <img
           src="../../public/assets/background/Slice2.svg"
