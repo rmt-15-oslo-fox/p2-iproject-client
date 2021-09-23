@@ -29,3 +29,7 @@
   bg-white
   hover:bg-gray;
 }
+
+.social-links {
+  @apply flex;
+}

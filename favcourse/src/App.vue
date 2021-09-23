@@ -4,7 +4,9 @@
       v-if="$route.name !== 'Login' && $route.name !== 'Register'"
     ></nav-bar>
     <router-view />
-    <HFooter></HFooter>
+    <div class="relative">
+      <HFooter class="fixed w-screen bottom-0 h-28 flex"></HFooter>
+    </div>
   </div>
 </template>
 <script>

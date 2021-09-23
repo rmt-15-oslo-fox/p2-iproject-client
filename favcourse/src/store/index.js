@@ -13,7 +13,7 @@ export default new Vuex.Store({
       name: "",
       email: "",
       avatar_url: "",
-      balace: 0,
+      balace: null,
     },
     courses: [],
     course: {},

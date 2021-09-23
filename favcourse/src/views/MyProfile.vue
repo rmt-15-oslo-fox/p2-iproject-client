@@ -80,7 +80,7 @@
           </label>
           <input
             class="input input-primary font-medium text-xl w-full border-gray"
-            :value="user.balance"
+            :value="user.balance === null ? 0 : user.balance"
             id="email"
             disabled
           />
