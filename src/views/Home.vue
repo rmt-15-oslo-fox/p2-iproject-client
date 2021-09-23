@@ -1,8 +1,8 @@
 <template>
       <main>
       <div
-        class="relative pt-16 pb-32 flex content-center items-center justify-center"
-        style="min-height: 75vh;"
+        class="mt-relative pt-36 pb-32 flex content-center items-center justify-center"
+        
       >
         <!-- background image -->
         <div
@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
           style="height: 70px;"
         >
@@ -51,9 +51,9 @@
               points="2560 0 2560 100 0 100"
             ></polygon>
           </svg>
-        </div>
+        </div> -->
       </div>
-      <section class="pb-20 bg-gray-300 -mt-28">
+      <section class="">
         <div class="container mx-auto px-4">
           <div class="flex flex-wrap">
             <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
@@ -126,7 +126,7 @@ export default {
   methods: {
     addTrip: function(){
       if(!this.isLogin){
-        this.$toasted.show('You must login first').goAway(2000)
+        this.$toasted.info('You must login first', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
       } else {
         this.$router.push({name: 'AddTrip'})
       }

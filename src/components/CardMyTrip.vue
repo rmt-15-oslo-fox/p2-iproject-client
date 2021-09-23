@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div @click="showDetail" class="relative mb-1 mt-4">
+    <div @click="showDetail" class="relative mt-1 ">
       <button
         class="
           w-full
-          py-2
           text-left
           bg-white
           text-gray-800
@@ -13,8 +12,8 @@
           font-semibold
           uppercase
           px-4
-          py-2
-          rounded
+          py-4
+          rounded-2xl
           shadow
           hover:shadow-md
           outline-none
@@ -22,21 +21,45 @@
           normal-case
         "
         type="button"
-        style="transition: all 0.15s ease 0s"
       >
-        {{ index + 1 }}. Gn. {{ trip.Mountain.name }} --
-        {{ trip.Track.name }} --
-        {{ schedule }}
+      <p class="text-bold">{{ index + 1 }}. Gn. {{ trip.Mountain.name }}</p>
+        <p>via {{ trip.Track.name }}</p>
+        <p>{{ startDate }} - {{ endDate }}</p>
       </button>
     </div>
     <div v-if="openDetail" class="detail">
-      <div>
+      
+      <div
+        class="
+          w-full
+          mt-1
+          py-5
+          text-left
+          bg-white
+          text-gray-800
+          active:bg-gray-100
+          text-xs
+          font-bold
+          uppercase
+          px-4
+          py-2
+          rounded-2xl
+          shadow
+          hover:shadow-md
+          outline-none
+          focus:outline-none
+        "
+      >
+      <div class="flex flex-col">
+        <!-- button -->
+        <div>
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto mt-1">
-          <li class="flex items-center">
+          <li class="flex mb-2 -mt-3 -ml-3">
+            <!-- cuaca -->
             <button
               @click="showForecast"
               class="
-                bg-yellow-500
+                bg-yellow-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -59,15 +82,17 @@
             >
               Prakiraan Cuaca
             </button>
+
+            <!-- calender -->
             <AddToCalendar
               :buttonText="'Save to calendar'"
               :details="`Naik Gunung ${trip.Mountain.name}`"
-              :endTime="new Date(`${schedule}`)"
+              :endTime="new Date(`${trip.end_date}`)"
               :location="`${trip.Mountain.lokasi}`"
-              :startTime="new Date(`${oneWeekBefore}`)"
+              :startTime="new Date(`${trip.start_date}`)"
               :title="`Naik Gunung ${trip.Mountain.name}`"
               class="
-                bg-blue-500
+                bg-blue-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -88,10 +113,12 @@
               type="button"
               style="transition: all 0.15s ease 0s"
             />
+
+            <!-- delete Trip -->
             <button
               @click.prevent="deleteHandler"
               class="
-                bg-red-500
+                bg-red-400
                 text-white
                 active:bg-gray-100
                 text-xs
@@ -116,30 +143,10 @@
             </button>
           </li>
         </ul>
-      </div>
-      <div
-        v-if="!showForeCast"
-        class="
-          w-full
-          mt-1
-          py-5
-          text-left
-          bg-white
-          text-gray-800
-          active:bg-gray-100
-          text-xs
-          font-bold
-          uppercase
-          px-4
-          py-2
-          rounded
-          shadow
-          hover:shadow-md
-          outline-none
-          focus:outline-none
-        "
-      >
-        <div class="flex flex-row h-96">
+        </div>
+
+        <!-- Main Page -->
+        <div v-if="!showForeCast" class="flex flex-row h-85">
           <div class="w-1/4">
             <div class="pr-5">
               <div
@@ -164,6 +171,12 @@
                     >
                       <i class="fas fa-plus-circle"></i>
                     </button>
+                    <button
+                      class="mt-1 text-sm ml-1"
+                      @click="showDetailAlat"
+                    >
+                    <i class="fas fa-info-circle"></i>
+                    </button>
                   </div>
                   <hr />
                   <div class="mt-2 mb-2 text-gray-600">
@@ -177,8 +190,8 @@
                         </div>
 
                         <!-- item equipment -->
-                        <div v-else class="mt-3 normal-case flex flex-col">
-                          <div v-for="item in listEquipment" :key="item">
+                        <div v-else class="mt-3 normal-case w-56 flex flex-col h-64" :class="{'scroll': peralatanDetail}" v-chat-scroll>
+                          <div v-for="(item) in listEquipment" :key="item">
                             <div class="mb-2 flex flex-row">
                               <input
                                 :disabled="item.jumlah <= +item.hasFill"
@@ -187,18 +200,45 @@
                                 @change="updateEquipment(item.id)"
                               />
                               <div class="flex flex-col">
-                                <div
-                                  class="ml-1"
-                                  ref="btnRef"
-                                  v-on:mouseenter="toggleTooltip()"
-                                  v-on:mouseleave="toggleTooltip()"
-                                >
-                                  {{ item.name }} ({{ +item.hasFill }} of
-                                  {{ item.jumlah }})
+                                <div class="flex flex-row justify-between w-48">
+                                  <div class="ml-1">
+                                    <b class="text-red-800">{{ item.name }}</b>
+                                    ({{ +item.hasFill }} of {{ item.jumlah }})
+                                  </div>
+                                  <button class="mr-1" @click="deleteEquipment(item.id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                  </button>
+                                </div>
+                                <!-- detail -->
+                                <div v-if="peralatanDetail">
+                                  <div v-for="(user, i) in item.userPJ" :key="i">
+                                    <ul class="ml-1 mt-1">
+                                      <div class="flex flex-row justify-between w-36">
+                                        <div>
+                                          <li class="text-gray-500">
+                                            [{{ user.jumlah }}] {{ user.name }}
+                                          </li>
+                                        </div>
+                                        <div class="-mr-10" v-if="user.name == userlogin">
+                                          <button @click="updateEquipment(item.id)" :disabled="item.jumlah <= +item.hasFill">
+                                            <i
+                                              class="fas fa-plus-circle mr-1"
+                                            ></i>
+                                          </button>
+                                          <button @click="decrementEquipment(item.id)">
+                                            <i class="fas fa-minus-circle"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </ul>
+                                  </div>
                                 </div>
 
                                 <!-- tooltip -->
-                                <div
+                                <!-- ref="btnRef"
+                                  v-on:mouseenter="toggleTooltip()"
+                                  v-on:mouseleave="toggleTooltip()" -->
+                                <!-- <div
                                   ref="tooltipRef"
                                   v-bind:class="{
                                     hidden: !tooltipShow,
@@ -224,16 +264,14 @@
                                   <div>
                                     tes
                                   </div>
-                                </div>
-
-
+                                </div> -->
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <t-modal name="my-modal">
-                          <div class="flex flex-col justify-start text-center">
+                          <div class="flex flex-col justify-start text-center mt-10">
                             <div>
                               <h6 class="text-lg font-semibold">
                                 Pilih peralatan
@@ -635,7 +673,7 @@
                   <hr class="mb-5" />
                   <ul
                     v-for="(member, i) in members"
-                    :key="member"
+                    :key="i"
                     class="mb-3 mt-3"
                   >
                     <li class="normal-case">{{ i + 1 }}. {{ member }}</li>
@@ -669,20 +707,24 @@
             </div>
           </div>
         </div>
+
+        <!-- forecast -->
+        <weather
+          v-else
+          @closeForeCast="closeForeCast"
+          :data="weather"
+          :lokasi="location"
+        ></weather>
       </div>
-      <!-- forecast -->
-      <weather
-        v-else
-        @closeForeCast="closeForeCast"
-        :data="weather"
-        :lokasi="location"
-      ></weather>
+      </div>
+      
+
     </div>
   </div>
 </template>
 
 <script>
-import { createPopper } from "@popperjs/core";
+// import { createPopper } from "@popperjs/core";
 import { AddToCalendar } from "vue-add-events-to-google-calendar";
 import ChatRoom from "../components/ChatRoom.vue";
 import ChatInput from "../components/ChatInput.vue";
@@ -698,6 +740,7 @@ export default {
   },
   data: function () {
     return {
+      peralatanDetail: false,
       tooltipShow: false,
       openDetail: false,
       showForeCast: false,
@@ -725,6 +768,15 @@ export default {
   },
   props: ["trip", "index"],
   computed: {
+    userlogin: function(){
+        return localStorage.getItem('name')
+    },
+    startDate: function(){
+      return new Date(this.trip.start_date).toUTCString().toString().slice(5, 17);
+    },
+    endDate: function(){
+      return new Date(this.trip.end_date).toUTCString().toString().slice(5, 17);
+    },
     equipmentList: function () {
       let list = {};
       if (this.tenda_4) {
@@ -759,14 +811,6 @@ export default {
     location: function () {
       return this.trip.Mountain.lokasi;
     },
-    schedule: function () {
-      return new Date(this.trip.schedule).toUTCString().toString().slice(5, 17);
-    },
-    oneWeekBefore: function () {
-      let date = new Date(this.trip.schedule);
-      date.setDate(date.getDate() - 7);
-      return date;
-    },
     members: function () {
       return this.trip.Users.map((el) => el.name);
     },
@@ -790,40 +834,43 @@ export default {
   },
   watch: {
     listEquipment: function () {
-      this.listEquipment.forEach((item) => {
+      this.listEquipment.forEach((item, i) => {
         let totalChecked = 0;
         item.EquipmentUsers.forEach((el) => {
           totalChecked += +el.jumlah;
         });
         item.hasFill = totalChecked;
+        item.userPJ = this.getUserEquipment[i].users;
       });
     },
   },
   methods: {
-    toggleTooltip: function () {
-      if (this.tooltipShow) {
-        this.tooltipShow = false;
-      } else {
-        this.tooltipShow = true;
-        createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
-          placement: "right",
-        });
-      }
-    },
+    // toggleTooltip: function () {
+    //   if (this.tooltipShow) {
+    //     this.tooltipShow = false;
+    //   } else {
+    //     this.tooltipShow = true;
+    //     createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
+    //       placement: "right",
+    //     });
+    //   }
+    // },
     postEquipment: function () {
       if (Object.values(this.equipmentList).includes(null)) {
-        this.$toasted.show("fill all amount").goAway(2000);
+        this.$toasted.error("fill all amount", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         return;
       }
       const data = {
         TripId: this.trip.id,
         list: this.equipmentList,
       };
+      this.$isLoading(true)
       this.$store
         .dispatch("postEquipment", data)
         .then(() => {
+          this.$isLoading(false)
           this.$modal.hide("my-modal");
-          this.$toasted.show("success add equipment").goAway(2000);
+          this.$toasted.success("success add equipment", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.getEquipmentList();
           (this.tenda_4 = false),
             (this.tenda_2 = false),
@@ -845,7 +892,8 @@ export default {
             (this.custom_count = null);
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     updateEquipment: function (idEquipment) {
@@ -853,14 +901,33 @@ export default {
         UserId: localStorage.getItem("userId"),
         EquipmentId: idEquipment,
       };
+      this.$isLoading(true)
       this.$store
         .dispatch("postUserEquipment", payload)
-        .then((response) => {
+        .then(() => {
+          this.$isLoading(false)
           this.getEquipmentList();
-          console.log(response.data);
         })
         .catch((err) => {
-          console.log(err.response.data);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
+        });
+    },
+    decrementEquipment: function (idEquipment) {
+      const payload = {
+        UserId: localStorage.getItem("userId"),
+        EquipmentId: idEquipment,
+      };
+      this.$isLoading(true)
+      this.$store
+        .dispatch("decrementEquipment", payload)
+        .then(() => {
+          this.$isLoading(false)
+          this.getEquipmentList();
+        })
+        .catch((err) => {
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     showDetail: function () {
@@ -872,8 +939,16 @@ export default {
         this.openDetail = true;
       }
     },
+    showDetailAlat: function () {
+      if (this.peralatanDetail) {
+        this.peralatanDetail = false;
+      } else {
+        this.peralatanDetail = true;
+      }
+    },
     deleteHandler: function () {
       this.$toasted.show("Are u sure to delete this?", {
+        theme: "bubble",position: "top-center",fullWidth: true,
         action: [
           {
             text: "Cancel",
@@ -892,22 +967,27 @@ export default {
       });
     },
     deleteTrip: function () {
+      this.$isLoading(true)
       this.$store
         .dispatch("deleteTrip", this.trip.id)
         .then((response) => {
+          this.$isLoading(false)
           this.$store.dispatch("getMyTrip");
-          this.$toasted.show(response.data.message).goAway(2000);
+          this.$toasted.success(response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.openDetail = false;
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     showForecast: function () {
       const location = this.trip.Mountain.lokasi;
+      this.$isLoading(true)
       this.$store
         .dispatch("getWeather", location)
         .then((response) => {
+          this.$isLoading(false)
           this.weather = response.data;
           this.weather.map((el) => {
             if (el.cuaca.includes("hujan")) {
@@ -926,22 +1006,52 @@ export default {
           this.showForeCast = true;
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     closeForeCast: function () {
       this.showForeCast = false;
     },
     getEquipmentList: function () {
+      this.$isLoading(true)
       this.$store
         .dispatch("getEquipmentById", this.trip.id)
         .then((response) => {
+          this.$isLoading(false)
           this.listEquipment = response.data;
         })
         .catch((err) => {
-          console.log(err.response.data);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
+    deleteEquipment: function(EquipmentId){
+      this.$toasted.show("Are u sure to delete this?", {
+        action: [
+          {
+            text: "Cancel",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            },
+          },
+          {
+            text: "Yes",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+              this.$store.dispatch('deleteEquipment', EquipmentId)
+              .then(() => {
+                this.$toasted.success('Deleted success', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
+                this.getEquipmentList()
+              })
+              .catch(err => {
+                this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
+              })
+            },
+          },
+        ],
+      });
+    }
   },
   created() {
     // this.getEquipmentList();
@@ -950,4 +1060,7 @@ export default {
 </script>
 
 <style>
+.scroll {
+  overflow-y: scroll;
+}
 </style>

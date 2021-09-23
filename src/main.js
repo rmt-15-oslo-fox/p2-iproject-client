@@ -7,6 +7,10 @@ import toasted from 'vue-toasted'
 import VueSocketIO from 'vue-socket.io'
 import VueChatScroll from 'vue-chat-scroll';
 import VueTailwind from 'vue-tailwind'
+// import Loading from 'vue-loading-overlay';
+// import 'vue-loading-overlay/dist/vue-loading.css';
+import loading from 'vuejs-loading-screen'
+
 import {
   TModal,
 } from 'vue-tailwind/dist/components'
@@ -65,6 +69,14 @@ Vue.config.productionTip = false
 Vue.use(GSignInButton)
 Vue.use(toasted)
 Vue.use(VueChatScroll);
+Vue.use(loading, {
+  bg: 'rgba(151, 151, 151, 0.70)',
+  slot: `
+    <div class="px-5 py-3 bg-gray-800 rounded">
+      <h3 class="text-3xl text-white"><i class="fas fa-spinner fa-spin"></i> Loading...</h3>
+    </div>
+  `
+})
 
 Vue.use(new VueSocketIO({
   debug: true,

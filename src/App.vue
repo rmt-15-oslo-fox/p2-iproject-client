@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col justify-between">
     <navbar-component></navbar-component>
     <router-view/>
     <Footer></Footer>
@@ -17,6 +17,7 @@ export default {
     Footer
   },
   created: function(){
+    // this.$store.dispatch('getEmbedMap')
     if (localStorage.getItem('access_token')){
       this.$store.commit('SET_ISLOGIN', true)
     }
@@ -25,5 +26,7 @@ export default {
 </script>
 
 <style>
-
+#app {
+  font-family: 'Varela Round', sans-serif;
+}
 </style>
