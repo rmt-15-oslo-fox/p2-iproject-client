@@ -59,7 +59,7 @@ export default {
         });
     },
     editJob() {
-      this.$emit("changePage", "editJob");
+      this.$emit("changePage", "editArtikel");
     },
   },
   created() {

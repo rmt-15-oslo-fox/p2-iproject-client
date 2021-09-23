@@ -5,7 +5,7 @@
       v-if="
         currentPage === 'dashboard' ||
         currentPage === 'history' ||
-        currentPage === 'createJob' ||
+        currentPage === 'createArtikel' ||
         currentPage === 'update-form' ||
         currentPage === 'edit-form' ||
         currentPage === 'about'
@@ -25,14 +25,14 @@
       @changePage="changePage"
     ></history>
     <about v-if="currentPage === 'about'" @changePage="changePage"></about>
-    <createJob
-      v-if="currentPage === 'createJob'"
+    <createArtikel
+      v-if="currentPage === 'createArtikel'"
       @changePage="changePage"
-    ></createJob>
-    <edit-job
-      v-if="currentPage === 'editJob'"
+    ></createArtikel>
+    <edit-artikel
+      v-if="currentPage === 'editArtikel'"
       @changePage="changePage"
-    ></edit-job>
+    ></edit-artikel>
   </div>
 </template>
 
@@ -40,9 +40,9 @@
 import Login from "./views/login.vue";
 import Navbar from "./components/navbar.vue";
 import Register from "./views/register.vue";
-import ListArtikel from "./views/listArtikel.vue";
+import ListJobs from "./views/listJobs.vue";
 import History from "./views/history.vue";
-// import About from "./views/About.vue";
+import About from "./views/about.vue";
 import CreateJob from "./views/createJobForm.vue";
 import EditJob from "./views/editJob.vue";
 export default {
@@ -50,7 +50,7 @@ export default {
     Login,
     Navbar,
     Register,
-    ListArtikel,
+    ListJobs,
     History,
     About,
     CreateJob,
