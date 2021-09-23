@@ -5,7 +5,6 @@ export default {
   extends: Line,
   data() {
     return {
-      ihsgData: this.ihsg,
       gradient: null,
     };
   },

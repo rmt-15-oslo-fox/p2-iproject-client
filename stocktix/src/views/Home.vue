@@ -63,9 +63,7 @@ export default {
     } 
   },
   async created() {
-    if(localStorage.access_token) {
-      this.$store.commit('SET_ISLOGIN', true)
-    }
+    
   },
   components: {
     NavBar,

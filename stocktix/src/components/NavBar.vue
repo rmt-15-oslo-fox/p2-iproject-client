@@ -21,7 +21,7 @@
          <router-link class="nav-link" to="/register">Register</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
-         <router-link class="nav-link" to="/wathclist">Watchlist</router-link>
+         <router-link class="nav-link" to="/watchlist">Watchlist</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
          <router-link class="nav-link" to="/forum">Forum</router-link>
