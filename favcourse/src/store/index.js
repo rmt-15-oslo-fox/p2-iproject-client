@@ -20,6 +20,7 @@ export default new Vuex.Store({
     checkoutToken: "",
     categories: [],
     my_courses: [],
+    my_learnings: [],
   },
   mutations: {
     CHANGE_LOGIN(state, loginCondition) {
@@ -52,6 +53,10 @@ export default new Vuex.Store({
 
     SET_MY_COURSES(state, courses) {
       state.my_courses = courses;
+    },
+
+    SET_MY_LEARNINGS(state, learnings) {
+      state.my_learnings = learnings;
     },
   },
   actions: {
@@ -282,6 +287,39 @@ export default new Vuex.Store({
         const { data } = error.response;
         commit("SET_ERROR", true);
         Vue.$toast.error(data.errors[0]);
+      }
+    },
+
+    async fetchMyLearnings({ commit }) {
+      try {
+        const { data } = await server({
+          url: "/learnings",
+          method: "GET",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+        commit("SET_MY_LEARNINGS", data.learnings);
+      } catch (error) {
+        const { data } = error.response;
+        commit("SET_ERROR", true);
+        Vue.$toast.error(data.errors[0]);
+      }
+    },
+
+    async fetchDeleteItemInCart({ dispatch }, id) {
+      try {
+        const { data } = await server({
+          url: `/carts/${id}`,
+          method: "delete",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+        await dispatch("fetchCarts");
+        Vue.$toast.success(data.message);
+      } catch (error) {
+        Vue.$toast.error(error.response.data.message);
       }
     },
   },

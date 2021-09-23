@@ -8,6 +8,8 @@ import CourseDetail from "../views/CourseDetail.vue";
 import MyCart from "../views/MyCart.vue";
 import CreateCourse from "../views/CreateCourse.vue";
 import MyCourses from "../views/MyCourses.vue";
+import MyLearning from "../views/MyLearning.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -50,6 +52,11 @@ const routes = [
     path: "/instructors",
     name: "Instructors",
     component: MyCourses,
+  },
+  {
+    path: "/learning",
+    name: "MyLearning",
+    component: MyLearning,
   },
 ];
 

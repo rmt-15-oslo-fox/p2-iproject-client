@@ -1,11 +1,7 @@
 <template>
   <div class="container mx-auto flex justify-between" v-if="carts.length > 0">
     <div class="flex flex-wrap w-10/12">
-      <item-cart
-        v-for="item in carts"
-        :key="item.id"
-        :item="item.Course"
-      ></item-cart>
+      <item-cart v-for="item in carts" :key="item.id" :item="item"></item-cart>
     </div>
     <section
       class="

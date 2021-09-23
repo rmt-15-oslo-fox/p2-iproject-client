@@ -98,6 +98,11 @@
                   >Create Course</router-link
                 >
               </li>
+              <li class="nav-drop">
+                <router-link :to="{ name: 'MyLearning' }"
+                  >My Learnings</router-link
+                >
+              </li>
               <li class="nav-drop mb-0">
                 <button @click.prevent="logoutHandler">Sign Out</button>
               </li>
