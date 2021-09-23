@@ -34,15 +34,15 @@
               <br /><br /><br /><br />
               <form>
                 <select class="form-select" aria-label="Default select example">
-                  <option 
-                  selected 
-                  >Open this select menu</option>
-                  <option 
-                  value="1"
-                  v-for="location in dataLocation" 
-                  :key="location.id"
-                  @click="changeLocation(location)"
-                  >{{location.name}}</option>
+                  <option selected>Open this select menu</option>
+                  <option
+                    value="1"
+                    v-for="location in dataLocation"
+                    :key="location.id"
+                    @click="changeLocation(location)"
+                  >
+                    {{ location.name }}
+                  </option>
                 </select>
               </form>
             </div>
@@ -54,15 +54,15 @@
 </template>
 
 <script>
-import { Icon } from 'leaflet';
+import { Icon } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 
 delete Icon.Default.prototype._getIconUrl;
 
 Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 export default {
@@ -72,30 +72,37 @@ export default {
     LTileLayer,
     LMarker,
   },
-  data () {
+  data() {
     return {
-      url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      attribution:'© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      attribution:
+        '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 17,
-      center: [-0.789287,119.869477],
+      center: [-0.789287, 119.869477],
       bounds: null,
-      dataLocation : []
+      dataLocation: [],
     };
   },
-  methods : {
-    changeLocation(location){
-      this.center = [location.pointX,location.pointY]
-    }
+  methods: {
+    changeLocation(location) {
+      this.center = [location.pointX, location.pointY];
+    },
   },
-  created(){
-    this.$store.dispatch('getDataLocation')
-    .then(resp => {
-      this.dataLocation = resp.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+  created() {
+    this.$store
+      .dispatch("getDataLocation")
+      .then((resp) => {
+        this.dataLocation = resp.data;
+      })
+      .catch((err) => {
+        const msg = err.response.data.msg;
+        this.$swal.fire({
+          icon: "error",
+          title: `${msg}`,
+          text: "Please Enter Valid Email/Password",
+        });
+      });
+  },
 };
 </script>
 

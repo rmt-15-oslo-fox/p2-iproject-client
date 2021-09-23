@@ -16,10 +16,16 @@
     <div id="Home-Page">
       <div class="red row mt-3 mb-2 first-layout">
         <div class="pink col-9">
-          <img src="https://kkpyogyakarta.com/joimg/artikel/mengenal-lebih-dalam-covid19-169-covid19.png" width="100%" height="100%" alt="" srcset="" />
+          <img
+            src="https://kkpyogyakarta.com/joimg/artikel/mengenal-lebih-dalam-covid19-169-covid19.png"
+            width="100%"
+            height="100%"
+            alt=""
+            srcset=""
+          />
         </div>
         <div class="grey">
-          <br><br>
+          <br /><br />
           <h1>Berikut adalah jumlah pasien positif dan dirawat</h1>
         </div>
         <div class="green col"></div>
@@ -27,56 +33,73 @@
       <div class="blue row">
         <div class="red col">
           <div class="text1">
-            <h2>
-              Tingkat Kematian Akibat Virus Corona (COVID-19)
-            </h2>
+            <h2>Tingkat Kematian Akibat Virus Corona (COVID-19)</h2>
           </div>
         </div>
         <div class="blue col">
           <div class="row green">
             <div class="orange mb-2 col-4">
               <p>Jumlah pasien positif</p>
-              <h2>{{dataCovidIndo.jumlah_positif}}</h2>
+              <h2>{{ dataCovidIndo.jumlah_positif }}</h2>
             </div>
-            <div class="orange  mb-4 col-4">
+            <div class="orange mb-4 col-4">
               <p>Jumlah pasien sembuh</p>
-              <h2>{{dataCovidIndo.jumlah_sembuh}}</h2>
+              <h2>{{ dataCovidIndo.jumlah_sembuh }}</h2>
             </div>
             <div class="orange mb-5 col-4">
               <p>Tanggal</p>
-              <h2>{{dataCovidIndo.tanggal}}</h2>
+              <h2>{{ dataCovidIndo.tanggal }}</h2>
             </div>
             <div class="text2">
               <p>
-                Virus Corona yang menyebabkan COVID-19 bisa menyerang siapa saja. Menurut data yang dirilis Gugus Tugas Percepatan Penanganan COVID-19 Republik Indonesia, jumlah kasus terkonfirmasi positif hingga 06 Agustus 2021 adalah 3.568.331 orang dengan jumlah kematian 102.375 orang. Tingkat kematian (case fatality rate) akibat COVID-19 adalah sekitar 2,9%.
+                Virus Corona yang menyebabkan COVID-19 bisa menyerang siapa
+                saja. Menurut data yang dirilis Gugus Tugas Percepatan
+                Penanganan COVID-19 Republik Indonesia, jumlah kasus
+                terkonfirmasi positif hingga 06 Agustus 2021 adalah 3.568.331
+                orang dengan jumlah kematian 102.375 orang. Tingkat kematian
+                (case fatality rate) akibat COVID-19 adalah sekitar 2,9%.
                 <br />
                 <br />
-                Jika dilihat dari persentase angka kematian yang di bagi menurut golongan usia, maka kelompok usia >60 tahun memiliki persentase angka kematian yang lebih tinggi dibandingkan golongan usia lainnya.
-                <br><br>
-                Sedangkan berdasarkan jenis kelamin, 53,1% penderita yang meninggal akibat COVID-19 adalah laki-laki dan 46,9% sisanya adalah perempuan.
+                Jika dilihat dari persentase angka kematian yang di bagi menurut
+                golongan usia, maka kelompok usia >60 tahun memiliki persentase
+                angka kematian yang lebih tinggi dibandingkan golongan usia
+                lainnya.
+                <br /><br />
+                Sedangkan berdasarkan jenis kelamin, 53,1% penderita yang
+                meninggal akibat COVID-19 adalah laki-laki dan 46,9% sisanya
+                adalah perempuan.
               </p>
             </div>
           </div>
         </div>
-      </div><br><br><br>
+      </div>
+      <br /><br /><br />
       <div class="layout-button-register row">
         <div class="text4">
           <h3>
-            Lakukan Login Untuk mendapatkan Fitur Tambahan <br><br>
+            Lakukan Login Untuk mendapatkan Fitur Tambahan <br /><br />
             Silahkan Baca keuntungan Login
           </h3>
         </div>
-        <router-link to="/Login"><button class="btn btn-info button">Login</button></router-link>
+        <router-link to="/Login"
+          ><button class="btn btn-info button">Login</button></router-link
+        >
       </div>
       <div class="pink row">
         <div class="col green">
           <div class="text1">
-          <h3>Mengapa Harus Login ?</h3>
-          <h6> Di bawah ini keuntungan jika melakukan login :</h6>
+            <h3>Mengapa Harus Login ?</h3>
+            <h6>Di bawah ini keuntungan jika melakukan login :</h6>
             <ul>
               <li>Akan membuka fitur search untuk semua user</li>
-              <li>Dapat membuka fitur map untuk user yang kotanya telah ada dalam map</li>
-              <li>ketika melakukan register dengan akun gmail. email akan dikirim jika ada updetan terkait aplikasi</li>
+              <li>
+                Dapat membuka fitur map untuk user yang kotanya telah ada dalam
+                map
+              </li>
+              <li>
+                ketika melakukan register dengan akun gmail. email akan dikirim
+                jika ada updetan terkait aplikasi
+              </li>
             </ul>
           </div>
         </div>
@@ -100,33 +123,39 @@
 </template>
 
 <script>
-import HFooter from 'vue-hacktiv8-footer'
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "Home",
-  data(){
-    return{
-      dataCovidIndo : {}
-    }
+  data() {
+    return {
+      dataCovidIndo: {},
+    };
   },
-  components : {
-    HFooter
+  components: {
+    HFooter,
   },
-  created(){
-    this.$store.dispatch('getDataCovidIndo')
-    .then(resp => {
-      this.dataCovidIndo = resp.data
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+  created() {
+    this.$store
+      .dispatch("getDataCovidIndo")
+      .then((resp) => {
+        this.dataCovidIndo = resp.data;
+      })
+      .catch((err) => {
+        const msg = err.response.data.msg;
+        this.$swal.fire({
+          icon: "error",
+          title: `${msg}`,
+          text: "Please Enter Valid Email/Password",
+        });
+      });
+  },
 };
 </script>
 
 <style scoped>
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 .red {
   height: 500px;

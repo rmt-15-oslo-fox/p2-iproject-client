@@ -71,7 +71,6 @@ export default {
       this.$store
         .dispatch("login")
         .then((resp) => {
-          console.log(resp.data);
           localStorage.setItem("access_token", resp.data.access_token);
           this.$store.commit("changeIsLogin", true);
           this.$router.push("/");

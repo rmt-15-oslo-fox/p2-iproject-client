@@ -12,11 +12,11 @@ export default new Vuex.Store({
   state: {
     isLogin: false,
     dataUser: {},
-    dataResultHospital : {},
-    dataProvince : {},
-    search : '',
-    filtered : [],
-    provinceCov : {}
+    dataResultHospital: {},
+    dataProvince: {},
+    search: '',
+    filtered: [],
+    provinceCov: {}
   },
   mutations: {
     addDataLogin(state, payload) {
@@ -25,7 +25,7 @@ export default new Vuex.Store({
     changeIsLogin(state, payload) {
       state.isLogin = payload
     },
-    search(state,word){
+    search(state, word) {
       state.search = word
     }
   },
@@ -54,7 +54,7 @@ export default new Vuex.Store({
           username: state.dataUser.username,
           password: state.dataUser.password,
           city: state.dataUser.city,
-          email : state.dataUser.email
+          email: state.dataUser.email
         }
       })
     },
@@ -67,7 +67,7 @@ export default new Vuex.Store({
         }
       })
     },
-    async getDataProvince({state}) {
+    async getDataProvince({ state }) {
       axios({
         url: `${baseUrl}/province`,
         method: 'get',
@@ -75,30 +75,34 @@ export default new Vuex.Store({
           access_token: localStorage.access_token
         }
       })
-      .then(response => {
-        state.dataResultHospital = response.data.dataHospital
-        state.dataProvince = response.data.dataProvince
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(response => {
+          state.dataResultHospital = response.data.dataHospital
+          state.dataProvince = response.data.dataProvince
+        })
+        .catch(err => {
+          const msg = err.response.data.msg;
+          Vue.swal.fire({
+            icon: "error",
+            title: `${msg}`,
+            text: "Please Enter Valid Email/Password",
+          });
+          this.$router.push('/Search')
+        })
     },
-    async filterData({state}){
+    async filterData({ state }) {
       const search = state.search.toLowerCase()
-      const filter = state.dataResultHospital.filter(el => {
+      const filter = await state.dataResultHospital.filter(el => {
         let name = el.province.toLowerCase()
-        if(name === search){
+        if (name === search) {
           return el
         }
       })
-      // console.log(state.dataProvince[0].attributes.Provinsi)
       const provinceCov = state.dataProvince.filter(el => {
         let name = el.attributes.Provinsi.toLowerCase()
-        if(search === name){
+        if (search === name) {
           return el
         }
       })
-      console.log(provinceCov)
       state.provinceCov = provinceCov
       state.filtered = filter
     }

@@ -16,9 +16,9 @@
       <div class="container-login row">
         <div class="search-page row">
           <div class="text-card">
-            <h2>Angka kasus Covid {{dataProv[0].attributes.Provinsi}}</h2>
+            <h2>Angka kasus Covid {{ dataProv[0].attributes.Provinsi }}</h2>
             <br />
-            <h3>{{dataProv[0].attributes.Kasus_Posi}}</h3>
+            <h3>{{ dataProv[0].attributes.Kasus_Posi }}</h3>
             <br />
             <p>Berikut Data Rumah Sakit Provinsi Bersangkutan</p>
           </div>
@@ -32,9 +32,9 @@
                   <th>Region</th>
                 </tr>
                 <card
-                v-for="data in dataFiltered"
-                :key="data.name"
-                :dataProvince="data"
+                  v-for="data in dataFiltered"
+                  :key="data.name"
+                  :dataProvince="data"
                 ></card>
               </table>
             </div>
@@ -53,14 +53,25 @@ export default {
   components: {
     card,
   },
-  computed : {
-    dataFiltered(){
-      return this.$store.state.filtered
+  computed: {
+    dataFiltered() {
+      return this.$store.state.filtered;
     },
-    dataProv(){
-      return this.$store.state.provinceCov
+    dataProv() {
+      return this.$store.state.provinceCov;
+    },
+  },
+  beforeCreate() {
+    const dataError = this.$store.state.filtered.length
+    if (dataError === 0) {
+      this.$swal.fire({
+        icon: "error",
+        title: `Please Enter Your Province`,
+        text: "Data not found",
+      });
+      this.$router.push("/Search");
     }
-  }
+  },
 };
 </script>
 
