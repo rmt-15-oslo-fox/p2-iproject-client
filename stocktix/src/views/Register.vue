@@ -98,20 +98,15 @@ export default {
     };
   },
   methods: {
-    register() {
+    async register() {
       let payload = {
         username: this.username,
         email: this.email,
         password: this.password,
       }
-      this.$store.dispatch('registerUser', payload)
-      .then(({data}) => {
-        this.$swal(`Successfully created ${data.email}'s account`)
-        this.$router.push('/')
-      })
-      .catch(err => {
-        this.$swal(err.message)
-      })
+      await this.$store.dispatch('registerUser', payload)
+      this.$router.push('/login')
+      this.$store.commit('SET_SUCCESSREGISTER', false)
     },
   },
   components: {
