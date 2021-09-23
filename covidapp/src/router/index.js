@@ -68,6 +68,10 @@ router.beforeEach((to, from, next) => {
   }
   else if(to.name === 'Map' && !isAuthenticated){
     next({ name: 'Home' })
+  }else if(to.name === 'Login' && isAuthenticated){
+    next({ name: 'Home' })
+  }else if(to.name === 'Register' && isAuthenticated){
+    next({ name: 'Home' })
   }
   else next()
 })

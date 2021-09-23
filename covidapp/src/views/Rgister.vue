@@ -116,7 +116,6 @@ a {
 .login-page {
   height: 80vh;
   margin-top: 10vh;
-  padding: 20px 150px;
   box-shadow: 1px 2px 20px -1px;
 }
 
@@ -124,6 +123,7 @@ a {
   background-color: rgba(102, 186, 189, 0.836);
   height: 100%;
   text-align: center;
+  overflow: scroll;
 }
 
 .page-login {

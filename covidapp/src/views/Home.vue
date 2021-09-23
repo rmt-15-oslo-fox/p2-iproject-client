@@ -134,7 +134,6 @@ a {
 }
 
 .blue {
-  height: 500px;
   padding-top: 100px;
 }
 
@@ -187,6 +186,7 @@ a:hover {
 }
 
 .text2 {
+  padding-top: 50px;
   width: 80%;
 }
 

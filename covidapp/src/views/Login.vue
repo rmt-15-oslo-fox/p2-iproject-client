@@ -101,8 +101,7 @@ a {
 .login-page {
   height: 80vh;
   margin-top: 10vh;
-  padding: 20px 150px;
-  box-shadow: 1px 2px 20px -1px;
+  box-shadow: 1px 2px 1px 1px;
 }
 
 .login {
