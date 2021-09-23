@@ -19,6 +19,7 @@ export default new Vuex.Store({
     carts: [],
     checkoutToken: "",
     categories: [],
+    my_courses: [],
   },
   mutations: {
     CHANGE_LOGIN(state, loginCondition) {
@@ -47,6 +48,10 @@ export default new Vuex.Store({
 
     SET_CATEGORIES(state, categories) {
       state.categories = categories;
+    },
+
+    SET_MY_COURSES(state, courses) {
+      state.my_courses = courses;
     },
   },
   actions: {
@@ -245,6 +250,7 @@ export default new Vuex.Store({
         Vue.$toast.success(response.data.message);
       } catch (error) {
         const { data } = error.response;
+        context.commit("SET_ERROR", true);
         Vue.$toast.error(data.errors[0]);
       }
     },
@@ -258,6 +264,24 @@ export default new Vuex.Store({
         commit("SET_CATEGORIES", data.categories);
       } catch (error) {
         Vue.$toast.error("Failed get data categories");
+      }
+    },
+
+    async fetchMyCourses({ commit }) {
+      try {
+        const { data } = await server({
+          url: "/courses",
+          method: "GET",
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        commit("SET_MY_COURSES", data.courses);
+      } catch (error) {
+        const { data } = error.response;
+        commit("SET_ERROR", true);
+        Vue.$toast.error(data.errors[0]);
       }
     },
   },

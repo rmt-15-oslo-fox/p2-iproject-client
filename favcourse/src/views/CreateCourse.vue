@@ -126,7 +126,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["categories"]),
+    ...mapState(["categories", "isError"]),
   },
   methods: {
     ...mapActions(["fetchCreateCourse", "fetchCategories"]),
@@ -138,6 +138,9 @@ export default {
     },
     async createCourseHandler() {
       await this.fetchCreateCourse({ ...this.payload });
+      if (!this.isError) {
+        this.$router.push({ name: "Home" });
+      }
     },
   },
   async created() {

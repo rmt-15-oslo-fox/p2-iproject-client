@@ -86,6 +86,11 @@
                 <router-link :to="{ name: 'MyProfile' }">Profile</router-link>
               </li>
               <li class="nav-drop">
+                <router-link :to="{ name: 'Instructors' }"
+                  >My Courses</router-link
+                >
+              </li>
+              <li class="nav-drop">
                 <router-link :to="{ name: 'MyCart' }">My Cart</router-link>
               </li>
               <li class="nav-drop">

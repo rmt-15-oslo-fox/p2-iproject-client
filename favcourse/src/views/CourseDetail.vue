@@ -91,7 +91,6 @@
         >
           Add to Cart
         </button>
-        <button class="btn-sec w-full">Buy Now</button>
       </div>
       <div class="mt-3">
         <ul>
@@ -127,6 +126,7 @@ export default {
         this.$router.push({ name: "Login" });
       } else {
         await this.addCourseToCart(this.course.id);
+        this.$router.push({ name: "MyCart" });
       }
     },
   },

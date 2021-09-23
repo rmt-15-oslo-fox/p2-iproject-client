@@ -1,9 +1,10 @@
 <template>
-  <div class="container mx-auto flex flex-wrap">
+  <div class="container mx-auto flex justify-center flex-wrap">
     <course-card
       v-for="course in courses"
       :key="course.id"
       :course-data="course"
+      class="mb-5"
     ></course-card>
   </div>
 </template>

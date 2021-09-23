@@ -26,7 +26,7 @@
             <label
               for="avatar"
               class="
-                btn-secondary
+                btn-sec
                 text-black
                 shadow-xl
                 cursor-pointer
@@ -52,14 +52,38 @@
       </div>
       <div class="pb-4 border-b-2 border-gray mb-12">
         <div class="mb-6">
-          <label class="mb-2 inline-block font-semibold" for="name">Name</label>
-          <input class="input" type="" id="name" v-model="user.name" />
+          <label class="label">
+            <span class="label-text font-semibold">Name</span>
+          </label>
+          <input
+            class="input input-primary font-medium text-xl w-full border-gray"
+            type=""
+            id="name"
+            v-model="user.name"
+          />
         </div>
         <div>
-          <label class="mb-2 inline-block font-semibold" for="email"
-            >Email</label
-          >
-          <input class="input" :value="user.email" id="email" disabled />
+          <label class="label">
+            <span class="label-text font-semibold">Email</span>
+          </label>
+          <input
+            class="input input-primary font-medium text-xl w-full border-gray"
+            :value="user.email"
+            id="email"
+            disabled
+          />
+        </div>
+
+        <div>
+          <label class="label">
+            <span class="label-text font-semibold">Balance</span>
+          </label>
+          <input
+            class="input input-primary font-medium text-xl w-full border-gray"
+            :value="balance"
+            id="email"
+            disabled
+          />
         </div>
       </div>
       <div>
@@ -92,6 +116,9 @@ export default {
       get() {
         return this.$store.state.user;
       },
+    },
+    balance() {
+      return this.$store.getters.getPrice(this.user.balance);
     },
   },
   methods: {
