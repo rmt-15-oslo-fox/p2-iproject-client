@@ -57,4 +57,19 @@ const router = new VueRouter({
   routes,
 });
 
+
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = localStorage.access_token 
+  if (to.name === 'Result' && !isAuthenticated){
+    next({ name: 'Home' })
+  }
+  else if(to.name === 'Search' && !isAuthenticated){
+    next({ name: 'Home' })
+  }
+  else if(to.name === 'Map' && !isAuthenticated){
+    next({ name: 'Home' })
+  }
+  else next()
+})
+
 export default router;

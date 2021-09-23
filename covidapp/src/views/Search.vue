@@ -19,16 +19,15 @@
             <div class="test">
               <h1>SEARCH YOUR PROVINCE</h1>
               <br /><br />
-              <form>
+              <form @submit.prevent="sendSearch">
                 <input
+                  v-model="search"
                   class="search"
                   type="text"
                   placeholder="Search example : sulawesi tengah"
                 />
                 <br /><br /><br />
-                <router-link to="/Result">
-                  <button class="btn btn-info">Search</button>
-                </router-link>
+                <button class="btn btn-info">Search</button>
               </form>
             </div>
           </div>
@@ -42,6 +41,21 @@
 <script>
 export default {
   name: "Search",
+  data() {
+    return {
+      search: "",
+    };
+  },
+  methods: {
+    sendSearch() {
+      this.$store.commit("search", this.search);
+      this.$store.dispatch("filterData");
+      this.$router.push('/Result')
+    },
+  },
+  created() {
+    this.$store.dispatch("getDataProvince");
+  },
 };
 </script>
 

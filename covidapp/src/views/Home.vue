@@ -19,7 +19,8 @@
           <img src="https://kkpyogyakarta.com/joimg/artikel/mengenal-lebih-dalam-covid19-169-covid19.png" width="100%" height="100%" alt="" srcset="" />
         </div>
         <div class="grey">
-          <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
+          <br><br>
+          <h1>Berikut adalah jumlah pasien positif dan dirawat</h1>
         </div>
         <div class="green col"></div>
       </div>
@@ -27,48 +28,42 @@
         <div class="red col">
           <div class="text1">
             <h2>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-              ullam ad eligendi
+              Tingkat Kematian Akibat Virus Corona (COVID-19)
             </h2>
           </div>
         </div>
         <div class="blue col">
           <div class="row green">
-            <div class="orange col-4">
-              <h2>{{dataCovidIndo.positif}}</h2>
+            <div class="orange mb-2 col-4">
+              <p>Jumlah pasien positif</p>
+              <h2>{{dataCovidIndo.jumlah_positif}}</h2>
             </div>
-            <div class="orange col-4">
-              <h2>{{dataCovidIndo.sembuh}}</h2>
+            <div class="orange  mb-4 col-4">
+              <p>Jumlah pasien sembuh</p>
+              <h2>{{dataCovidIndo.jumlah_sembuh}}</h2>
             </div>
-            <div class="orange col-4">
-              <h2>{{dataCovidIndo.dirawat}}</h2>
+            <div class="orange mb-5 col-4">
+              <p>Tanggal</p>
+              <h2>{{dataCovidIndo.tanggal}}</h2>
             </div>
             <div class="text2">
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Aliquid earum aliquam corrupti repellat ducimus voluptas nemo
-                sapiente distinctio? Libero ex aliquam rerum quae facilis
-                consectetur qui quas eos odio distinctio.
-
+                Virus Corona yang menyebabkan COVID-19 bisa menyerang siapa saja. Menurut data yang dirilis Gugus Tugas Percepatan Penanganan COVID-19 Republik Indonesia, jumlah kasus terkonfirmasi positif hingga 06 Agustus 2021 adalah 3.568.331 orang dengan jumlah kematian 102.375 orang. Tingkat kematian (case fatality rate) akibat COVID-19 adalah sekitar 2,9%.
                 <br />
                 <br />
-
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-                earum atque nobis praesentium voluptatem voluptatum accusantium
-                sint, autem tempore excepturi, ea est eveniet dignissimos aut
-                facilis in quo quis dicta.
+                Jika dilihat dari persentase angka kematian yang di bagi menurut golongan usia, maka kelompok usia >60 tahun memiliki persentase angka kematian yang lebih tinggi dibandingkan golongan usia lainnya.
+                <br><br>
+                Sedangkan berdasarkan jenis kelamin, 53,1% penderita yang meninggal akibat COVID-19 adalah laki-laki dan 46,9% sisanya adalah perempuan.
               </p>
             </div>
           </div>
         </div>
-      </div>
+      </div><br><br><br>
       <div class="layout-button-register row">
         <div class="text4">
           <h3>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit,
-            doloremque, <br />
-            iste perferendis placeat dolorem nihil voluptatibus eos, <br />
-            minima aspernatur qui et officiis.
+            Lakukan Login Untuk mendapatkan Fitur Tambahan <br><br>
+            Silahkan Baca keuntungan Login
           </h3>
         </div>
         <router-link to="/Login"><button class="btn btn-info button">Login</button></router-link>
@@ -76,29 +71,36 @@
       <div class="pink row">
         <div class="col green">
           <div class="text1">
+          <h3>Mengapa Harus Login ?</h3>
+          <h6> Di bawah ini keuntungan jika melakukan login :</h6>
             <ul>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+              <li>Akan membuka fitur search untuk semua user</li>
+              <li>Dapat membuka fitur map untuk user yang kotanya telah ada dalam map</li>
+              <li>ketika melakukan register dengan akun gmail. email akan dikirim jika ada updetan terkait aplikasi</li>
             </ul>
           </div>
         </div>
         <div class="col blue">
           <div class="text1">
+            <h3>Ayo Tetap Lakukan</h3>
             <ul>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+              <li>Mencuci Tangan</li>
+              <li>Menjaga Jarak</li>
+              <li>Memakai Masker</li>
+              <li>Makan Yang Makanan Yang Sehat</li>
             </ul>
           </div>
         </div>
       </div>
-      <div class="row footer"></div>
+      <div class="row footer">
+        <HFooter></HFooter>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import HFooter from 'vue-hacktiv8-footer'
 export default {
   name: "Home",
   data(){
@@ -106,10 +108,13 @@ export default {
       dataCovidIndo : {}
     }
   },
+  components : {
+    HFooter
+  },
   created(){
     this.$store.dispatch('getDataCovidIndo')
     .then(resp => {
-      this.dataCovidIndo = resp.data[0]
+      this.dataCovidIndo = resp.data
     })
     .catch(err => {
       console.log(err)
@@ -168,7 +173,6 @@ a:hover {
 
 .orange {
   background-color: rgba(231, 172, 63, 0.699);
-  height: 15%;
   border: 2px solid black;
   text-align: center;
   padding-top: 15px;
@@ -183,9 +187,7 @@ a:hover {
 }
 
 .text2 {
-  height: 50%;
   width: 80%;
-  margin-left: 10%;
 }
 
 .layout-button-register {
@@ -193,16 +195,16 @@ a:hover {
   height: 250px;
   background-color: blanchedalmond;
   padding: 20px;
+  text-align: center;
 }
 
 .text4 {
   height: 150px;
-  text-align: center;
 }
 
 .button {
   width: 200px;
-  margin-left: 40%;
+  margin: 0 auto;
   height: 50px;
 }
 

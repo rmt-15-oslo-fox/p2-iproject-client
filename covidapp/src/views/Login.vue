@@ -19,7 +19,11 @@
         <div class="container-login row">
           <div class="login-page row">
             <div class="page-login col-7">
-              <img src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg" width="103%" height="100%" />
+              <img
+                src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg"
+                width="103%"
+                height="100%"
+              />
             </div>
             <div class="login col">
               <br />
@@ -27,15 +31,9 @@
                 <h2>Login</h2>
                 <br />
                 <label>Username</label><br />
-                <input 
-                type="text"
-                v-model="username" 
-                /><br /><br />
+                <input type="text" v-model="username" /><br /><br />
                 <label>Password</label><br />
-                <input 
-                type="password"
-                v-model="password" 
-                /><br /><br />
+                <input type="password" v-model="password" /><br /><br />
                 <p>
                   Do not have account ?
                   <router-link to="/Register">
@@ -54,33 +52,40 @@
 </template>
 
 <script>
+
 export default {
   name: "Login",
-  data(){
+  data() {
     return {
-      username : '',
-      password : ''
-    }
+      username: "",
+      password: "",
+    };
   },
-  methods : {
-    addDataLogin(){
+  methods: {
+    addDataLogin() {
       const payload = {
-        username : this.username,
-        password : this.password
-      }
-      this.$store.commit('addDataLogin',payload)
-      this.$store.dispatch('login')
-      .then(resp => {
-        localStorage.setItem('access_token',resp.data.access_token)
-        this.$store.commit('changeIsLogin',true)
-        this.$router.push('/')
-      })
-      .catch(() => {
-        // console.log(err)
-        this.$router.push('/')
-      })
-    }
-  }
+        username: this.username,
+        password: this.password,
+      };
+      this.$store.commit("addDataLogin", payload);
+      this.$store
+        .dispatch("login")
+        .then((resp) => {
+          console.log(resp.data);
+          localStorage.setItem("access_token", resp.data.access_token);
+          this.$store.commit("changeIsLogin", true);
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          const msg = err.response.data.msg;
+          this.$swal.fire({
+            icon: "error",
+            title: `${msg}`,
+            text: "Please Enter Valid Email/Password",
+          });
+        });
+    },
+  },
 };
 </script>
 

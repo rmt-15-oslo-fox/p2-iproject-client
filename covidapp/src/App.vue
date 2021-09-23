@@ -13,14 +13,14 @@
       <title>Page 1</title>
     </head>
     <body>
-      <div class="nav-container">
+      <div class="nav-container" v-if="isLogin">
         <div class="nav-bar mt-2">
           <nav class="nav-bar-text">
             <ul>
               <li><router-link to="/">Home</router-link></li>
-              <li v-if="isLogin"><router-link to="/Search">Search</router-link></li>
-              <li v-if="isLogin"><router-link to="/Map">Map</router-link></li>
-              <li><a href="">Logout </a></li>
+              <li><router-link to="/Search">Search</router-link></li>
+              <li><router-link to="/Map">Map</router-link></li>
+              <li><a @click="logout">Logout</a></li>
             </ul>
           </nav>
         </div>
@@ -36,6 +36,18 @@ export default {
   computed : {
     isLogin(){
       return this.$store.state.isLogin
+    }
+  },
+  methods : {
+    logout(){
+      this.$store.commit('changeIsLogin',false)
+      localStorage.clear()
+      this.$router.push('/')
+    }
+  },
+  created(){
+    if(localStorage.access_token){
+      this.$store.commit('changeIsLogin',true)
     }
   }
 }
@@ -62,6 +74,7 @@ body {
 a {
   text-decoration: none;
   color: black;
+  cursor: pointer;
 }
 
 .nav-bar-text {

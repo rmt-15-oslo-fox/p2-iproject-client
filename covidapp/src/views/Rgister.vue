@@ -12,85 +12,102 @@
       />
       <title>Page 1</title>
     </head>
-      <!-- Main Feature -->
-      <div id="Main-feature">
-        <div class="container">
-          <!-- Register -->
-          <div class="container-login row">
-            <div class="login-page row">
-              <div class="page-login col-7">
-                <img src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg" width="103%" height="100%" />
-              </div>
-              <div class="login col">
+    <!-- Main Feature -->
+    <div id="Main-feature">
+      <div class="container">
+        <!-- Register -->
+        <div class="container-login row">
+          <div class="login-page row">
+            <div class="page-login col-7">
+              <img
+                src="https://www.djkn.kemenkeu.go.id/foto-thumbnail/300/2020/04/covid-4948866_1920/Sekilas-Pandang-Mengenai-Virus-Baru-Covid-19.jpg"
+                width="103%"
+                height="100%"
+              />
+            </div>
+            <div class="login col">
+              <br />
+              <form @submit.prevent="addDataUser">
+                <h2>Register</h2>
                 <br />
-                <form @submit.prevent="addDataUser">
-                  <h2>Register</h2>
-                  <br />
-                  <label>Username</label><br />
-                  <input 
-                  type="text" 
+                <label>Username</label><br />
+                <input
+                  type="text"
                   placeholder="izon"
                   v-model="username"
-                  /><br /><br />
-                  <label>Password</label><br />
-                  <input 
-                  type="password" 
+                /><br /><br />
+                <label>Password</label><br />
+                <input
+                  type="password"
                   placeholder="****"
                   v-model="password"
-                  /><br /><br />
-                  <label>Your city</label><br />
-                  <input 
-                  type="text" 
-                  placeholder="Palu" 
+                /><br /><br />
+                <label>Email</label><br />
+                <input
+                  type="email"
+                  placeholder="email@gmail.com"
+                  v-model="email"
+                /><br /><br />
+                <label>Your city</label><br />
+                <input
+                  type="text"
+                  placeholder="Palu"
                   v-model="city"
-                  /><br /><br />
-                  <br />
-                  <br />
-                  <button class="button-login">Submit</button>
-                </form>
-              </div>
+                /><br /><br />
+                <br />
+                <br />
+                <button class="button-login">Submit</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Register",
-  data(){
-    return{
-      username : '',
-      password : '',
-      city : ''
-    }
+  data() {
+    return {
+      username: "",
+      password: "",
+      city: "",
+      email: "",
+    };
   },
-  methods : {
-    addDataUser(){
+  methods: {
+    addDataUser() {
       const payload = {
-        username : this.username,
-        password : this.password,
-        city : this.city
-      }
-      this.$store.commit('addDataLogin',payload)
-      this.$store.dispatch('register')
-      .then(resp => {
-        console.log(resp.data)
-        this.$router.push('/Login')
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
-  }
+        username: this.username,
+        password: this.password,
+        city: this.city,
+        email: this.email,
+      };
+      this.$store.commit("addDataLogin", payload);
+      this.$store
+        .dispatch("register")
+        .then(() => {
+          this.$router.push("/Login");
+        })
+        .catch((err) => {
+          const msg = err.response.data.msg;
+          this.$swal.fire({
+            icon: "error",
+            title: `${msg}`,
+            text: "Please completing the profile",
+          });
+        });
+    },
+  },
 };
 </script>
 
 <style scoped>
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 .container-login {
   height: 100vh;

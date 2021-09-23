@@ -4,48 +4,103 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
-const baseUrl = `http://localhost:3000`
+const baseUrl = `https://covid-app-server-21.herokuapp.com`
+
+// const baseUrl = `http://localhost:3000`
 
 export default new Vuex.Store({
   state: {
-    isLogin : false,
-    dataUser : {}
+    isLogin: false,
+    dataUser: {},
+    dataResultHospital : {},
+    dataProvince : {},
+    search : '',
+    filtered : [],
+    provinceCov : {}
   },
   mutations: {
-    addDataLogin(state,payload){
+    addDataLogin(state, payload) {
       state.dataUser = payload
     },
-    changeIsLogin(state,payload){
+    changeIsLogin(state, payload) {
       state.isLogin = payload
+    },
+    search(state,word){
+      state.search = word
     }
   },
   actions: {
-    async getDataCovidIndo(){
+    async getDataCovidIndo() {
       return axios({
-        url : `${baseUrl}/getDataCovidIndo`,
-        method : 'get',
+        url: `${baseUrl}/getDataCovidIndo`,
+        method: 'get',
       })
     },
-    async login({state}){
+    async login({ state }) {
       return axios({
-        url : `${baseUrl}/login`,
-        method : 'post',
-        data : {
-          username : state.dataUser.username,
-          password : state.dataUser.password
+        url: `${baseUrl}/login`,
+        method: 'post',
+        data: {
+          username: state.dataUser.username,
+          password: state.dataUser.password
         }
       })
     },
-    async register({state}){
+    async register({ state }) {
       return axios({
-        url : `${baseUrl}/register`,
-        method : 'post',
-        data : {
-          username : state.dataUser.username,
-          password : state.dataUser.password,
-          city : state.dataUser.city
+        url: `${baseUrl}/register`,
+        method: 'post',
+        data: {
+          username: state.dataUser.username,
+          password: state.dataUser.password,
+          city: state.dataUser.city,
+          email : state.dataUser.email
         }
       })
+    },
+    async getDataLocation() {
+      return axios({
+        url: `${baseUrl}/hospital/location`,
+        method: 'get',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+    },
+    async getDataProvince({state}) {
+      axios({
+        url: `${baseUrl}/province`,
+        method: 'get',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+      .then(response => {
+        state.dataResultHospital = response.data.dataHospital
+        state.dataProvince = response.data.dataProvince
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    async filterData({state}){
+      const search = state.search.toLowerCase()
+      const filter = state.dataResultHospital.filter(el => {
+        let name = el.province.toLowerCase()
+        if(name === search){
+          return el
+        }
+      })
+      // console.log(state.dataProvince[0].attributes.Provinsi)
+      const provinceCov = state.dataProvince.filter(el => {
+        let name = el.attributes.Provinsi.toLowerCase()
+        if(search === name){
+          return el
+        }
+      })
+      console.log(provinceCov)
+      state.provinceCov = provinceCov
+      state.filtered = filter
     }
   },
   modules: {},

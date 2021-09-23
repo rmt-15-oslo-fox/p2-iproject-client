@@ -16,9 +16,9 @@
       <div class="container-login row">
         <div class="search-page row">
           <div class="text-card">
-            <h2>Angka kasus Covid {Provinsi}</h2>
+            <h2>Angka kasus Covid {{dataProv[0].attributes.Provinsi}}</h2>
             <br />
-            <h3>3432432</h3>
+            <h3>{{dataProv[0].attributes.Kasus_Posi}}</h3>
             <br />
             <p>Berikut Data Rumah Sakit Provinsi Bersangkutan</p>
           </div>
@@ -31,14 +31,11 @@
                   <th>Phone</th>
                   <th>Region</th>
                 </tr>
-                <tr>
-                  <td>
-                    RSUD Madani palu kecematan Mamboro privinsi sulawesi tengah
-                  </td>
-                  <td>Mamboro</td>
-                  <td>435435435</td>
-                  <td>Mamboro</td>
-                </tr>
+                <card
+                v-for="data in dataFiltered"
+                :key="data.name"
+                :dataProvince="data"
+                ></card>
               </table>
             </div>
           </div>
@@ -50,8 +47,20 @@
 </template>
 
 <script>
+import card from "../components/card.vue";
 export default {
   name: "Search",
+  components: {
+    card,
+  },
+  computed : {
+    dataFiltered(){
+      return this.$store.state.filtered
+    },
+    dataProv(){
+      return this.$store.state.provinceCov
+    }
+  }
 };
 </script>
 

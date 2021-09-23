@@ -34,10 +34,15 @@
               <br /><br /><br /><br />
               <form>
                 <select class="form-select" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option 
+                  selected 
+                  >Open this select menu</option>
+                  <option 
+                  value="1"
+                  v-for="location in dataLocation" 
+                  :key="location.id"
+                  @click="changeLocation(location)"
+                  >{{location.name}}</option>
                 </select>
               </form>
             </div>
@@ -73,8 +78,23 @@ export default {
       attribution:'© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 17,
       center: [-0.789287,119.869477],
-      bounds: null
+      bounds: null,
+      dataLocation : []
     };
+  },
+  methods : {
+    changeLocation(location){
+      this.center = [location.pointX,location.pointY]
+    }
+  },
+  created(){
+    this.$store.dispatch('getDataLocation')
+    .then(resp => {
+      this.dataLocation = resp.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 };
 </script>
