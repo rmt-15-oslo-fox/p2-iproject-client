@@ -200,7 +200,7 @@
                                 @change="updateEquipment(item.id)"
                               />
                               <div class="flex flex-col">
-                                <div class="flex flex-row justify-between w-48">
+                                <div class="flex flex-row justify-between lg:w-48 md:w-24">
                                   <div class="ml-1">
                                     <b class="text-red-800">{{ item.name }}</b>
                                     ({{ +item.hasFill }} of {{ item.jumlah }})
@@ -1028,6 +1028,7 @@ export default {
     },
     deleteEquipment: function(EquipmentId){
       this.$toasted.show("Are u sure to delete this?", {
+        theme: "bubble",position: "top-center",fullWidth: true,
         action: [
           {
             text: "Cancel",
