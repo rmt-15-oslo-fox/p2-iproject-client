@@ -20,7 +20,8 @@ export default new Vuex.Store({
     currentDetail: {},
     currentChart: '',
     commentForm: false,
-    stockToComment: ''
+    stockToComment: '',
+    newsData: []
   },
   mutations: {
     SET_ISLOGIN (state, payload) {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
     },
     SET_STOCKTOCOMMENT(state, payload) {
       state.stockToComment = payload
+    },
+    SET_NEWSDATA(state, payload) {
+      state.newsData = payload
     },
   },
   actions: {
@@ -237,7 +241,35 @@ export default new Vuex.Store({
       } catch (error) {
         Swal.fire(error.response.data.message)
       }
-    }
+    },
+    async fetchNews(context) {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: `${url}/news`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_NEWSDATA', data.articles)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async searchNewsByQuery(context, payload) {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: `${url}/news?keywords=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_NEWSDATA', data.articles)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
   },
   modules: {
   }

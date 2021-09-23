@@ -27,7 +27,7 @@
          <router-link class="nav-link" to="/forum">Forum</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item">
-         <router-link class="nav-link" to="/demo">demo</router-link>
+         <router-link class="nav-link" to="/news">News</router-link>
       </li>
       <li v-if="this.$store.state.isLogin" class="nav-item" 
       style="padding-left: 190%">
