@@ -1,5 +1,6 @@
 <template>
   <div id="sign-up">
+    <Navbar></Navbar>
     <form
       id="register-form"
       v-on:submit.prevent="add"
@@ -82,16 +83,16 @@ export default {
       receiverId: 0,
       amount: 0,
       description: "",
-      deadline: ""
+      deadline: "",
     };
   },
   components: {
     Navbar,
-    HFooter
+    HFooter,
   },
   methods: {
-    add: function() {
-      const URL = "http://localhost:4000";
+    add: function () {
+      const URL = "https://remempay.herokuapp.com";
       axios
         .post(
           `${URL}/list`,
@@ -99,29 +100,29 @@ export default {
             receiverId: this.receiverId,
             amount: this.amount,
             description: this.description,
-            deadline: this.deadline
+            deadline: this.deadline,
           },
           {
             headers: {
-              access_token: localStorage.access_token
-            }
+              access_token: localStorage.access_token,
+            },
           }
         )
         .then(() => {
           this.$router.push("/reminder");
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
-    changePage: function() {
+    changePage: function () {
       this.$router.push("/dashboard");
-    }
-  }
+    },
+  },
 };
 </script>
 

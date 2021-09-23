@@ -66,67 +66,67 @@ export default {
       password: "",
       params: {
         client_id:
-          "615871655779-q6me4fpgrjhvuuo736maf9rjpgk80a0b.apps.googleusercontent.com"
+          "615871655779-q6me4fpgrjhvuuo736maf9rjpgk80a0b.apps.googleusercontent.com",
       },
       renderParams: {
         width: 250,
         height: 50,
-        longtitle: true
-      }
+        longtitle: true,
+      },
     };
   },
   components: {
     GoogleLogin,
-    HFooter
+    HFooter,
   },
   methods: {
-    login: function() {
-      const URL = "http://localhost:4000";
+    login: function () {
+      const URL = "https://remempay.herokuapp.com";
       axios
         .post(`${URL}/login`, {
           username: this.username,
-          password: this.password
+          password: this.password,
         })
-        .then(response => {
+        .then((response) => {
           localStorage.setItem("access_token", response.data.access_token);
           this.$router.push("/dashboard");
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
     onSuccess(googleUser) {
       let id_token = googleUser.getAuthResponse().id_token;
-      const URL = "http://localhost:4000";
+      const URL = "https://remempay.herokuapp.com";
       axios({
         method: "post",
         url: `${URL}/loginGoogle`,
         data: {
-          idToken: id_token
-        }
+          idToken: id_token,
+        },
       })
-        .then(resp => {
+        .then((resp) => {
           localStorage.setItem("access_token", resp.data.token);
           this.$router.push("/dashboard");
         })
-        .catch(error => {
+        .catch((error) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: error.response.data.message
+            text: error.response.data.message,
           });
         });
-    }
+    },
   },
   created() {
     if (localStorage.access_token) {
       this.$router.push("/dashboard");
     }
-  }
+  },
 };
 </script>
 

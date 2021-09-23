@@ -79,42 +79,42 @@ export default {
       email: "",
       username: "",
       password: "",
-      name: ""
+      name: "",
     };
   },
   components: {
-    HFooter
+    HFooter,
   },
   methods: {
-    register: function() {
-      const URL = "http://localhost:4000";
+    register: function () {
+      const URL = "https://remempay.herokuapp.com";
       axios
         .post(`${URL}/register`, {
           email: this.email,
           username: this.username,
           password: this.password,
-          name: this.name
+          name: this.name,
         })
         .then(() => {
           this.$router.push("/");
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
-    changePage: function() {
+    changePage: function () {
       this.$router.push("/");
-    }
+    },
   },
   created() {
     if (localStorage.access_token) {
       this.$router.push("/dashboard");
     }
-  }
+  },
 };
 </script>
 

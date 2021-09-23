@@ -48,43 +48,43 @@ export default {
   name: "ChargePage",
   date() {
     return {
-      amount: 0
+      amount: 0,
     };
   },
   components: {
     Navbar,
-    HFooter
+    HFooter,
   },
   methods: {
-    charge: function() {
-      const URL = "http://localhost:4000";
+    charge: function () {
+      const URL = "https://remempay.herokuapp.com";
       axios
         .post(
           `${URL}/list/balance`,
           {
-            amount: this.amount
+            amount: this.amount,
           },
           {
             headers: {
-              access_token: localStorage.access_token
-            }
+              access_token: localStorage.access_token,
+            },
           }
         )
         .then(() => {
           this.$router.push("/dashboard");
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
-    changePage: function() {
+    changePage: function () {
       this.$router.push("/dashboard");
-    }
-  }
+    },
+  },
 };
 </script>
 

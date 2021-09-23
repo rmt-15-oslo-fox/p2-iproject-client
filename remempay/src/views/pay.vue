@@ -50,50 +50,49 @@ import HFooter from "vue-hacktiv8-footer";
 import Navbar from "../components/Navbar.vue";
 import axios from "axios";
 import Swal from "sweetalert2";
-import navbar from "../components/navbar.vue";
 export default {
   components: {
     Navbar,
-    HFooter
+    HFooter,
   },
   name: "pay",
   data() {
     return {
-      payAmount: 0
+      payAmount: 0,
     };
   },
   computed: {
-    data: function() {
+    data: function () {
       return this.$store.state.reminderById;
-    }
+    },
   },
   methods: {
-    pay: function(id) {
-      const URL = "http://localhost:4000";
+    pay: function (id) {
+      const URL = "https://remempay.herokuapp.com";
       axios
         .put(
           `${URL}/list/${id}`,
           {
-            amount: this.payAmount
+            amount: this.payAmount,
           },
           {
             headers: {
-              access_token: localStorage.access_token
-            }
+              access_token: localStorage.access_token,
+            },
           }
         )
         .then(() => {
           this.$router.push("/reminder");
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

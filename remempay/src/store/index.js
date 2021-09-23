@@ -7,13 +7,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    URL: "http://localhost:4000",
+    URL: "https://remempay.herokuapp.com",
     name: "",
     balance: 0,
     convert: 0,
     reminder: [],
     status: [],
-    reminderById: []
+    reminderById: [],
   },
   mutations: {
     FETCH_INFO(state, payload) {
@@ -31,7 +31,7 @@ export default new Vuex.Store({
     },
     STORE_REMINDER(state, payload) {
       state.reminderById = payload;
-    }
+    },
   },
   actions: {
     fetchConverted({ commit }, payload) {
@@ -39,18 +39,18 @@ export default new Vuex.Store({
         url: `${this.state.URL}/list/convert`,
         method: "post",
         headers: {
-          access_token: localStorage.access_token
+          access_token: localStorage.access_token,
         },
-        data: payload
+        data: payload,
       })
-        .then(res => {
+        .then((res) => {
           commit("FETCH_CONVERT", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
@@ -59,17 +59,17 @@ export default new Vuex.Store({
         url: `${this.state.URL}/list/info`,
         method: "get",
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-        .then(res => {
+        .then((res) => {
           commit("FETCH_INFO", res.data.info);
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
@@ -78,17 +78,17 @@ export default new Vuex.Store({
         url: `${this.state.URL}/list`,
         method: "get",
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-        .then(res => {
+        .then((res) => {
           commit("FETCH_REMINDER", res.data.reminder);
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
@@ -97,17 +97,17 @@ export default new Vuex.Store({
         url: `${this.state.URL}/list/status`,
         method: "get",
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-        .then(res => {
+        .then((res) => {
           commit("FETCH_STATUS", res.data.status);
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
     },
@@ -116,20 +116,20 @@ export default new Vuex.Store({
         url: `${this.state.URL}/list/${payload}`,
         method: "get",
         headers: {
-          access_token: localStorage.access_token
-        }
+          access_token: localStorage.access_token,
+        },
       })
-        .then(res => {
+        .then((res) => {
           commit("STORE_REMINDER", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: err.response.data.message
+            text: err.response.data.message,
           });
         });
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });
