@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="footer-dark">
         <footer>
             <div class="container">
@@ -18,11 +19,16 @@
             </div>
         </footer>
     </div>
+    <HFooter style="border-color:black"/>
+</div>
 </template>
 
 <script>
+import HFooter from 'vue-hacktiv8-footer'
 export default {
-
+    components: {
+        HFooter
+    }
 }
 </script>
 

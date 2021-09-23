@@ -18,7 +18,9 @@ export default new Vuex.Store({
     demoData: '',
     foundStock: '',
     currentDetail: {},
-    currentChart: ''
+    currentChart: '',
+    commentForm: false,
+    stockToComment: ''
   },
   mutations: {
     SET_ISLOGIN (state, payload) {
@@ -50,6 +52,12 @@ export default new Vuex.Store({
     },
     SET_CURRENTCHART(state, payload) {
       state.currentChart = payload
+    },
+    SET_COMMENTFORM(state, payload) {
+      state.commentForm = payload
+    },
+    SET_STOCKTOCOMMENT(state, payload) {
+      state.stockToComment = payload
     },
   },
   actions: {
@@ -120,16 +128,47 @@ export default new Vuex.Store({
         Swal.fire(error.response.data.message)
       }
     },
-    async fetchForum(context, ) {
+    async fetchForum(context, payload) {
       try {
-        const data = await axios({
+        const  { data }  = await axios({
           method: 'GET',
-          url: `${url}/forums`,
+          url: `${url}/search?stockName=${payload}`,
           headers: {
             access_token: localStorage.access_token
           }
         })
-        context.commit('SET_FORUMDATA', data)
+        if(!data) {
+          Swal.fire('Stock not found')
+          context.commit('SET_COMMENTFORM', false)
+        } else {
+          const forumData = await axios({
+            method: 'GET',
+            url: `${url}/forums?stockName=${payload}`,
+            headers: {
+              access_token: localStorage.access_token
+            }
+          })
+          context.commit('SET_FORUMDATA', forumData.data)
+          context.commit('SET_COMMENTFORM', true)
+          context.commit('SET_STOCKTOCOMMENT', payload)
+        }
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
+    },
+    async addComment(context, payload) {
+      try {
+        const  { data }  = await axios({
+          method: 'POST',
+          url: `${url}/forums`,
+          data: payload,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        if(data) {
+          Swal.fire('Successfully added comment')
+        }
       } catch (error) {
         Swal.fire(error.response.data.message)
       }

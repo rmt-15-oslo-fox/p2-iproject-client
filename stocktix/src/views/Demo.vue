@@ -1,7 +1,6 @@
 <template>
   <div>
     <NavBar />
-   
     <Footer />
   </div>
 </template>
@@ -13,8 +12,8 @@ export default {
   name: 'Demo',
   components: {
     NavBar,
-    Footer
-  }
+    Footer,
+  },
 }
 </script>
 

@@ -52,6 +52,8 @@ export default {
       this.$router.push('/login')
       this.$store.commit('SET_ISLOGIN',false)
       this.$store.commit('SET_REGION','')
+      this.$store.commit('SET_COMMENTFORM', false)
+      this.$store.commit('SET_STOCKTOCOMMENT', '')
     }
   },
   components: {
