@@ -10,10 +10,14 @@ export default new Vuex.Store({
     logStatus: false,
     searchResult: [],
     currentlyPlaying: [],
+    playerStatus: false,
   },
   mutations: {
+    CHANGE_PLAYER_STATUS(state, payload) {
+      state.playerStatus = payload;
+    },
     INSERT_MESSAGE(state, payload) {
-      state.messages.push(payload);
+      state.messages = payload;
     },
     INSERT_USERS(state, payload) {
       state.users = payload;
@@ -33,7 +37,7 @@ export default new Vuex.Store({
       // console.log(query);
       try {
         const resp = await axios.get(
-          `http://localhost:3000/callback?code=${query}`
+          `https://music-room-live.herokuapp.com/callback?code=${query}`
         );
         console.log(resp.data);
         localStorage.setItem("access_token", resp.data.access_token);
@@ -60,11 +64,11 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
-    async newDevice() {
+    async newDevice({ commit }) {
       try {
         const token = localStorage.getItem("access_token");
         const device_id = localStorage.getItem("device_id");
-        const resp = await axios({
+        await axios({
           url: `https://api.spotify.com/v1/me/player`,
           method: `put`,
           headers: {
@@ -73,8 +77,10 @@ export default new Vuex.Store({
           },
           data: { device_ids: [`${device_id}`] },
         });
-        console.log(resp);
+        // console.log(resp);
+        commit("CHANGE_PLAYER_STATUS", true);
       } catch (err) {
+        commit("CHANGE_PLAYER_STATUS", false);
         console.log(err);
       }
     },
@@ -84,7 +90,24 @@ export default new Vuex.Store({
         const device_id = localStorage.getItem("device_id");
         const resp = await axios({
           url: `https://api.spotify.com/v1/me/player/next?device_id=${device_id}`,
-          method: `put`,
+          method: `post`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(resp);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async preTrack() {
+      try {
+        const token = localStorage.getItem("access_token");
+        const device_id = localStorage.getItem("device_id");
+        const resp = await axios({
+          url: `https://api.spotify.com/v1/me/player/previous?device_id=${device_id}`,
+          method: `post`,
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

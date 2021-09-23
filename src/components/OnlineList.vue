@@ -1,8 +1,8 @@
 <template>
   <div class="col-md-2">
     <label for="">Online Users</label>
-    <ul>
-      <li class="list-item" v-for="(data, index) in users" :key="index">
+    <ul class="list-item online-list">
+      <li v-for="(data, index) in users" :key="index">
         {{ data.username }}
       </li>
     </ul>
@@ -31,7 +31,9 @@ export default {
       this.INSERT_USERS(user);
     },
   },
-  created() {},
+  async created() {
+    await this.$socket.emit("getAllUser");
+  },
 };
 </script>
 

@@ -29,5 +29,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+// router.beforeEach((to, from, next) => {
+//   console.log(to);
+//   // if (
+//   //   localStorage.getItem("access_token") &&
+//   //   localStorage.getItem("username")
+//   // ) {
+//   //   next({ name: "MainPage" });
+//   // } else {
+//   //   next();
+//   // }
+// });
 
 export default router;

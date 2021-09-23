@@ -114,7 +114,12 @@ h4.card-title {
 .media .avatar {
   flex-shrink: 0;
 }
-
+a:hover {
+  cursor: pointer;
+}
+button:hover {
+  cursor: pointer;
+}
 .avatar {
   position: relative;
   display: inline-block;
@@ -197,11 +202,31 @@ h4.card-title {
 .media-meta-day::after {
   margin-left: 16px;
 }
+.online-list {
+  list-style: none;
+}
+.online-list li {
+  margin-top: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+#search-form input {
+  border-radius: 8px;
+}
+#search-form button {
+  border-radius: 8px;
+}
 .search-result {
   display: flex;
+  margin-top: 5px;
+  border: #000000;
+  border-radius: 5px;
+  border-style: solid;
 }
 .search-result a {
-  margin-right: 5px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
 }
 .media-chat.media-chat-reverse {
   padding-right: 12px;

@@ -1,23 +1,25 @@
 <template>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <form role="form" @submit.prevent="setUsername">
-            <div class="form-group">
-              <label for="exampleInputEmail1">
-                Set Your Username:
-              </label>
-              <input type="text" class="form-control" v-model="username" />
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <form role="form" @submit.prevent="setUsername">
+              <div class="form-group">
+                <label for="exampleInputEmail1">
+                  Set Your Username:
+                </label>
+                <input type="text" class="form-control" v-model="username" />
+              </div>
 
-            <button type="submit" class="btn btn-primary">
-              Lets Go!
-            </button>
-          </form>
+              <button type="submit" class="btn btn-primary">
+                Lets Go!
+              </button>
+            </form>
+          </div>
+          <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
       </div>
     </div>
   </div>
@@ -43,4 +45,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.container-fluid {
+  height: 90vh;
+}
+form {
+  margin-top: 250px;
+}
+</style>

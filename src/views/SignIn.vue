@@ -1,14 +1,19 @@
 <template>
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      <a
-        href="http://localhost:3000/login"
-        class="btn btn-block btn-lg btn-success"
-        >Sign in With Spotify</a
-      >
+  <div class="container-fluid">
+    <div class="row but">
+      <div class="col-md-4"></div>
+      <div class="col-md-4" id="sign-in">
+        <a
+          href="https://music-room-live.herokuapp.com/login"
+          class="btn btn-block btn-lg btn-success"
+          >Sign in With Spotify</a
+        >
+        <router-link to="/set">
+          I don't have a spotify account
+        </router-link>
+      </div>
+      <div class="col-md-4"></div>
     </div>
-    <div class="col-md-4"></div>
   </div>
 </template>
 
@@ -32,4 +37,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.container-fluid {
+  height: 90vh;
+}
+.but a {
+  margin-top: 250px;
+}
+</style>

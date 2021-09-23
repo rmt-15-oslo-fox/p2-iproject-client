@@ -1,5 +1,7 @@
 <template>
   <div class="col-md-4">
+    <p v-if="!playerStatus">Player is not ready</p>
+    <p v-else>Player is ready</p>
     <div class="card">
       <div class="card-body" v-if="currentlyPlaying.item">
         <p>Now Playing</p>
@@ -9,22 +11,27 @@
           {{ currentlyPlaying.item.name }}
         </p>
       </div>
-      <form @submit.prevent="searchHandler">
+      <form @submit.prevent="searchHandler" id="search-form">
         <input type="text" placeholder="Search songs" v-model="searchQuery" />
         <button type="submit">Search!</button>
       </form>
-      <div class="card-body">
-        <button @click.prevent="newDevice">
-          Listen on this device
+      <button @click.prevent="newDevice">
+        Listen on this device
+      </button>
+      <div class="card-body" v-if="playerStatus">
+        <button>
+          <i class="fas fa-step-backward" @click.prevent="preTrack"></i>
         </button>
 
         <button id="togglePlay" @click.prevent="PlayTrack">
-          Play
+          <i class="fas fa-play-circle"></i>
+        </button>
+        <button @click.prevent="pauseTrack">
+          <i class="fas fa-pause-circle"></i>
         </button>
         <button @click.prevent="nextTrack">
-          nextTrack
+          <i class="fas fa-step-forward"></i>
         </button>
-        <button @click.prevent="pauseTrack">Pause</button>
       </div>
       <div class="card-footer">
         Search result
@@ -34,7 +41,9 @@
             v-for="(track, index) in searchResult.tracks.items"
             :key="index"
           >
-            <a @click.prevent="playASong(track.uri)">Play</a>
+            <a @click.prevent="playASong(track.uri)"
+              ><i class="fas fa-play-circle"></i
+            ></a>
             <img :src="track.album.images[2].url" alt="" srcset="" />
             <p>{{ track.artists[0].name }} - {{ track.name }}</p>
           </div>
@@ -46,7 +55,7 @@
 
 <script>
 // import * as Spotify from "../js/spotify-player";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   name: `SearchField`,
   data() {
@@ -55,9 +64,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["searchResult", "currentlyPlaying"]),
+    ...mapState(["searchResult", "currentlyPlaying", "playerStatus"]),
   },
   methods: {
+    ...mapMutations(["CHANGE_PLAYER_STATUS"]),
     ...mapActions([
       "PlayTrack",
       "newDevice",
@@ -65,6 +75,7 @@ export default {
       "nextTrack",
       "searchTrack",
       "playASong",
+      "preTrack",
     ]),
     async searchHandler() {
       if (this.searchQuery.length > 0) {
@@ -75,9 +86,9 @@ export default {
     },
   },
   async mounted() {
-    console.log(`>>>>>>>>>>>>>>`, localStorage.getItem("device_id"));
     setTimeout(async () => {
       await this.newDevice();
+      // this.CHANGE_PLAYER_STATUS(true);
     }, 5000);
   },
 };

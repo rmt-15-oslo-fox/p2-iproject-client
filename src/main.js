@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 Vue.use(
   new VueSocketIo({
     debug: true,
-    connection: "http://localhost:3000",
+    connection: "https://music-room-live.herokuapp.com",
   })
 );
 
