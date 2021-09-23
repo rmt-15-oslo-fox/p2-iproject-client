@@ -72,15 +72,18 @@ export default {
   methods: {
     joinTrip: function(){
       if(!this.$store.state.isLogin){
-        return this.$toasted.show('You must login first').goAway(2000)
+        return this.$toasted.info('You must login first', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
       }
+      this.$isLoading(true)
       this.$store.dispatch('joinTrip', {TripId:this.trip.id})
       .then(() => {
-        this.$toasted.show('Successfully Join Trip').goAway(2000)
+        this.$isLoading(false)
+        this.$toasted.success('Successfully Join Trip', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         this.$router.push({name: 'MyTrip'})
       })
-      .catch(err => {
-        console.log(err.response.data.message);
+      .catch(() => {
+        this.$isLoading(false)
+        this.$toasted.error('Something went wrong', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
       })
     }
   }

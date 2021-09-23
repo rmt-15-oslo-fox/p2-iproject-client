@@ -53,7 +53,9 @@ export default {
       }
     },
     created(){
+      this.$isLoading(true)
       this.$store.dispatch('getAllTrip')
+      this.$isLoading(false)
     }
 }
 </script>

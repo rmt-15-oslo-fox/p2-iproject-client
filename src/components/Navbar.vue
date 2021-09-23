@@ -106,17 +106,20 @@ export default {
       this.showMenu = !this.showMenu;
     },
     onSignInSuccess(googleUser) {
+      this.$isLoading(true)
       const idToken = googleUser.getAuthResponse().id_token;
       this.$store.dispatch('googleLogin', idToken)
         .then((response) => {
+          this.$isLoading(false)
           localStorage.setItem("access_token", response.data.access_token);
           localStorage.setItem("userId", response.data.id);
           localStorage.setItem("name", response.data.name);
           this.$store.commit("SET_ISLOGIN", true);
-          this.$toasted.show("Login successfully").goAway(2000);
+          this.$toasted.success("Login successfully", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         })
         .catch((err) => {
-          this.$toasted.show(err).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     logout: function(){
@@ -125,7 +128,7 @@ export default {
           }
           localStorage.clear()
           this.$store.commit('SET_ISLOGIN', false)
-          this.$toasted.show('Logout Successfully').goAway(2000)
+          this.$toasted.success("Logout successfully", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.$router.push({name: 'Home'})
       }
   }

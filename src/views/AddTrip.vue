@@ -83,9 +83,9 @@
                   </select>
                 </div>
 
-                <div class="flex flex-row justify-evenly md:col-ls">
+                <div class="flex flex-wrap justify-evenly md:col-ls">
                   <!-- Schedule -->
-                  <div class="w-3/7">
+                  <div class="w-full">
                     <label
                       class="block text-gray-700 text-xs font-bold mb-2"
                       for="full-name"
@@ -112,9 +112,9 @@
                   </div>
 
                   <!-- Schedule -->
-                  <div class="w-3/7 ">
+                  <div class="w-full ">
                     <label
-                      class="block text-gray-700 text-xs font-bold mb-2"
+                      class="block text-gray-700 text-xs font-bold mt-2"
                       for="full-name"
                       >End Date</label
                     >
@@ -233,7 +233,7 @@ export default {
   watch: {
     mountainId: function () {
       const mount = this.mountains.filter((el) => el.id == this.mountainId);
-      this.imageMap = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDCDpW1pT8Z8ijRP6NG6rjAWvzwu1pd9gI&q=${mount[0].name}`
+      this.imageMap = `https://www.google.com/maps/embed/v1/place?key=AIzaSyDCDpW1pT8Z8ijRP6NG6rjAWvzwu1pd9gI&q=gunung%20${mount[0].name}`
       this.trackList = mount[0].Tracks;
       let status = "aktif";
       if (!mount[0].status) {
@@ -273,34 +273,37 @@ transport : ${track[0].transport}
         end_date: this.end_date,
       };
       if(new Date(this.start_date) < new Date()){
-        this.$toasted.show('Wrong Start Date').goAway(2000)
-        return
+        return this.$toasted.error('Wrong Start Date', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
       }
 
       if(new Date(this.end_date) < new Date(this.start_date)){
-        this.$toasted.show('End Date must longer than start date').goAway(2000)
-        return
+        return this.$toasted.error('End Date must longer than start date', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
       }
+      this.$isLoading(true)
       this.$store
         .dispatch("createTrip", payload)
         .then(() => {
-          this.$toasted.show('Successfully Create Trip').goAway(2000)
+          this.$isLoading(false)
+          this.$toasted.success('Successfully Create Trip', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.$router.push({ name: "MyTrip" });
         })
         .catch((err) => {
+          this.$isLoading(false)
           const errors = err.response.data.message;
           if (typeof errors !== "string") {
             errors.forEach((el) => {
-              this.$toasted.show(el).goAway(2000);
+              this.$toasted.error(el, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
             });
           } else {
-            this.$toasted.show(errors).goAway(2000);
+            this.$toasted.error(errors, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           }
         });
     },
   },
   created: function () {
+    this.$isLoading(true)
     this.$store.dispatch("getMountains");
+    this.$isLoading(false)
   },
 };
 </script>

@@ -49,7 +49,7 @@ export default new Vuex.Store({
         commit('SET_MOUNTAINS', response.data)
        })
        .catch(err => {
-         this.$toasted.show(err.response.data)
+        this.$toasted.error(err.response.data, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
        })
     },
     createTrip: function(context, payload){
@@ -148,14 +148,14 @@ export default new Vuex.Store({
       })
     },
 
-    getEmbedMap: function(){
-      mountainAPI.get('/getEmbedMap')
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => {
-        console.log(err.response.data);
-      })
-    }
+    // getEmbedMap: function(){
+    //   mountainAPI.get('/getEmbedMap')
+    //   .then(response => {
+    //     console.log(response.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err.response.data);
+    //   })
+    // }
   }
 })

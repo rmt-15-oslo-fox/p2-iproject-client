@@ -43,7 +43,9 @@ export default {
       }
     },
     created(){
+      this.$isLoading(true)
       this.$store.dispatch('getMyTrip')
+      this.$isLoading(false)
     }
 }
 </script>

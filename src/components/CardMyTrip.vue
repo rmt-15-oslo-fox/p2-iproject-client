@@ -23,7 +23,7 @@
         type="button"
       >
       <p class="text-bold">{{ index + 1 }}. Gn. {{ trip.Mountain.name }}</p>
-        <p>{{ trip.Track.name }}</p>
+        <p>via {{ trip.Track.name }}</p>
         <p>{{ startDate }} - {{ endDate }}</p>
       </button>
     </div>
@@ -724,7 +724,7 @@
 </template>
 
 <script>
-import { createPopper } from "@popperjs/core";
+// import { createPopper } from "@popperjs/core";
 import { AddToCalendar } from "vue-add-events-to-google-calendar";
 import ChatRoom from "../components/ChatRoom.vue";
 import ChatInput from "../components/ChatInput.vue";
@@ -845,30 +845,32 @@ export default {
     },
   },
   methods: {
-    toggleTooltip: function () {
-      if (this.tooltipShow) {
-        this.tooltipShow = false;
-      } else {
-        this.tooltipShow = true;
-        createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
-          placement: "right",
-        });
-      }
-    },
+    // toggleTooltip: function () {
+    //   if (this.tooltipShow) {
+    //     this.tooltipShow = false;
+    //   } else {
+    //     this.tooltipShow = true;
+    //     createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
+    //       placement: "right",
+    //     });
+    //   }
+    // },
     postEquipment: function () {
       if (Object.values(this.equipmentList).includes(null)) {
-        this.$toasted.show("fill all amount").goAway(2000);
+        this.$toasted.error("fill all amount", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         return;
       }
       const data = {
         TripId: this.trip.id,
         list: this.equipmentList,
       };
+      this.$isLoading(true)
       this.$store
         .dispatch("postEquipment", data)
         .then(() => {
+          this.$isLoading(false)
           this.$modal.hide("my-modal");
-          this.$toasted.show("success add equipment").goAway(2000);
+          this.$toasted.success("success add equipment", {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.getEquipmentList();
           (this.tenda_4 = false),
             (this.tenda_2 = false),
@@ -890,7 +892,8 @@ export default {
             (this.custom_count = null);
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     updateEquipment: function (idEquipment) {
@@ -898,13 +901,16 @@ export default {
         UserId: localStorage.getItem("userId"),
         EquipmentId: idEquipment,
       };
+      this.$isLoading(true)
       this.$store
         .dispatch("postUserEquipment", payload)
         .then(() => {
+          this.$isLoading(false)
           this.getEquipmentList();
         })
         .catch((err) => {
-          console.log(err.response.data);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     decrementEquipment: function (idEquipment) {
@@ -912,13 +918,16 @@ export default {
         UserId: localStorage.getItem("userId"),
         EquipmentId: idEquipment,
       };
+      this.$isLoading(true)
       this.$store
         .dispatch("decrementEquipment", payload)
         .then(() => {
+          this.$isLoading(false)
           this.getEquipmentList();
         })
         .catch((err) => {
-          console.log(err.response.data);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     showDetail: function () {
@@ -939,6 +948,7 @@ export default {
     },
     deleteHandler: function () {
       this.$toasted.show("Are u sure to delete this?", {
+        theme: "bubble",position: "top-center",fullWidth: true,
         action: [
           {
             text: "Cancel",
@@ -957,22 +967,27 @@ export default {
       });
     },
     deleteTrip: function () {
+      this.$isLoading(true)
       this.$store
         .dispatch("deleteTrip", this.trip.id)
         .then((response) => {
+          this.$isLoading(false)
           this.$store.dispatch("getMyTrip");
-          this.$toasted.show(response.data.message).goAway(2000);
+          this.$toasted.success(response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
           this.openDetail = false;
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     showForecast: function () {
       const location = this.trip.Mountain.lokasi;
+      this.$isLoading(true)
       this.$store
         .dispatch("getWeather", location)
         .then((response) => {
+          this.$isLoading(false)
           this.weather = response.data;
           this.weather.map((el) => {
             if (el.cuaca.includes("hujan")) {
@@ -991,20 +1006,24 @@ export default {
           this.showForeCast = true;
         })
         .catch((err) => {
-          this.$toasted.show(err.response.data.message).goAway(2000);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     closeForeCast: function () {
       this.showForeCast = false;
     },
     getEquipmentList: function () {
+      this.$isLoading(true)
       this.$store
         .dispatch("getEquipmentById", this.trip.id)
         .then((response) => {
+          this.$isLoading(false)
           this.listEquipment = response.data;
         })
         .catch((err) => {
-          console.log(err.response.data);
+          this.$isLoading(false)
+          this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
         });
     },
     deleteEquipment: function(EquipmentId){
@@ -1022,11 +1041,11 @@ export default {
               toastObject.goAway(0);
               this.$store.dispatch('deleteEquipment', EquipmentId)
               .then(() => {
-                this.$toasted.show('Deleted success').goAway(2000)
+                this.$toasted.success('Deleted success', {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
                 this.getEquipmentList()
               })
               .catch(err => {
-                console.log(err);
+                this.$toasted.error(err.response.data.message, {theme: "bubble",position: "top-center",fullWidth: true}).goAway(2000);
               })
             },
           },
