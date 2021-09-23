@@ -1,19 +1,7 @@
 <template>
-  <div class="container w-3/4 mx-auto">
+  <div class="container w-4/5 mx-auto">
     <div class="flex justify-between flex-row flex-wrap">
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
-      <movie-card></movie-card>
+      <movie-card v-for="movie in movies" :key="movie.id" :movie="movie"></movie-card>
     </div>
  </div>
 </template>
@@ -24,7 +12,8 @@ export default {
   name: 'movieList',
   components: {
     movieCard
-  }
+  },
+  props: ["movies"]
 }
 </script>
 

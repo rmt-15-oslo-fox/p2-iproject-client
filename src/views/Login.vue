@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen flex bg-login-bg bg-cover bg-no-repeat bg-center items-center">
+  <div class="h-screen w-full flex items-center">
     <div class="bg-gray-600 rounded-lg mx-auto w-4/12 h-1/2">
       <p class="text-4xl text-center text-white mt-5">Sign In</p>
       <form @submit.prevent="login" class="mt-14 w-5/6 mx-auto">
@@ -27,7 +27,7 @@ export default {
         .then(res => {
           localStorage.setItem("access_token", res.data.access_token)
           this.$store.commit("SET_LOGIN", true)
-          this.$toast.success("Welcome back, ", this.username)
+          this.$toast.success("Welcome back")
           this.$router.push({ path: '/'})
         })
         .catch(err => this.$toast.error(err.response.data.message))  
