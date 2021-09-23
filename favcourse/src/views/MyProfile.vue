@@ -80,7 +80,7 @@
           </label>
           <input
             class="input input-primary font-medium text-xl w-full border-gray"
-            :value="balance"
+            :value="user.balance === null ? 0 : balance"
             id="email"
             disabled
           />
@@ -116,9 +116,6 @@ export default {
       get() {
         return this.$store.state.user;
       },
-    },
-    balance() {
-      return this.$store.getters.getPrice(this.user.balance);
     },
   },
   methods: {
