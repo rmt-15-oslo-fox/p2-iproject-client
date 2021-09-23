@@ -73,7 +73,7 @@
               <br>
               <router-link class="previous"
               style="color: black; font-weight: bold;"
-              to="/">&laquo; Back Home</router-link>  
+              to="/">&laquo; Back</router-link>  
             </p>
           </form>
         </article>

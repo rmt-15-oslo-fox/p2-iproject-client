@@ -2,22 +2,25 @@
 import { Line } from 'vue-chartjs'
 
 export default {
+  props: ["ihsg"],
   extends: Line,
   data() {
     return {
+      ihsgData: this.ihsg,
       gradient: null,
     };
   },
-  mounted() {
+  async mounted () { 
+    const data = await this.ihsgData
     this.gradient = this.$refs.canvas
       .getContext("2d")
       .createLinearGradient(0, 0, 0, 450);
     
-    if(this.$store.state.ihsg.color === 'green') {
+    if(data.color === 'green') {
       this.gradient.addColorStop(0, "rgba(0, 128, 0, 0.3)");
       this.gradient.addColorStop(0.5, "rgba(0, 128, 0, 0.3)");
       this.gradient.addColorStop(1, "rgba(0, 128, 0, 0.3)");
-    } else if(this.$store.state.ihsg.color === 'red') {
+    } else if(data.color === 'red') {
       this.gradient.addColorStop(0, "rgba(255, 0, 0, 0.3)");
       this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.3)");
       this.gradient.addColorStop(1, "rgba(255, 0, 0, 0.3)");
@@ -27,15 +30,15 @@ export default {
       this.gradient.addColorStop(1, "rgba(255, 255, 0, 0.3)");
     }
     
-    this.renderChart(
+    await this.renderChart(
       {
-        labels: this.$store.state.ihsg.timestamp,
+        labels: data.timestamp,
         datasets: [
           {
-            label: this.$store.state.ihsg.symbol,
+            label: data.symbol,
             borderWidth: 1,
             backgroundColor: this.gradient,
-            data: this.$store.state.ihsg.close
+            data: data.close
           },
         ]
       },

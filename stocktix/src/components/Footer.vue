@@ -14,7 +14,7 @@
                         </p>
                     </div>
                 </div>
-                <p class="copyright">Stocktix © 2021</p>
+                <p class="copyright">StockTix © 2021</p>
             </div>
         </footer>
     </div>

@@ -9,6 +9,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent" style="color: black;">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+        <img class="nav-logo" src="https://ik.imagekit.io/xvfgr2ixls8/StockTix__3__NYNlepD7Bx.png?updatedAt=1632373557500" alt="">
+      </li>
+      <li v-if="this.$store.state.isLogin" class="nav-item">
         <router-link class="nav-link" to="/">Home</router-link>
       </li>
       <li v-if="!this.$store.state.isLogin" class="nav-item">
@@ -17,13 +20,23 @@
       <li v-if="!this.$store.state.isLogin" class="nav-item">
          <router-link class="nav-link" to="/register">Register</router-link>
       </li>
-      <li class="nav-item" style="padding-left: 420%">
-        <a
+      <li v-if="this.$store.state.isLogin" class="nav-item">
+         <router-link class="nav-link" to="/wathclist">Watchlist</router-link>
+      </li>
+      <li v-if="this.$store.state.isLogin" class="nav-item">
+         <router-link class="nav-link" to="/forum">Forum</router-link>
+      </li>
+      <li v-if="this.$store.state.isLogin" class="nav-item">
+         <router-link class="nav-link" to="/demo">demo</router-link>
+      </li>
+      <li v-if="this.$store.state.isLogin" class="nav-item" 
+      style="padding-left: 190%">
+        <button
         @click.prevent="logout"
-        
-        class="nav-link" href="">
-       Logout
-        </a>
+        id="logout-button"
+        class="btn-lg rounded-pill">
+        Logout
+        </button>
       </li>
     </ul>
   </div>
@@ -52,11 +65,15 @@ export default {
   font-size: 20px;
   color:black
 }
+.nav-logo{
+  height: 40px;
+  width: 60px
+}
 .nav-item {
   margin-right: 10%;
   margin-top: 2%;
 }
-.btn-dark {
-  border-radius: 15%;
+#logout-button {
+  background-color: #C0EC83;
 }
 </style>
