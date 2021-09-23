@@ -7,7 +7,7 @@
       <h5 :style="styling">{{data.regularMarketChangePercent.toFixed(2)}}%</h5>
       <h2 :style="styling"><b>{{data.regularMarketPrice}}</b></h2>
       <button
-      @click.prevent="viewDetails(data.symbol)" 
+      @click.prevent="viewDetails(data)" 
       class="btn-lg btn-dark rounded-pill mt-2">
       View Details </button>
     </div>
@@ -20,7 +20,8 @@ export default {
   props: ["data"],
   methods: {
     async viewDetails(payload) {
-      await this.$store.dispatch('viewDetails', payload)
+      await this.$store.commit('SET_CURRENTDETAIL', payload)
+      await this.$router.push('/details')
     }
   },
   computed: {

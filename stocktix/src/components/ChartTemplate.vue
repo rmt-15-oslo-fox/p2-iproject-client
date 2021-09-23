@@ -8,16 +8,19 @@ export default {
       gradient: null,
     };
   },
-  mounted() {
+  async mounted () {
+    await this.$store.dispatch('fetchCurrentChartData', this.$store.state.currentDetail.symbol)
+    const chartData = await this.$store.state.currentChart.data
+    
     this.gradient = this.$refs.canvas
       .getContext("2d")
       .createLinearGradient(0, 0, 0, 450);
     
-    if(this.$store.state.stats === 'up') {
+    if(chartData.color === 'green') {
       this.gradient.addColorStop(0, "rgba(0, 128, 0, 0.3)");
       this.gradient.addColorStop(0.5, "rgba(0, 128, 0, 0.3)");
       this.gradient.addColorStop(1, "rgba(0, 128, 0, 0.3)");
-    } else if(this.$store.state.stats === 'down') {
+    } else if(chartData.color === 'red') {
       this.gradient.addColorStop(0, "rgba(255, 0, 0, 0.3)");
       this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.3)");
       this.gradient.addColorStop(1, "rgba(255, 0, 0, 0.3)");
@@ -27,23 +30,15 @@ export default {
       this.gradient.addColorStop(1, "rgba(255, 255, 0, 0.3)");
     }
     
-    this.renderChart(
+    await this.renderChart(
       {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July"
-        ],
+        labels: chartData.timestamp,
         datasets: [
           {
-            label: "Data One",
+            label: chartData.symbol,
             borderWidth: 1,
             backgroundColor: this.gradient,
-            data: [40, 39, 10, 40, 39, 80, 40]
+            data: chartData.close
           },
         ]
       },

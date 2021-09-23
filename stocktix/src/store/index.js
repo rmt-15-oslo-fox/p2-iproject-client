@@ -16,7 +16,9 @@ export default new Vuex.Store({
     watchlistData: [],
     forumData: '',
     demoData: '',
-    foundStock: ''
+    foundStock: '',
+    currentDetail: {},
+    currentChart: ''
   },
   mutations: {
     SET_ISLOGIN (state, payload) {
@@ -42,7 +44,13 @@ export default new Vuex.Store({
     },
     SET_FOUNDSTOCK(state, payload) {
       state.foundStock = payload
-    }
+    },
+    SET_CURRENTDETAIL(state, payload) {
+      state.currentDetail = payload
+    },
+    SET_CURRENTCHART(state, payload) {
+      state.currentChart = payload
+    },
   },
   actions: {
     async registerUser(context, payload) {
@@ -177,8 +185,19 @@ export default new Vuex.Store({
         Swal.fire(error.response.data.message)
       }
     },
-    async viewDetails(context, payload) {
-      
+    async fetchCurrentChartData(context, payload) {
+      try {
+        const data = await axios({
+          method: 'GET',
+          url: `${url}/stocks?stockName=${payload}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        context.commit('SET_CURRENTCHART', data)
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+      }
     }
   },
   modules: {
