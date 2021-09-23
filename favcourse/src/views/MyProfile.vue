@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto" v-if="!isLoading">
     <div class="shadow rounded-lg p-8 w-1/2 mx-auto">
       <div class="pb-4 border-b-2 border-gray text-xl mb-4">My Profile</div>
       <div class="pb-4 border-b-2 border-gray mb-6">
@@ -80,7 +80,7 @@
           </label>
           <input
             class="input input-primary font-medium text-xl w-full border-gray"
-            :value="user.balance === null ? 0 : balance"
+            :value="user.balance"
             id="email"
             disabled
           />
@@ -109,6 +109,7 @@ export default {
       payload: {
         avatar_url: null,
       },
+      isLoading: true,
     };
   },
   computed: {
@@ -140,9 +141,8 @@ export default {
     },
   },
   async created() {
-    if (localStorage.getItem("access_token")) {
-      await this.fetchUserProfile();
-    }
+    await this.fetchUserProfile();
+    this.isLoading = false;
   },
 };
 </script>
