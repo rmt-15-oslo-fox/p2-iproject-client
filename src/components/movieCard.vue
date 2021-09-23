@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-white bg-green-900 rounded-md w-1/6 mx-2 my-5 cursor-pointer hover:opacity-80">
+  <div @click.prevent="toDetails()" class="border border-white bg-green-900 rounded-md w-1/6 mx-2 my-5 cursor-pointer hover:opacity-80">
     <div>
       <img :src="imgUrl" class="rounded-tl-md rounded-tr-md h-80 w-full">
     </div>
@@ -38,6 +38,18 @@ export default {
       } else {
         return this.movie.vote_average
       }
+    },
+    toDetails() {
+      let type
+      if (this.movie.hasOwnProperty('score')) {
+        type = 'anime'
+      } else if (this.movie.hasOwnProperty('adult')) {
+        type = 'movie'
+      } else {
+        type = 'tv'
+      }
+      this.$store.commit("SET_DETAILS", this.movie)
+      this.$router.push(`detail/${type}/${this.movie.id}`)
     }
   }
 }

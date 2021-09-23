@@ -9,6 +9,8 @@ export default new Vuex.Store({
     loggedIn: false,
     movies: [],
     params: {page: 1},
+    details: [],
+    topics: []
   },
   mutations: {
     SET_LOGIN (state, payload) {
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     SET_PARAMS (state, payload) {
       state.params = payload
+    },
+    SET_DETAILS (state, payload) {
+      state.details = payload
+    },
+    SET_TOPICS (state, payload) {
+      state.topics = payload
     },
   },
   actions: {
@@ -33,6 +41,9 @@ export default new Vuex.Store({
     },
     searchMovie({state}) {
       return movieAPI.get('/movies', {params: state.params})
+    },
+    fetchTopics (context, payload) {
+      return movieAPI.get(`/topics/${payload.type}/${payload.id}`)
     }
   },
   modules: {},
