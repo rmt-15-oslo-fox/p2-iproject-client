@@ -2,14 +2,16 @@
   <div>
     <the-navbar></the-navbar>
     <router-view />
+    <the-footer></the-footer>
   </div>
 </template>
 <script>
 import { mapMutations } from 'vuex';
+import TheFooter from './components/layouts/TheFooter.vue';
 import TheNavbar from './components/layouts/TheNavbar.vue';
 
 export default {
-  components: { TheNavbar },
+  components: { TheNavbar, TheFooter },
   name: 'App',
   methods: {
     ...mapMutations(['SET_IS_LOGGED_IN']),
