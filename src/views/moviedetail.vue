@@ -16,11 +16,11 @@
       <div class="mx-10 mt-5">
         <p class="text-left text-4xl text-black font-semibold my-2">Discussions</p>
         <div v-for="topic in topics" :key="topic.id" class="border border-black w-5/6 px-2 rounded-sm my-5 py-5">
-          <p class="text-2xl font-bold text-black text-left">Title</p>
-          <p class="text-lg font-medium text-black text-left">Subtitle</p>
+          <p class="text-2xl font-bold text-black text-left">{{topic.title}}</p>
+          <p class="text-lg font-medium text-black text-left">{{topic.subtitle}}</p>
           <div class="bg-white border border-black w-1/6 text-left px-2">
-            <p class="text-black text-sm">posted by username</p>
-            <p class="text-black text-sm">at date</p>
+            <p class="text-black text-sm">posted by {{topic.User.username}}</p>
+            <p class="text-black text-sm">at {{topic.updatedAt}}</p>
           </div>
         </div>
         <p class="text-2xl text-black py-28" v-if="topics.length === 0">This forum is currently empty, start a conversation</p>
