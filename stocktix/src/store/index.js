@@ -5,7 +5,8 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 Vue.use(Vuex)
 
-const url = 'http://localhost:3000'
+// const url = 'http://localhost:3000'
+const url = 'https://stocktix.herokuapp.com'
 
 export default new Vuex.Store({
   state: {
