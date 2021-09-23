@@ -146,7 +146,7 @@ export default {
     async handleLogin() {
       try {
         await this.actionLogin(this.loginData);
-        this.$router.push('/dashborad');
+        this.$router.push('/dashboard');
       } catch (error) {
         console.log(error);
       }

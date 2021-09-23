@@ -8,7 +8,7 @@
       />
     </div>
     <div class="footer-h8-bottom-row">
-      <div class="social-links">
+      <div class="social-links flex">
         <a
           href="https://twitter.com/hacktiv8id"
           target="_blank"

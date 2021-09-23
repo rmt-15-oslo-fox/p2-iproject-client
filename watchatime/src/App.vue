@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col h-screen justify-between">
     <the-navbar></the-navbar>
     <router-view />
     <the-footer></the-footer>
@@ -22,7 +22,7 @@ export default {
       this.$router.push('/dashboard');
     } else {
       this.SET_IS_LOGGED_IN(false);
-      this.$router.push('/login');
+      this.$router.push('/');
     }
   },
 };
