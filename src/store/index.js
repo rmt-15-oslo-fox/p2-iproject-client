@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import weatherAPI from '../apis/openWeatherAPI'
 import mountainAPI from '../apis/mountainAPI'
-// import geoCodingAPI from '../apis/geoCodingAPI'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -147,15 +145,5 @@ export default new Vuex.Store({
         params: {EquipmentId}
       })
     },
-
-    // getEmbedMap: function(){
-    //   mountainAPI.get('/getEmbedMap')
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err.response.data);
-    //   })
-    // }
   }
 })
