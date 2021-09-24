@@ -9,7 +9,6 @@
 <script>
 import Movielist from '../components/movielist.vue';
 import Nav from "../components/navbar.vue"
-import movielist from "../components/movielist.vue"
 export default {
   name: "Home",
   components: {
