@@ -18,8 +18,8 @@ export default {
   props: ["data"],
   computed: {
     dateFormat() {
-      let theDate = this.data.createdAt.toLocaleString().split('T')
-      return theDate[0] + ', ' + theDate[1].split('.')[0]
+      let theDate = this.data.createdAt.toLocaleString('id-ID').split('T')
+      return theDate[1].split('.')[0].split(':')[0] + ':' + theDate[1].split('.')[0].split(':')[1] + ', ' + theDate[0]
     }
   }
 }
