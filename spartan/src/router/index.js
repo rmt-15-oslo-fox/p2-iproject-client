@@ -1,10 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Swal from "sweetalert2";
+
 import Home from "../views/Home.vue";
-import Sparingku from "../views/Sparingku.vue";
+import MySparring from "../views/MySparring.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import AddSparring from "../views/AddSparring.vue"
+import AddSparring from "../views/AddSparring.vue";
+import SparringChat from "../views/SparringChat.vue"
 
 Vue.use(VueRouter);
 
@@ -15,9 +18,14 @@ const routes = [
     component: Home,
   },
   {
-    path: "/sparingku",
-    name: "Sparingku",
-    component: Sparingku,
+    path: "/my-sparring",
+    name: "MySparring",
+    component: MySparring,
+  },
+  {
+    path: "/sparring-chat",
+    name: "SparringChat",
+    component: SparringChat,
   },
   {
     path: "/login",
@@ -45,7 +53,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let isLogin = localStorage.access_token;
   if ((to.name === "Login" && isLogin) || (to.name === "Register" && isLogin)) {
-    next({ name: "Home" });
+    next(false);
+  } else if (to.name === "AddSparring" && !isLogin) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'warning',
+      title: 'You must login first!'
+    })
+    next(false)
   } else {
     next();
   }

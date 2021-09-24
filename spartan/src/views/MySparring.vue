@@ -1,5 +1,5 @@
 <template>
-  <div class="Sparingku">
+  <div class="MySparring">
     <div class="jumbotron"></div>
     <div class="container my-3 sparring-card">
       <div class="row mb-5">
@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="row">
-        <SparingkuCard
+        <MySparringCard
           v-for="userSparring in userSparrings"
           :key="userSparring.id"
           :userSparring="userSparring"
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import SparingkuCard from "../components/SparinkuCard.vue";
+import MySparringCard from "../components/MySparringCard.vue";
 
 export default {
-  name: "Sparingku",
+  name: "MySparring",
   components: {
-    SparingkuCard,
+    MySparringCard,
   },
   computed: {
     userSparrings() {

@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "SparingkuCard",
+  name: "MySparringCard",
   props: ["userSparring"],
 };
 </script>

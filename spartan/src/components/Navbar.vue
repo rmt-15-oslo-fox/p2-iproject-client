@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Navbar">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <a class="navbar-brand" href="#"
@@ -24,18 +24,23 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Sparingku' }"
-                >SPARINGKU</router-link
+              <router-link class="nav-link" :to="{ name: 'MySparring' }"
+                >MY SPARRING</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'SparringChat' }"
+                >SPARRING CHAT</router-link
               >
             </li>
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'Register' }"
-                >DAFTAR</router-link
+                >REGISTER</router-link
               >
             </li>
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'Login' }"
-                >MASUK</router-link
+                >LOGIN</router-link
               >
             </li>
             <li class="nav-item">

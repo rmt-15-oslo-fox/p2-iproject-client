@@ -21,7 +21,7 @@
     <div class="container my-3 sparring-card">
       <div class="row mb-5">
         <div class="col d-flex justify-content-between align-items-center">
-          <h1>LIST SPARING KAMU</h1>
+          <h1>SAATNYA TEMUKAN LAWANMU!</h1>
           <router-link class="add-sparring" :to="{ name: 'AddSparring' }"
             ><font-awesome-icon class="add-icon" icon="plus-circle" />BUAT
             SPARINGMU</router-link
