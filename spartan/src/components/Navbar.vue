@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Navbar">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <a class="navbar-brand" href="#"
@@ -24,19 +24,27 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Sparingku' }"
-                >SPARINGKU</router-link
+              <router-link class="nav-link" :to="{ name: 'MySparring' }"
+                >MY SPARRING</router-link
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Daftar' }"
-                >DAFTAR</router-link
+              <router-link class="nav-link" :to="{ name: 'SparringChatLogin' }"
+                >SPARRING CHAT</router-link
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Masuk' }"
-                >MASUK</router-link
+              <router-link class="nav-link" :to="{ name: 'Register' }"
+                >REGISTER</router-link
               >
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'Login' }"
+                >LOGIN</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <a @click.prevent="signOut" class="nav-link" href="#">LOGOUT</a>
             </li>
           </ul>
         </div>
@@ -49,6 +57,11 @@
 <script>
 export default {
   name: "Navbar",
+  methods: {
+    signOut() {
+      this.$store.dispatch("signOut");
+    },
+  },
 };
 </script>
 
@@ -69,7 +82,7 @@ export default {
   margin-left: 50px;
 }
 
-.navbar .nav-item:first-child {
-  margin-left: 0;
+.navbar .nav-item a.router-link-exact-active {
+  color: #941b0c;
 }
 </style>

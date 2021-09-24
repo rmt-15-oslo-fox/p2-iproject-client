@@ -5,19 +5,61 @@ import router from "../router";
 import Swal from "sweetalert2";
 
 const baseUrl = "http://localhost:3000"
+// const baseUrl = "https://spartan-id.herokuapp.com"
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userSparrings: []
+    userSparrings: [],
+    messages: []
   },
   mutations: {
     Set_UserSparrings(state, payload) {
       state.userSparrings = payload;
     },
+    Push_Message(state, payload) {
+      state.messages.push(payload)
+    }
   },
   actions: {
+    registerForm(context, payload) {
+      const config = {
+        method: "post",
+        url: `${baseUrl}/register`,
+        data: payload
+      }
+
+      axios(config)
+        .then(() => {
+          router.push("/login");
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
+
+          Toast.fire({
+            icon: "success",
+            title: "Register successfully",
+          });
+        })
+        .catch(err => {
+          const errors = err.response.data.message;
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: errors,
+          });
+        })
+    },
     loginForm(context, payload) {
       const config = {
         method: "post",
@@ -53,11 +95,15 @@ export default new Vuex.Store({
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: errors.join(", "),
+            text: errors,
           });
         });
     },
-    fetchSparrings({ commit }) {
+    signOut() {
+      localStorage.clear();
+      router.push("/login");
+    },
+    fetchUserSparrings({ commit }) {
       const config = {
         method: "get",
         url: `${baseUrl}/user-sparrings`,
