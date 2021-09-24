@@ -54,6 +54,7 @@ export default {
       this.$store.commit('SET_REGION','')
       this.$store.commit('SET_COMMENTFORM', false)
       this.$store.commit('SET_STOCKTOCOMMENT', '')
+      this.$store.commit('SET_WATCHLISTDATA', [])
     }
   },
   components: {
