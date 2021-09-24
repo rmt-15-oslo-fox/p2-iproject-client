@@ -19,16 +19,14 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  font-family: poppins, sans-serif;
-  font-weight: 500;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: poppins, sans-serif;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #220901;
 }
 
 #nav {

@@ -29,14 +29,17 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Daftar' }"
+              <router-link class="nav-link" :to="{ name: 'Register' }"
                 >DAFTAR</router-link
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Masuk' }"
+              <router-link class="nav-link" :to="{ name: 'Login' }"
                 >MASUK</router-link
               >
+            </li>
+            <li class="nav-item">
+              <a @click.prevent="signOut" class="nav-link" href="#">LOGOUT</a>
             </li>
           </ul>
         </div>
@@ -49,6 +52,11 @@
 <script>
 export default {
   name: "Navbar",
+  methods: {
+    signOut() {
+      this.$store.dispatch("signOut");
+    },
+  },
 };
 </script>
 
@@ -69,7 +77,7 @@ export default {
   margin-left: 50px;
 }
 
-.navbar .nav-item:first-child {
-  margin-left: 0;
+.navbar .nav-item a.router-link-exact-active {
+  color: #941b0c;
 }
 </style>
