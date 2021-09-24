@@ -10,6 +10,7 @@ export default new Vuex.Store({
     URL: "https://remempay.herokuapp.com",
     name: "",
     balance: 0,
+    id: 0,
     convert: 0,
     reminder: [],
     status: [],
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     FETCH_INFO(state, payload) {
       state.name = payload.name;
       state.balance = payload.balance;
+      state.id = payload.id;
     },
     FETCH_CONVERT(state, payload) {
       state.convert = payload;

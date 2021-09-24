@@ -47,7 +47,7 @@
         <label>Payment deadline</label><br />
         <input
           name="deadline"
-          type="deadline"
+          type="date"
           class="deadline-register"
           id="deadline-register"
           placeholder="deadline"
