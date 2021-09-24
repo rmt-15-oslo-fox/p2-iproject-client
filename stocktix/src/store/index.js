@@ -5,8 +5,8 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 Vue.use(Vuex)
 
-// const url = 'http://localhost:3000'
-const url = 'https://stocktix.herokuapp.com'
+const url = 'http://localhost:3000'
+// const url = 'https://stocktix.herokuapp.com'
 
 export default new Vuex.Store({
   state: {
@@ -266,6 +266,10 @@ export default new Vuex.Store({
             access_token: localStorage.access_token
           }
         })
+        if(data.articles.length <= 0) {
+          Swal.fire('News not found')
+          this.fetchNews()
+        }
         context.commit('SET_NEWSDATA', data.articles)
       } catch (error) {
         Swal.fire(error.response.data.message)
