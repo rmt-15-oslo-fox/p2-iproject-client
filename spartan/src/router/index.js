@@ -7,7 +7,8 @@ import MySparring from "../views/MySparring.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import AddSparring from "../views/AddSparring.vue";
-import SparringChat from "../views/SparringChat.vue"
+import SparringChat from "../views/SparringChat.vue";
+import SparringChatLogin from "../views/SparringChatLogin.vue"
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/my-sparring",
     name: "MySparring",
     component: MySparring,
+  },
+  {
+    path: "/sparring-chat-login",
+    name: "SparringChatLogin",
+    component: SparringChatLogin,
   },
   {
     path: "/sparring-chat",

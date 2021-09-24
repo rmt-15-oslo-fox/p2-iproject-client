@@ -1,21 +1,21 @@
 <template>
   <div>
-    <div class="outgoing_msg">
+    <div class="outgoing_msg" v-if="message.username === username">
       <div class="sent_msg">
-        <p>message</p>
+        <p>{{ message.message }}</p>
       </div>
     </div>
-    <div class="incoming_msg">
+    <div class="incoming_msg" v-else>
       <div class="incoming_msg_img">
         <img
-          src="https://avatars.dicebear.com/api/bottts/fikri.svg"
+          :src="`https://avatars.dicebear.com/api/bottts/${message.username}.svg`"
           alt="image"
         />
       </div>
       <div class="received_msg">
         <div class="received_withd_msg">
-          <span class="time_date">message</span>
-          <p>message</p>
+          <span class="time_date">{{ message.username }}</span>
+          <p>{{ message.message }}</p>
         </div>
       </div>
     </div>
@@ -26,11 +26,11 @@
 export default {
   name: "SparringChatMsgCard",
   props: ["message"],
-  // data() {
-  //   return {
-  //     username: localStorage.getItem("username"),
-  //   };
-  // },
+  data() {
+    return {
+      username: localStorage.getItem("username"),
+    };
+  },
 };
 </script>
 

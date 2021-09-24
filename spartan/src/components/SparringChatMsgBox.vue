@@ -1,7 +1,11 @@
 <template>
   <div class="mesgs">
     <div class="msg_history">
-      <SparringChatMsgCard />
+      <SparringChatMsgCard
+        v-for="message in messages"
+        :key="message"
+        :message="message"
+      />
     </div>
     <div class="chat-form">
       <div class="container">
@@ -37,37 +41,37 @@
 import SparringChatMsgCard from "../components/SparringChatMsgCard.vue";
 
 export default {
-  name: "MsgBox",
+  name: "SparringChatMsgBox",
   components: {
     SparringChatMsgCard,
   },
-  // data() {
-  //   return {
-  //     inputMsg: "",
-  //   };
-  // },
-  // methods: {
-  //   sendMessage() {
-  //     const data = {
-  //       username: localStorage.getItem("username"),
-  //       message: this.inputMsg,
-  //     };
+  data() {
+    return {
+      inputMsg: "",
+    };
+  },
+  methods: {
+    sendMessage() {
+      const data = {
+        username: localStorage.getItem("username"),
+        message: this.inputMsg,
+      };
 
-  //     this.$store.commit("Push_Message", data);
-  //     this.$socket.emit("sendMessage", data);
-  //     this.inputMsg = "";
-  //   },
-  // },
-  // sockets: {
-  //   broadcastMessage(data) {
-  //     this.$store.commit("Push_Message", data);
-  //   },
-  // },
-  // computed: {
-  //   messages() {
-  //     return this.$store.state.messages;
-  //   },
-  // },
+      this.$store.commit("Push_Message", data);
+      this.$socket.emit("sendMessage", data);
+      this.inputMsg = "";
+    },
+  },
+  sockets: {
+    broadcastMessage(data) {
+      this.$store.commit("Push_Message", data);
+    },
+  },
+  computed: {
+    messages() {
+      return this.$store.state.messages;
+    },
+  },
 };
 </script>
 

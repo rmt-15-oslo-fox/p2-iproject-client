@@ -1,8 +1,7 @@
 <template>
   <div class="SparringChat">
-    <div class="container">
+    <div class="container mt-4">
       <div class="messaging">
-        <img src="../assets/logo.png" alt="" width="80" />
         <div class="inbox_msg shadow">
           <SparringChatUser />
           <SparringChatMsgBox />

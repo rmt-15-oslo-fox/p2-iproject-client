@@ -4,16 +4,16 @@
       <h4>Available to chat</h4>
     </div>
     <div class="inbox_chat">
-      <div class="chat_list">
+      <div class="chat_list" v-for="(user, i) in listUser" :key="i">
         <div class="chat_people">
           <div class="chat_img">
             <img
-              :src="`https://avatars.dicebear.com/api/bottts/fikri.svg`"
-              alt="sunil"
+              :src="`https://avatars.dicebear.com/api/bottts/${user}.svg`"
+              alt="user"
             />
           </div>
           <div class="chat_ib">
-            <h5>fikri<span class="chat_date">Online</span></h5>
+            <h5>{{ user }}<span class="chat_date">Online</span></h5>
           </div>
         </div>
       </div>
@@ -29,11 +29,11 @@ export default {
       listUser: [],
     };
   },
-  // sockets: {
-  //   usersLogin(users) {
-  //     this.listUser = users;
-  //   },
-  // },
+  sockets: {
+    usersLogin(users) {
+      this.listUser = users;
+    },
+  },
 };
 </script>
 

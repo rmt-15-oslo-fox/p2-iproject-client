@@ -4,19 +4,23 @@ import axios from "axios";
 import router from "../router";
 import Swal from "sweetalert2";
 
-// const baseUrl = "http://localhost:3000"
-const baseUrl = "https://spartan-id.herokuapp.com"
+const baseUrl = "http://localhost:3000"
+// const baseUrl = "https://spartan-id.herokuapp.com"
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userSparrings: []
+    userSparrings: [],
+    messages: []
   },
   mutations: {
     Set_UserSparrings(state, payload) {
       state.userSparrings = payload;
     },
+    Push_Message(state, payload) {
+      state.messages.push(payload)
+    }
   },
   actions: {
     registerForm(context, payload) {
