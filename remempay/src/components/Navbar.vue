@@ -19,34 +19,51 @@
     <button type="button" class="rounded" v-on:click="changePage('charge')">
       <span>Add Balance</span>
     </button>
-    <button v-on:click="logout" type="button" class="rounded">
-      <span>Log Out</span>
-    </button>
+    <GoogleLogin
+      :onSuccess="onSuccess"
+      type="button"
+      class="rounded"
+      :params="params"
+      :logoutButton="true"
+      ><span>Log Out</span></GoogleLogin
+    >
   </div>
 </template>
 
 <script>
+import GoogleLogin from "vue-google-login";
 export default {
   name: "Navbar",
   data() {
     return {
-      isLogin: false
+      isLogin: false,
+      params: {
+        client_id:
+          "615871655779-q6me4fpgrjhvuuo736maf9rjpgk80a0b.apps.googleusercontent.com",
+      },
     };
   },
   methods: {
-    changePage: function(pageName) {
+    changePage: function (pageName) {
       this.$router.push(`/${pageName}`);
     },
-    logout() {
+    onSuccess(googleUser) {
       localStorage.clear();
       this.$router.push("/");
-    }
+      let auth2 = googleUser.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log("User signed out.");
+      });
+    },
+  },
+  components: {
+    GoogleLogin,
   },
   created() {
     if (localStorage.access_token) {
       this.isLogin = true;
     }
-  }
+  },
 };
 </script>
 

@@ -8,6 +8,8 @@
           <h3>Welcome, {{ name }}</h3>
           <h5>Your balance is:</h5>
           <h1>{{ balance }}</h1>
+          <h5>Your user ID is:</h5>
+          <h1>{{ id }}</h1>
         </div>
       </div>
     </div>
@@ -66,34 +68,37 @@ export default {
       currencyFrom: "",
       currencyTo: "",
       amount: 0,
-      convertResult: false
+      convertResult: false,
     };
   },
   methods: {
-    convert: function() {
+    convert: function () {
       let payload = {
         currencyFrom: this.currencyFrom,
         currencyTo: this.currencyTo,
-        amount: this.amount
+        amount: this.amount,
       };
       this.$store.dispatch("fetchConverted", payload);
       this.convertResult = true;
-    }
+    },
   },
   computed: {
-    name: function() {
+    name: function () {
       return this.$store.state.name;
     },
-    balance: function() {
+    balance: function () {
       return this.$store.state.balance;
     },
-    converted: function() {
+    id: function () {
+      return this.$store.state.id;
+    },
+    converted: function () {
       return this.$store.state.convert;
-    }
+    },
   },
   components: {
     Navbar,
-    HFooter
+    HFooter,
   },
   created() {
     if (!localStorage.access_token) {
@@ -102,7 +107,7 @@ export default {
     this.$store.dispatch("fetchInfo");
     this.$store.dispatch("fetchReminder");
     this.$store.dispatch("fetchStatus");
-  }
+  },
 };
 </script>
 
