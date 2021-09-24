@@ -1,7 +1,7 @@
 <template>
   <div>
     <Nav></Nav>
-    <div class="w-4/5 bg-gray-300 mx-auto mt-20">
+    <div class="w-4/5 bg-gray-300 mx-auto mt-20 pb-4">
       <div class="flex border-b border-black">
         <div id="backdrop" class="w-4/6">
           <img :src="imgUrl">
@@ -25,16 +25,19 @@
         </div>
         <p class="text-2xl text-black py-28" v-if="topics.length === 0">This forum is currently empty, start a conversation</p>
       </div>
+      <rich-text-editor></rich-text-editor>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from "../components/navbar.vue"
+import richTextEditor from "../components/richTextEditor.vue"
 export default {
   name: "Detail",
   components: {
-    Nav
+    Nav,
+    richTextEditor
   },
   methods: {
     fetchTopics() {
