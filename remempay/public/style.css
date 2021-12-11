@@ -1,0 +1,168 @@
+* {
+  scroll-behavior: smooth;
+}
+
+h1 {
+  padding-bottom: 20px;
+}
+
+#login-container h5 {
+  font-size: 22px;
+  padding-bottom: 20px;
+}
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+#container {
+  background-color: #f0ffad;
+  height: 100vh;
+}
+
+#login-container,
+#sign-up,
+#create,
+#update {
+  height: 100vh;
+}
+
+button {
+  background: #e5ff70;
+  background: -webkit-linear-gradient(to right, #373b44, #4bff5a);
+  background: linear-gradient(to right, #373b44, #4bff5a);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.35s;
+  position: relative;
+}
+
+li.nostyle {
+  list-style-type: none;
+}
+
+.filter-form {
+  padding-right: 50px;
+}
+
+li {
+  float: left;
+  padding: 20px;
+}
+
+.page {
+  cursor: pointer;
+}
+
+button::after {
+  background: -webkit-linear-gradient(to right, #0f2027, #203a43, #e0ff72);
+  background: linear-gradient(to right, #0f2027, #203a43, #e0ff72);
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: all 0.35s;
+  border-radius: 4px;
+}
+
+button span {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-decoration: none;
+  transition: all 0.35s;
+}
+
+button a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+button:hover {
+  color: aquamarine;
+}
+
+button:hover::after {
+  width: 100%;
+}
+
+.register-button,
+.rounded {
+  margin-left: 14px;
+}
+
+#login-button-container,
+#register-button-container,
+#add-button-container,
+#edit-button-container,
+#navbar,
+#navbar-history {
+  display: flex;
+  flex-direction: row;
+}
+
+#login-button-container .login-button:focus,
+#register-button-container .rounded:focus,
+#add-button-container .rounded:focus,
+#edit-button-container .rounded:focus {
+  outline: none;
+}
+
+#login-form input,
+#register-form input,
+#add-form input,
+#edit input,
+#navbar a,
+#navbar-history a {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px 5px 5px;
+}
+
+#login-form input:focus,
+#register-form input:focus,
+#add-form input:focus,
+#edit input:focus {
+  border: 1px rgb(148, 148, 241) solid;
+  outline: none;
+  background-color: rgb(92, 168, 255);
+}
+
+#login-form,
+#register-form,
+#convert-form #add-form,
+#edit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#home-page {
+  min-height: 80vh;
+}
+
+td,
+th {
+  border: 1px solid #6a9aad;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #9b9797;
+}
